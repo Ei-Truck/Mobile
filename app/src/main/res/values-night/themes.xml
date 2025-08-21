@@ -2,15 +2,15 @@
     <!-- Base application theme. -->
     <style name="Theme.EiTruck" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#024959</item>
+        <item name="colorSecondary">#026773</item>
+        <item name="colorTertiary">#3CA6A6</item>
+        <item name="android:colorPrimaryDark">#012E40</item>
+        <item name="android:textColorPrimary">#1A1A1A</item>
+        <item name="android:textColorSecondary">#908C8A</item>
+        <item name="android:color">#FFFAF5</item>
+        <item name="android:colorBackground">#FFFFFF</item>
+
+
     </style>
 </resources>
