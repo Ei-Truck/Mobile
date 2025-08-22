@@ -29,12 +29,12 @@
 ### 🏷️ Nome da PR
 
 **Use o seguinte padrão no título da PR:**
-(Tipo)-(Versão)/o_que_foi_implementado_ou_corrigido
+(Tipo)/o_que_foi_implementado_ou_corrigido
 
 Exemplos:
-- `Feature-01/adicao_login_com_jwt`
-- `Fix-04/corrige_bug_ao_salvar_cliente`
-- `Chore-12/atualiza_dependencias`
+- `Feature/adicao_login_com_jwt`
+- `Fix/corrige_bug_ao_salvar_cliente`
+- `Chore/atualiza_dependencias`
 
 > 🔔 **Tipos comuns**: `Feature`, `Fix`, `Chore`, `Refactor`, `Docs`, `Test`, etc.
 
