@@ -1,6 +1,5 @@
 package com.example.eitruck.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.eitruck.MainActivity
 import com.example.eitruck.R
 
 class SplashScreen : AppCompatActivity() {
@@ -21,8 +19,8 @@ class SplashScreen : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
     }
+
 
     fun redirecionarPagina(): Void{
         Handler.createAsync(Looper.getMainLooper()).postDelayed({
