@@ -7,6 +7,10 @@ android {
     namespace = "com.example.eitruck"
     compileSdk = 36
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.eitruck"
         minSdk = 33
@@ -34,6 +38,7 @@ android {
         jvmTarget = "11"
     }
 }
+
 
 dependencies {
 
