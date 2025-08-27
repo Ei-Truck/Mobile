@@ -1,0 +1,32 @@
+Index: app/src/main/java/com/example/eitruck/ui/SplashScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.eitruck.ui\r\n\r\nimport android.os.Bundle\r\nimport androidx.activity.enableEdgeToEdge\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.core.view.ViewCompat\r\nimport androidx.core.view.WindowInsetsCompat\r\nimport com.example.eitruck.R\r\n\r\nclass SplashScreen : AppCompatActivity() {\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        enableEdgeToEdge()\r\n        setContentView(R.layout.activity_splash_screen)\r\n        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->\r\n            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())\r\n            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)\r\n            insets\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/eitruck/ui/SplashScreen.kt b/app/src/main/java/com/example/eitruck/ui/SplashScreen.kt
+--- a/app/src/main/java/com/example/eitruck/ui/SplashScreen.kt	(revision aa64916eff4c8b0e811d27ca1a13daa39eb540c9)
++++ b/app/src/main/java/com/example/eitruck/ui/SplashScreen.kt	(date 1755859266904)
+@@ -1,6 +1,8 @@
+ package com.example.eitruck.ui
+ 
+ import android.os.Bundle
++import android.os.Handler
++import android.os.Looper
+ import androidx.activity.enableEdgeToEdge
+ import androidx.appcompat.app.AppCompatActivity
+ import androidx.core.view.ViewCompat
+@@ -18,4 +20,11 @@
+             insets
+         }
+     }
++
++
++    fun redirecionarPagina(): Void{
++        Handler.createAsync(Looper.getMainLooper()).postDelayed({
++
++        },3000)
++    }
+ }
+\ No newline at end of file
