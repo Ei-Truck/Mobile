@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatImageButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/backButton"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:background="@drawable/layout_back_button"
+    android:src="@drawable/ic_arrow_back"
+    android:padding="16dp"
+    android:scaleType="center"
+    android:tint="@android:color/black" />
