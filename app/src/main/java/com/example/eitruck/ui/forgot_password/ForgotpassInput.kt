@@ -1,35 +1,36 @@
-package com.example.eitruck.ui
+package com.example.eitruck.ui.forgot_password
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.eitruck.R
-import com.example.eitruck.ui.login.Login
+import com.example.eitruck.databinding.ActivityForgpassInputBinding
+class ForgotpassInput : AppCompatActivity() {
+    private lateinit var binding: ActivityForgpassInputBinding
 
-class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_splash_screen)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+
+        binding = ActivityForgpassInputBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        redirecionarPagina()
-    }
-
-    fun redirecionarPagina(){
-        Handler.createAsync(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, Login::class.java)
+        binding.bntEnviarCod.setOnClickListener {
+            val intent = Intent(this, ForgotpassCode::class.java)
             startActivity(intent)
+        }
+
+        binding.bntBackInput.backButton.setOnClickListener {
             finish()
-        },2000)
+        }
     }
 }
+

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.forgot_password.ForgotpassChange">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <include
+            android:id="@+id/bntBackChange"
+            layout="@layout/component_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:fontFamily="@font/titulo_poppins_regular"
+            android:text="Alterar Senha"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por favor, insira a nova senha"
+            android:textColor="@color/textColorSecondary" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/texto_inter_regular"
+            android:text="Nova senha"
+            android:textColor="@color/textColorPrimary" />
+
+        <EditText
+            android:id="@+id/editTextNewPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/layout_input"
+            android:hint="No mínimo 8 caracteres"
+            android:inputType="textPassword"
+            android:maxLength="8"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/texto_inter_regular"
+            android:text="Confirme a nova senha"
+            android:textColor="@color/textColorPrimary" />
+
+        <EditText
+            android:id="@+id/editTextConfirmPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/layout_input"
+            android:hint="Confirme a nova senha"
+            android:inputType="textPassword"
+            android:maxLength="8"
+            android:padding="16dp" />
+
+        <Button
+            android:id="@+id/bntChangePass"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/layout_botao1"
+            android:fontFamily="@font/titulo_poppins_regular"
+            android:text="Alterar senha"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
