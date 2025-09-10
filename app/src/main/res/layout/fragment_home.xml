@@ -203,7 +203,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/colorBackground"
                 android:nestedScrollingEnabled="false"
-                tools:itemCount="30"
+                tools:itemCount="5"
                 tools:listitem="@layout/card_ranking" />
 
             <LinearLayout

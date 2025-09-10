@@ -16,10 +16,10 @@
         <item name="android:colorBackground">@color/colorBackground</item>
 
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="android:windowLightStatusBar">false</item> <!-- ícones claros -->
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="android:navigationBarColor">@color/colorPrimary</item>
-        <item name="android:windowLightNavigationBar">true</item> <!-- ícones escuros -->
+        <item name="android:windowLightNavigationBar">true</item>
 
 
         <item name="android:fontFamily">@font/texto_inter_regular</item>
