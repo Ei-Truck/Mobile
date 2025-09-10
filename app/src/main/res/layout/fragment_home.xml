@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ui.dash.DashFragment">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,6 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorBackground"
+            android:backgroundTint="@color/colorBackground"
             android:orientation="vertical">
 
             <TextView
@@ -49,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="16dp"
                         android:paddingTop="8dp"
-                        android:text="Número de infrações"
+                        android:text="Número de infrações:"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
 
@@ -163,6 +167,7 @@
                         android:layout_weight="1"
                         android:text="Níveis de Periculosidade:"
                         android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -191,8 +196,47 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ranking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorBackground"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="30"
+                tools:listitem="@layout/card_ranking" />
 
-            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorBackground"
+                    app:icon="@drawable/ic_arrow_back"
+                    app:iconTint="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/pages_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <Button
+                    android:id="@+id/next_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorBackground"
+                    app:icon="@drawable/ic_arrow_back"
+                    app:iconTint="@color/colorPrimaryDark" />
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>
