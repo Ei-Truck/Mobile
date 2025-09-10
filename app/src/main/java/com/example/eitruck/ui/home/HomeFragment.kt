@@ -9,17 +9,39 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
+import com.example.eitruck.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.charts.CombinedChart
 import com.github.mikephil.charting.data.*
 
 
 class HomeFragment : Fragment() {
 
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var adapter: HomeAdapter
+
+    private val listaCompleta: List<MotoristaRanking> = listOf(
+        MotoristaRanking(1, "Motorista fuiweiovjewiojewiogj", 1000),
+        MotoristaRanking(2, "Motorista 2", 750),
+        MotoristaRanking(3, "Motorista 3", 500),
+        MotoristaRanking(4, "Motorista 4", 250),
+        MotoristaRanking(5, "Motorista 5", 100),
+        MotoristaRanking(6, "Motorista 6", 100),
+        MotoristaRanking(7, "Motorista 7", 100),
+        MotoristaRanking(8, "Motorista 8", 100),
+        MotoristaRanking(9, "Motorista 9", 100),
+        MotoristaRanking(10, "Motorista 10", 100)
+    )
+
+    private val totalPages = listaCompleta.size
+
+    private var currentPage = 1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,32 +54,34 @@ class HomeFragment : Fragment() {
 
         HomeGraph(combinedChart, valores, labels, requireContext())
 
-        val lista: List<MotoristaRanking> = listOf(
-            MotoristaRanking(1, "Motorista fuiweiovjewiojewiogj", 1000),
-            MotoristaRanking(2, "Motorista 2", 750),
-            MotoristaRanking(3, "Motorista 3", 500),
-            MotoristaRanking(4, "Motorista 4", 250),
-            MotoristaRanking(5, "Motorista 5", 100)
-            ,
-            MotoristaRanking(6, "Motorista 5", 100),
-            MotoristaRanking(7, "Motorista 5", 100),
-            MotoristaRanking(8, "Motorista 5", 100),
-            MotoristaRanking(9, "Motorista 5", 100),
-            MotoristaRanking(10, "Motorista 5", 100)
-        )
-
         val recyclerView = view.findViewById<RecyclerView>(R.id.ranking)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = HomeAdapter(lista)
+        adapter = HomeAdapter(emptyList())
+        recyclerView.adapter = adapter
         recyclerView.isNestedScrollingEnabled = false
-
         recyclerView.post {
             recyclerView.expand()
         }
+
+        loadPage(currentPage)
+
+        binding.backButton.setOnClickListener {
+            if (currentPage > 1) {
+                currentPage--
+                loadPage(currentPage)
+            }
+        }
+
+        binding.nextButton.setOnClickListener {
+            if (currentPage < totalPages){
+                currentPage++
+                loadPage(currentPage)
+            }
+        }
+
     }
 
 
-    // Esse código é para expandir o recycler view
     fun RecyclerView.expand() {
         val adapter = adapter ?: return
         var totalHeight = 0
@@ -73,5 +97,19 @@ class HomeFragment : Fragment() {
         layoutParams.height = totalHeight
         requestLayout()
     }
+
+    fun loadPage(page: Int){
+        val pageSize = 5
+        val startIndex = (page - 1) * pageSize
+        val endIndex = minOf(startIndex + pageSize, listaCompleta.size) // nunca ultrapassa o tamanho
+
+        if (startIndex >= listaCompleta.size) return // evita erro se página inválida
+
+        val subList = listaCompleta.subList(startIndex, endIndex)
+
+        adapter.updateData(subList) // atualiza o adapter existente
+        binding.pagesNumber.text = "$page/${(listaCompleta.size + pageSize - 1)/pageSize}"
+    }
+
 
 }

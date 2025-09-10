@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 
 class HomeAdapter (
-    private val motoristas: List<MotoristaRanking>
+    private var motoristas: List<MotoristaRanking>
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -34,6 +34,11 @@ class HomeAdapter (
 
     override fun getItemCount(): Int {
         return motoristas.size
+    }
+
+    fun updateData(novaLista: List<MotoristaRanking>) {
+        motoristas = novaLista
+        notifyDataSetChanged()
     }
 
 
