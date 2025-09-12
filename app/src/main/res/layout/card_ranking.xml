@@ -23,15 +23,36 @@
             android:textColor="@color/white" />
 
 
-        <TextView
-            android:id="@+id/nome_motorista"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
             android:layout_weight="1"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="Motorista tal da Silva"
-            android:textColor="@color/textColorPrimary" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nome_motorista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Motorista tal da Silva"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/segemento_motorista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Segmento: Bovinos"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/pontuacao"

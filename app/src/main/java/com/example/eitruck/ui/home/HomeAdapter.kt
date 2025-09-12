@@ -21,7 +21,7 @@ class HomeAdapter (
         val motorista = motoristas[position]
         holder.nomeMotorista.text = motorista.nome
         holder.pontuacao.text = motorista.pontuacao.toString()
-        holder.posicao.text = (position + 1).toString()
+        holder.posicao.text = motorista.posicao.toString()
 
         val drawable = holder.posicao.background.mutate()
         if (drawable is GradientDrawable) {

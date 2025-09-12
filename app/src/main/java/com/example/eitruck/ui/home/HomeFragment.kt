@@ -1,17 +1,19 @@
 package com.example.eitruck.ui.home
 
 import MotoristaRanking
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
+import com.example.eitruck.R.color.colorBackground
 import com.example.eitruck.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.charts.CombinedChart
-import com.github.mikephil.charting.data.*
 
 
 class HomeFragment : Fragment() {
@@ -30,9 +32,10 @@ class HomeFragment : Fragment() {
         MotoristaRanking(8, "Motorista 8", 100),
         MotoristaRanking(9, "Motorista 9", 100),
         MotoristaRanking(10, "Motorista 10", 100)
+
     )
 
-    private val totalPages = listaCompleta.size
+    private val totalPages =  (listaCompleta.size + 5 - 1) / 5
 
     private var currentPage = 1
 
@@ -79,6 +82,7 @@ class HomeFragment : Fragment() {
             }
         }
 
+
     }
 
 
@@ -101,14 +105,32 @@ class HomeFragment : Fragment() {
     fun loadPage(page: Int){
         val pageSize = 5
         val startIndex = (page - 1) * pageSize
-        val endIndex = minOf(startIndex + pageSize, listaCompleta.size) // nunca ultrapassa o tamanho
+        val endIndex = minOf(startIndex + pageSize, listaCompleta.size)
 
-        if (startIndex >= listaCompleta.size) return // evita erro se página inválida
+        if (startIndex >= listaCompleta.size) {
+            return
+        }
 
         val subList = listaCompleta.subList(startIndex, endIndex)
 
-        adapter.updateData(subList) // atualiza o adapter existente
+        adapter.updateData(subList)
         binding.pagesNumber.text = "$page/${(listaCompleta.size + pageSize - 1)/pageSize}"
+
+        mudarBotao(page)
+    }
+
+    fun mudarBotao(page: Int){
+        if (currentPage==totalPages){
+            binding.nextButton.iconTint = ColorStateList(arrayOf(intArrayOf()), intArrayOf(ContextCompat.getColor(requireContext(), R.color.textColorSecondary)))
+        } else {
+            binding.nextButton.iconTint = ColorStateList(arrayOf(intArrayOf()), intArrayOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)))
+        }
+
+        if (currentPage==1){
+            binding.backButton.iconTint = ColorStateList(arrayOf(intArrayOf()), intArrayOf(ContextCompat.getColor(requireContext(), R.color.textColorSecondary)))
+        } else {
+            binding.backButton.iconTint = ColorStateList(arrayOf(intArrayOf()), intArrayOf(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)))
+        }
     }
 
 

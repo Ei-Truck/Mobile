@@ -192,6 +192,19 @@
                         android:src="@drawable/circle_medio"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
+
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@color/white"
+                        android:stateListAnimator="@null"
+                        app:icon="@drawable/icon_filtro"
+                        app:iconTint="@color/colorSecondary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -209,9 +222,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="5">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/back_button"
