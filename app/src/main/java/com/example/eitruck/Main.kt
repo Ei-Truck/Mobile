@@ -43,11 +43,22 @@ class Main : AppCompatActivity() {
 
         loadFragment(HomeFragment())
 
+        binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
+
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_home -> loadFragment(HomeFragment())
-                R.id.nav_travel -> loadFragment(TravelFragment())
-                R.id.nav_dash -> loadFragment(DashFragment())
+                R.id.nav_home -> {
+                    tirarFill(it.itemId)
+                    loadFragment(HomeFragment())
+                }
+                R.id.nav_travel -> {
+                    tirarFill(it.itemId)
+                    loadFragment(TravelFragment())
+                }
+                R.id.nav_dash -> {
+                    tirarFill(it.itemId)
+                    loadFragment(DashFragment())
+                }
             }
             true
         }
@@ -57,5 +68,21 @@ class Main : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, fragment)
             .commit()
+    }
+
+    private fun tirarFill(int: Int) {
+        if (int == R.id.nav_home) {
+            binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
+            binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
+            binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
+        } else if(int == R.id.nav_travel) {
+            binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
+            binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel_fill)
+            binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
+        } else{
+            binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
+            binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
+            binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash_fill)
+        }
     }
 }
