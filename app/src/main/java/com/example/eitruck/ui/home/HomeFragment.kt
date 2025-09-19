@@ -40,8 +40,8 @@ class HomeFragment : Fragment() {
         MotoristaRanking(7, "Motorista 7", 100),
         MotoristaRanking(8, "Motorista 8", 100),
         MotoristaRanking(9, "Motorista 9", 100),
-        MotoristaRanking(10, "Motorista 10", 100)
-
+        MotoristaRanking(10, "Motorista 10", 100),
+        MotoristaRanking(11, "Motorista 11", 100)
     )
 
     private val totalPages =  (listaCompleta.size + 5 - 1) / 5
