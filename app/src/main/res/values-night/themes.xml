@@ -1,25 +1,35 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Theme.EiTruck" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Cores principais -->
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/white</item>
 
-        <!-- Cor secundária -->
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorTertiary</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <!-- Cores de texto -->
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
 
-        <!-- Background -->
         <item name="android:colorBackground">@color/colorBackground</item>
 
-        <!-- Status bar -->
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar">true</item>
+
         <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+
+        <item name="android:fontFamily">@font/texto_inter_regular</item>
+        <item name="fontFamily">@font/texto_inter_regular</item>
+
     </style>
+
+    <style name="CircularShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
