@@ -15,8 +15,8 @@
 
     <ImageView
         android:id="@+id/tab_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginLeft="8dp"
         android:src="@drawable/icon_analisadas"
         android:tint="@color/colorPrimaryDark" />

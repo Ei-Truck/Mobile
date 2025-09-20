@@ -1,4 +1,4 @@
-package com.example.eitruck.ui.travel.analyzed_travels
+package com.example.eitruck.ui.travel.pending_travels
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,8 @@ import com.example.eitruck.R
 import com.example.eitruck.model.Travel
 import com.example.eitruck.ui.travel.TravelsViewHolder
 
-class AnalyzedTravelsAdapter(
-    private val travels: List<Travel>
+class PendingTravelsAdapter(
+    val travels: List<Travel>
 ): RecyclerView.Adapter<TravelsViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -19,10 +19,8 @@ class AnalyzedTravelsAdapter(
         return TravelsViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: TravelsViewHolder,
-        position: Int
-    ) {
+
+    override fun onBindViewHolder(holder: TravelsViewHolder, position: Int) {
         val travel = travels[position]
         holder.placa.text = travel.placa
         holder.data.text = travel.data
@@ -33,7 +31,6 @@ class AnalyzedTravelsAdapter(
         } else {
             holder.alerta.visibility = View.VISIBLE
         }
-
     }
 
     override fun getItemCount(): Int {
