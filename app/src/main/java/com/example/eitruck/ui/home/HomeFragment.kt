@@ -171,19 +171,31 @@ class HomeFragment : Fragment() {
         val adapterRegiao = ArrayAdapter(requireContext(), R.layout.spinner_item, regioesFila)
         adapterRegiao.setDropDownViewResource(R.layout.spinner_drop_item)
         spinnerRegiao.adapter = adapterRegiao
-        spinnerRegiao.setSelection(if (regiao != "") regioesFila.indexOf(regiao) else 0)
+        spinnerRegiao.setSelection(if (regiao != ""){
+            regioesFila.indexOf(regiao)
+        } else{
+            0
+        })
 
 
         val adapterSegmento = ArrayAdapter(requireContext(), R.layout.spinner_item, segmentoFila)
         adapterSegmento.setDropDownViewResource(R.layout.spinner_drop_item)
         spinnerSegmento.adapter = adapterSegmento
-        spinnerSegmento.setSelection(if (segmento != "") segmentoFila.indexOf(segmento) else 0)
+        spinnerSegmento.setSelection(if (segmento != ""){
+            segmentoFila.indexOf(segmento)
+        } else{
+            0
+        })
 
 
         val adapterUnidade = ArrayAdapter(requireContext(), R.layout.spinner_item, unidadeFila)
         adapterUnidade.setDropDownViewResource(R.layout.spinner_drop_item)
         spinnerUnidade.adapter = adapterUnidade
-        spinnerUnidade.setSelection(if (unidade != "") unidadeFila.indexOf(unidade) else 0)
+        spinnerUnidade.setSelection(if (unidade != "") {
+            unidadeFila.indexOf(unidade)
+        } else {
+            0
+        })
 
 
         btnFiltrar.setOnClickListener {
