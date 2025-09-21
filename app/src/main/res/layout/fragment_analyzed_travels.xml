@@ -11,5 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:itemCount="4"
-        tools:listitem="@layout/card_travel" />
+        tools:listitem="@layout/card_travel" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorTertiary"
+        android:progressBackgroundTint="@color/colorTertiary"
+        android:visibility="gone"
+        tools:visibility="visible" />
 </FrameLayout>

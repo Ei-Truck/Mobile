@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.model.Travel
 import com.example.eitruck.ui.travel.TravelsViewHolder
+import java.util.Date
 
 class AnalyzedTravelsAdapter(
-    private val travels: List<Travel>
+    private var travels: List<Travel>
 ): RecyclerView.Adapter<TravelsViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,9 +24,16 @@ class AnalyzedTravelsAdapter(
         holder: TravelsViewHolder,
         position: Int
     ) {
+        val formatoEntrada = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val formatoSaida = java.text.SimpleDateFormat("dd/MM/yyyy")
+
+
         val travel = travels[position]
-        holder.placa.text = travel.placa
-        holder.data.text = travel.data
+        holder.placa.text = travel.caminhao.placa
+
+        val data: Date = formatoEntrada.parse(travel.dtHrInicio)
+        holder.data.text = formatoSaida.format(data)
+
         holder.pontos.text = travel.pontos.toString()
 
         if (travel.tratada){

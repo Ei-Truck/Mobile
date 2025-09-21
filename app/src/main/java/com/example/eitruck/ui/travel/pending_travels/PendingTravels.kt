@@ -5,14 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eitruck.R
 import com.example.eitruck.databinding.FragmentPendingTravelsBinding
 import com.example.eitruck.model.Travel
+import com.example.eitruck.model.Truck
+import com.example.eitruck.ui.travel.analyzed_travels.PendingTravelsViewModel
+import java.sql.Date
 
 class PendingTravels : Fragment() {
 
     private lateinit var binding: FragmentPendingTravelsBinding
+    private val viewModel: PendingTravelsViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,18 +30,23 @@ class PendingTravels : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viagens = listOf(
-            Travel("ABC1D23", "19/09/2025", 600, false),
-            Travel("ABC1D23", "19/09/2025", 600, false),
-            Travel("ABC1D23", "19/09/2025", 600, false),
-            Travel("ABC1D23", "19/09/2025", 600, false),
-            Travel("ABC1D23", "19/09/2025", 600, false),
-        )
+        viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
+            if (carregando) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
 
-        val adapter = PendingTravelsAdapter(viagens)
-        binding.pendingRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.pendingRecycler.adapter = adapter
+        viewModel.travelsLiveData.observe(viewLifecycleOwner) { travels ->
+            val adapter = PendingTravelsAdapter(travels)
+            binding.pendingRecycler.layoutManager = LinearLayoutManager(requireContext())
+            binding.pendingRecycler.adapter = adapter
+        }
 
+        if (viewModel.travelsLiveData.value.isNullOrEmpty()) {
+            viewModel.getTravels()
+        }
 
     }
 
