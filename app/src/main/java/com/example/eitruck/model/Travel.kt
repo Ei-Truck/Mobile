@@ -6,7 +6,7 @@ import java.util.Date
 class Travel (
     val caminhao: Truck,
     val dtHrInicio: String,
-    val pontos: Int =600,
+    val pontuacao: Int =600,
     @SerializedName("wasAnalyzed")
     val tratada: Boolean
 )
