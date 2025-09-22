@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
         android:orientation="vertical">
 
         <Button
@@ -62,10 +63,10 @@
                     android:id="@+id/textViewTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/titulo_poppins_regular"
+                    android:fontFamily="@font/titulo_bold_poppins_semibold"
                     android:text="Total de Infrações"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -77,10 +78,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/titulo_bold_poppins_semibold"
+                        android:fontFamily="@font/titulo_poppins_regular"
                         android:text="956"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView14"
@@ -91,7 +92,7 @@
                         android:fontFamily="@font/titulo_poppins_regular"
                         android:text="registradas no período"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -122,10 +123,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/titulo_poppins_regular"
+                    android:fontFamily="@font/titulo_bold_poppins_semibold"
                     android:text="Infrações por Gravidade"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <!--                LEVES -->
                 <LinearLayout
@@ -138,23 +139,23 @@
                         android:id="@+id/numTotalLeve"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/titulo_bold_poppins_semibold"
+                        android:fontFamily="@font/titulo_poppins_regular"
                         android:gravity="start"
                         android:text="204"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView18"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="start"
                         android:layout_marginStart="8dp"
+                        android:layout_weight="2"
                         android:fontFamily="@font/titulo_poppins_regular"
+                        android:gravity="start"
                         android:text="Leves"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="0dp"
@@ -186,11 +187,11 @@
                         android:id="@+id/numTotalMedia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/titulo_bold_poppins_semibold"
+                        android:fontFamily="@font/titulo_poppins_regular"
                         android:gravity="start"
                         android:text="123"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView19"
@@ -202,7 +203,7 @@
                         android:gravity="start"
                         android:text="Médias"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="0dp"
@@ -235,24 +236,24 @@
                         android:id="@+id/numTotalGraves"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/titulo_bold_poppins_semibold"
+                        android:fontFamily="@font/titulo_poppins_regular"
                         android:gravity="start"
                         android:text="69"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
 
                     <TextView
                         android:id="@+id/textView20"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="start"
                         android:layout_marginStart="8dp"
+                        android:layout_weight="2"
                         android:fontFamily="@font/titulo_poppins_regular"
+                        android:gravity="start"
                         android:text="Graves"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="0dp"
@@ -284,11 +285,11 @@
                         android:id="@+id/numTotalGravissima"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/titulo_bold_poppins_semibold"
+                        android:fontFamily="@font/titulo_poppins_regular"
                         android:gravity="start"
                         android:text="27"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView21"
@@ -300,7 +301,7 @@
                         android:gravity="start"
                         android:text="Gravíssimas"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                     <Space
                         android:layout_width="0dp"
@@ -341,10 +342,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/titulo_poppins_regular"
+                    android:fontFamily="@font/titulo_bold_poppins_semibold"
                     android:text="Motorista com Mais Infrações"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -356,10 +357,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/titulo_bold_poppins_semibold"
+                        android:fontFamily="@font/titulo_poppins_regular"
                         android:text="Jose B. Chavez"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/textView22"
@@ -370,7 +371,7 @@
                         android:fontFamily="@font/titulo_poppins_regular"
                         android:text="com 27 infrações"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -400,10 +401,10 @@
                     android:id="@+id/textViewTitle4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/titulo_poppins_regular"
+                    android:fontFamily="@font/titulo_bold_poppins_semibold"
                     android:text="Variação Anual"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="20sp" />
+                    android:textSize="19sp" />
 
                 <TextView
                     android:id="@+id/variacao"
@@ -413,29 +414,74 @@
                     android:text="+8,1%"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!--        Teste de gráfico -->
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="@color/white">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- Gráfico -->
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChart"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:padding="8dp" />
+                android:layout_height="220dp"
+                android:layout_marginBottom="16dp"/>
 
-    </com.google.android.material.card.MaterialCardView>
+            <!-- Cabeçalho da tabela -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_botao1"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="Tipo de infração"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/titulo_poppins_regular"
+                    android:gravity="end"
+                    android:text="Quantidade"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/titulo_poppins_regular"
+                    android:gravity="end"
+                    android:text="% do total"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- RecyclerView da tabela -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerLegenda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 
