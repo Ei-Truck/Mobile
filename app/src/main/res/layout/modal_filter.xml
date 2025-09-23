@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:text="Segmento:"
             android:textColor="@color/colorBackground"
-            android:textSize="16dp" />
+            android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/segmento_drop"
@@ -66,7 +66,7 @@
         android:id="@+id/Região"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:text="Região:"
             android:textColor="@color/colorBackground"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/regiao_drop"
@@ -90,7 +90,7 @@
         android:id="@+id/Unidade"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -99,7 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Unidade:"
-            android:textColor="@color/colorBackground" />
+            android:textColor="@color/colorBackground"
+            android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/unidade_drop"
@@ -114,7 +115,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:gravity="end"
         android:orientation="horizontal">
 
@@ -124,7 +125,8 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorTertiary"
             android:hint="Selecione"
-            android:text="Filtrar" />
+            android:text="Filtrar"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

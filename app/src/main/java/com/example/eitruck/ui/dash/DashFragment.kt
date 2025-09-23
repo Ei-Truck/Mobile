@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.model.LegendaItem
+import com.example.eitruck.ui.filter.FilterDialog
+import com.example.eitruck.ui.filter.FiltrosDisponiveis
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarEntry
 
@@ -57,55 +59,19 @@ class DashFragment : Fragment() {
 
         val botao_filtro = view.findViewById<Button>(R.id.buttonFilterDash)
 
-        botao_filtro.setOnClickListener {
-            mostrarFiltroModal()
-        }
-    }
-
-    fun mostrarFiltroModal() {
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.modal_filter)
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+        val filtros = FiltrosDisponiveis(
+            regioes = emptyList(),
+            segmentos = listOf("Todos", "Segmento 1", "Segmento 2"),
+            unidades = listOf("Todos", "Unidade 1", "Unidade 2")
         )
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.window?.setGravity(Gravity.CENTER)
 
-        val spinnerRegiao = dialog.findViewById<Spinner>(R.id.regiao_drop)
-        val spinnerUnidade = dialog.findViewById<Spinner>(R.id.unidade_drop)
-        val spinnerSegmento = dialog.findViewById<Spinner>(R.id.segmento_drop)
-
-        val btnFiltrar = dialog.findViewById<Button>(R.id.filtrar)
-
-        val regioesFila = arrayOf("Todos", "Região 1", "Região 2")
-        val segmentoFila = arrayOf("Todos", "Segmento 1", "Segmento 2")
-        val unidadeFila = arrayOf("Todos", "Unidade 1", "Unidade 2")
-
-        val adapterRegiao = ArrayAdapter(requireContext(), R.layout.spinner_item, regioesFila)
-        adapterRegiao.setDropDownViewResource(R.layout.spinner_drop_item)
-        spinnerRegiao.adapter = adapterRegiao
-        spinnerRegiao.setSelection(if (regiao != "") regioesFila.indexOf(regiao) else 0)
-
-        val adapterSegmento = ArrayAdapter(requireContext(), R.layout.spinner_item, segmentoFila)
-        adapterSegmento.setDropDownViewResource(R.layout.spinner_drop_item)
-        spinnerSegmento.adapter = adapterSegmento
-        spinnerSegmento.setSelection(if (segmento != "") segmentoFila.indexOf(segmento) else 0)
-
-
-        val adapterUnidade = ArrayAdapter(requireContext(), R.layout.spinner_item, unidadeFila)
-        adapterUnidade.setDropDownViewResource(R.layout.spinner_drop_item)
-        spinnerUnidade.adapter = adapterUnidade
-        spinnerUnidade.setSelection(if (unidade != "") unidadeFila.indexOf(unidade) else 0)
-
-
-        btnFiltrar.setOnClickListener {
-            regiao = spinnerRegiao.selectedItem.toString()
-            segmento = spinnerSegmento.selectedItem.toString()
-            unidade= spinnerUnidade.selectedItem.toString()
-            dialog.dismiss()
+        botao_filtro.setOnClickListener {
+            FilterDialog(
+                context = requireContext(),
+                filtrosDisponiveis = filtros
+            ) { regiao, segmento, unidade ->
+                println("Filtro aplicado: $regiao | $segmento | $unidade")
+            }.show()
         }
-
-        dialog.show()
     }
 }
