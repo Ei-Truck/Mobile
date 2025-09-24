@@ -24,7 +24,7 @@
             app:srcCompat="@drawable/icon_filtro" />
 
         <TextView
-            android:id="@+id/textView24"
+            android:id="@+id/textView25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -38,23 +38,23 @@
 
 
     <LinearLayout
-        android:id="@+id/Segmento"
+        android:id="@+id/SegmentoDash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/textViewSegDash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Segmento:"
             android:textColor="@color/colorBackground"
-            android:textSize="16dp" />
+            android:textSize="14sp" />
 
         <Spinner
-            android:id="@+id/segmento_drop"
+            android:id="@+id/segmentoDash_drop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -63,22 +63,22 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/Região"
+        android:id="@+id/RegiãoDash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView25"
+            android:id="@+id/textViewRegDash"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Região:"
             android:textColor="@color/colorBackground"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <Spinner
-            android:id="@+id/regiao_drop"
+            android:id="@+id/regiaoDash_drop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -87,10 +87,61 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/Unidade"
+        android:id="@+id/UnidadeDash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewUnidDash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Unidade:"
+            android:textColor="@color/colorBackground"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/unidadeDash_drop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorBackground" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/MesDash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mês:"
+            android:textColor="@color/colorBackground"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/mesDash_drop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorBackground" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/AnoDash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -98,33 +149,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Unidade:"
-            android:textColor="@color/colorBackground" />
+            android:text="Ano:"
+            android:textColor="@color/colorBackground"
+            android:textSize="14sp" />
 
         <Spinner
-            android:id="@+id/unidade_drop"
+            android:id="@+id/anoDash_drop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:backgroundTint="@color/colorBackground" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:gravity="end"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/filtrar"
+            android:id="@+id/filtrarDash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorTertiary"
             android:hint="Selecione"
-            android:text="Filtrar" />
+            android:text="Filtrar"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>
