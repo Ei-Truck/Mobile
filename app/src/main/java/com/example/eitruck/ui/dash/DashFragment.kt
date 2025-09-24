@@ -3,28 +3,26 @@ package com.example.eitruck.ui.dash
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.model.LegendaItem
-import com.example.eitruck.ui.filter.FilterDialog
-import com.example.eitruck.ui.filter.FiltrosDisponiveis
+import com.example.eitruck.ui.filter.FilterDashDialog
+import com.example.eitruck.ui.filter.FiltrosDashDisponiveis
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarEntry
+import java.text.DateFormatSymbols
+import java.util.Calendar
+import java.util.Locale
 
 class DashFragment : Fragment() {
-
-    var regiao: String = ""
-    var segmento: String = ""
-    var unidade: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,18 +57,31 @@ class DashFragment : Fragment() {
 
         val botao_filtro = view.findViewById<Button>(R.id.buttonFilterDash)
 
-        val filtros = FiltrosDisponiveis(
+        val meses = DateFormatSymbols(Locale("pt", "BR")).months
+            .filter { it.isNotBlank() }
+            .map { it.lowercase().replaceFirstChar { ch -> ch.uppercase() } }
+            .toMutableList()
+            .apply { add(0, "Mês Atual") }
+
+        val anoAtual = Calendar.getInstance().get(Calendar.YEAR)
+        val anosDesc = ((anoAtual) downTo (anoAtual - 5)).map { it.toString() }.toMutableList()
+
+
+        val filtros = FiltrosDashDisponiveis(
             regioes = emptyList(),
             segmentos = listOf("Todos", "Segmento 1", "Segmento 2"),
-            unidades = listOf("Todos", "Unidade 1", "Unidade 2")
+            unidades = listOf("Todos", "Unidade 1", "Unidade 2"),
+            mes = meses,
+            ano = anosDesc
         )
 
+
         botao_filtro.setOnClickListener {
-            FilterDialog(
+            FilterDashDialog(
                 context = requireContext(),
                 filtrosDisponiveis = filtros
-            ) { regiao, segmento, unidade ->
-                println("Filtro aplicado: $regiao | $segmento | $unidade")
+            ) { regiao, segmento, unidade, mes, ano ->
+                println("Filtro aplicado: $regiao | $segmento | $unidade | $mes | $ano")
             }.show()
         }
     }

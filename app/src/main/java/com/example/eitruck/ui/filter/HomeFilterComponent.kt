@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.Spinner
 import com.example.eitruck.R
 
-class FilterDialog(
+class FilterHomeDialog(
     private val context: Context,
     private val filtrosDisponiveis: FiltrosDisponiveis,
     private val onFilterSelected: (regiao: String?, segmento: String?, unidade: String?) -> Unit
@@ -18,7 +18,7 @@ class FilterDialog(
 
     fun show() {
         val dialog = Dialog(context)
-        dialog.setContentView(R.layout.modal_filter)
+        dialog.setContentView(R.layout.modal_filter_home)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -33,7 +33,7 @@ class FilterDialog(
         val spinnerRegiao   = dialog.findViewById<Spinner>(R.id.regiao_drop)
         val spinnerUnidade  = dialog.findViewById<Spinner>(R.id.unidade_drop)
         val spinnerSegmento = dialog.findViewById<Spinner>(R.id.segmento_drop)
-        val btnFiltrar      = dialog.findViewById<Button>(R.id.filtrar)
+        val btnFiltrar      = dialog.findViewById<Button>(R.id.filtrarHome)
 
         if (filtrosDisponiveis.regioes.isNotEmpty()) {
             setupSpinner(spinnerRegiao, filtrosDisponiveis.regioes)
