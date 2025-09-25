@@ -251,7 +251,7 @@
                         app:shapeAppearanceOverlay="@style/CircularShape" />
 
                     <TextView
-                        android:id="@+id/textView31"
+                        android:id="@+id/driver_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -266,7 +266,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView35"
+                        android:id="@+id/driver_hour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -278,7 +278,7 @@
                         app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView33"
+                        android:id="@+id/driver_risk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="36dp"
@@ -288,7 +288,7 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/textView31"
+                        app:layout_constraintStart_toStartOf="@+id/driver_name"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -326,7 +326,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView37"
+                            android:id="@+id/total_infractions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3"
