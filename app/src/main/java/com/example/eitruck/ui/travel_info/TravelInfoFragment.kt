@@ -10,8 +10,10 @@ import android.widget.MediaController
 import android.widget.VideoView
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eitruck.R
 import com.example.eitruck.databinding.FragmentTravelInfoBinding
+import com.example.eitruck.model.Infractions
 
 class TravelInfoFragment : Fragment() {
 
@@ -33,11 +35,23 @@ class TravelInfoFragment : Fragment() {
         val playerView = binding.playerView
         playerView.player = player
 
-        val mediaItem = MediaItem.fromUri("https://res.cloudinary.com/dujtlyl7w/video/upload/v1758659007/WIN_20240304_11_21_37_Pro_nbiiby.mp4")
+        val mediaItem = MediaItem.fromUri("https://eitruck.s3.sa-east-1.amazonaws.com/infracoes/cara_dirigindo.mp4")
         player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
 
+        val infracoes = listOf(
+            Infractions(1,1,"Leve"),
+            Infractions(2,2,"Média"),
+            Infractions(3,3,"Grave"),
+            Infractions(4,4,"Muito Grave")
+        )
+
+        val adapter = TravelInfoAdapter(infracoes)
+        binding.infracoes.layoutManager = LinearLayoutManager(requireContext())
+        binding.infracoes.adapter = adapter
+
+        binding.infracoes.isNestedScrollingEnabled = false
 
 
     }
