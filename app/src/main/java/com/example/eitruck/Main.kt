@@ -25,7 +25,7 @@ class Main : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
             val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, sysBars.bottom)
-            v.setBackgroundColor(getColor(R.color.colorPrimaryDark)) // cor de fundo
+            v.setBackgroundColor(getColor(R.color.colorPrimaryDark))
             insets
         }
 
@@ -65,9 +65,7 @@ class Main : AppCompatActivity() {
     }
 
     private fun loadFragment(fragment: androidx.fragment.app.Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, fragment)
-            .commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
     }
 
     private fun tirarFill(int: Int) {
