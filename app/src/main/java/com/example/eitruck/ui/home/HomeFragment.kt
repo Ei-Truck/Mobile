@@ -27,6 +27,10 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
 
+    private var regiao = ""
+    private var segmento = ""
+    private var unidade = ""
+
     private val listaCompleta: List<MotoristaRanking> = listOf(
         MotoristaRanking(1, "Motorista fuiweiovjewiojewiogj", 1000),
         MotoristaRanking(2, "Motorista 2", 750),
@@ -157,7 +161,7 @@ class HomeFragment : Fragment() {
 
     fun mostrarFiltroModal() {
         val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.modal_filter)
+        dialog.setContentView(R.layout.modal_filter_home)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -169,7 +173,7 @@ class HomeFragment : Fragment() {
         val spinnerUnidade = dialog.findViewById<Spinner>(R.id.unidade_drop)
         val spinnerSegmento = dialog.findViewById<Spinner>(R.id.segmento_drop)
 
-        val btnFiltrar = dialog.findViewById<Button>(R.id.filtrar)
+        val btnFiltrar = dialog.findViewById<Button>(R.id.filtrarHome)
 
         val regioesFila = arrayOf("Todos", "Região 1", "Região 2")
         val segmentoFila = arrayOf("Todos", "Segmento 1", "Segmento 2")
