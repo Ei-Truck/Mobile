@@ -1,12 +1,15 @@
 package com.example.eitruck.ui.travel.analyzed_travels
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.model.Travel
 import com.example.eitruck.ui.travel.TravelsViewHolder
+import com.example.eitruck.ui.travel_info.TravelInfoFragment
 import java.util.Date
 
 class AnalyzedTravelsAdapter(
@@ -34,7 +37,7 @@ class AnalyzedTravelsAdapter(
         val data: Date = formatoEntrada.parse(travel.dtHrInicio)
         holder.data.text = formatoSaida.format(data)
 
-        holder.pontos.text = travel.pontuacao.toString()
+        holder.pontos.text = travel.id.toString()
 
         if (travel.tratada){
             holder.alerta.visibility = View.GONE
@@ -42,7 +45,19 @@ class AnalyzedTravelsAdapter(
             holder.alerta.visibility = View.VISIBLE
         }
 
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("id", travel.id)
+            val fragment = TravelInfoFragment()
+            fragment.arguments = bundle
 
+            val activity = it.context as AppCompatActivity
+            activity.supportFragmentManager.beginTransaction()
+                .replace(R.id.frame, fragment)
+                .addToBackStack(null)
+                .commit()
+
+        }
 
     }
 
