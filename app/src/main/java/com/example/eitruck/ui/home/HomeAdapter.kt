@@ -30,8 +30,6 @@ class HomeAdapter (
         }
     }
 
-
-
     override fun getItemCount(): Int {
         return motoristas.size
     }
@@ -40,7 +38,4 @@ class HomeAdapter (
         motoristas = novaLista
         notifyDataSetChanged()
     }
-
-
-
 }

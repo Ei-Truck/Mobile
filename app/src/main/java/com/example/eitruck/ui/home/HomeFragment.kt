@@ -17,18 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.databinding.FragmentHomeBinding
+import com.example.eitruck.ui.filter.FilterHomeDialog
+import com.example.eitruck.ui.filter.FiltrosDisponiveis
 import com.github.mikephil.charting.charts.CombinedChart
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
-
-    var regiao: String = ""
-    var segmento: String = ""
-    var unidade: String = ""
 
     private val listaCompleta: List<MotoristaRanking> = listOf(
         MotoristaRanking(1, "Motorista fuiweiovjewiojewiogj", 1000),
@@ -91,13 +88,23 @@ class HomeFragment : Fragment() {
             }
         }
 
+
         val botao_filtro = view.findViewById<Button>(R.id.filtro_botao)
 
+        val filtros = FiltrosDisponiveis(
+            segmentos = listOf("Todos", "Segmento 1", "Segmento 2"),
+            regioes = listOf("Todos", "Região 1", "Região 2"),
+            unidades = listOf("Todos", "Unidade 1", "Unidade 2")
+        )
+
         botao_filtro.setOnClickListener {
-            mostrarFiltroModal()
+            FilterHomeDialog(
+                context = requireContext(),
+                filtrosDisponiveis = filtros
+            ) { regiao, segmento, unidade ->
+                println("Filtro aplicado: $regiao | $segmento | $unidade")
+            }.show()
         }
-
-
 
     }
 
@@ -207,6 +214,7 @@ class HomeFragment : Fragment() {
 
         dialog.show()
     }
+
 
 
 
