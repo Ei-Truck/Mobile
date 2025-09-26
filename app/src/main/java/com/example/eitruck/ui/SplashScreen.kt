@@ -11,7 +11,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.eitruck.R
 import com.example.eitruck.ui.login.Login
 
-class SplashScreen : AppCompatActivity() {
+class
+SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

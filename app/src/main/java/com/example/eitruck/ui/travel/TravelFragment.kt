@@ -1,60 +1,57 @@
 package com.example.eitruck.ui.travel
 
+import TabsAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.example.eitruck.R
+import com.example.eitruck.databinding.FragmentTravelBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TravelFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TravelFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentTravelBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_travel, container, false)
+        binding = FragmentTravelBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TravelFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TravelFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val tab = binding.tabTravels
+        val pagina = binding.pagesTravels
+
+        val adapter = TabsAdapter(requireActivity())
+        pagina.adapter = adapter
+
+        TabLayoutMediator(tab , pagina) { tab, position ->
+            val tabView = LayoutInflater.from(requireContext()).inflate(R.layout.tab_customizado, null)
+            val icon = tabView.findViewById<ImageView>(R.id.tab_icon)
+            val text = tabView.findViewById<TextView>(R.id.tab_text)
+
+            when (position) {
+                0 -> {
+                    icon.setImageResource(R.drawable.icon_analisadas)
+                    text.text = "Analisadas"
+                }
+                1 -> {
+                    icon.setImageResource(R.drawable.icon_pendentes)
+                    text.text = "Pendentes"
                 }
             }
+            tab.customView = tabView
+        }.attach()
+
+
     }
+
 }
