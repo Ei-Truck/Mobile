@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/nome_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="AI Truck"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/txt_chat"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_dialog"
+        android:backgroundTint="@color/colorPrimary"
+        android:padding="8dp"
+        android:text="Lorem ipsum (/ˌlɔː.rəm ˈɪp.səm/ LOR-əm IP-səm) is a dummy or placeholder text commonly used in graphic design, publishing, and web development. Its purpose is to permit a page layout to be designed, independently of the copy that will subsequently populate it, or to demonstrate various fonts of a typeface without meaningful text that could be distracting."
+        android:textColor="@color/colorBackground"
+        android:textSize="14sp" />
+</LinearLayout>
