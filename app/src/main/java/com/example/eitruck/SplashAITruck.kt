@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.eitruck.databinding.ActivitySplashAitruckBinding
+import com.example.eitruck.ui.chat_bot.ChatBot
 
 class SplashAITruck : AppCompatActivity() {
 
