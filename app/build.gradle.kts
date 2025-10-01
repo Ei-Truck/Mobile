@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.4.1")
     implementation("com.github.bumptech.glide:glide:5.0.5")
 
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 
 
 }

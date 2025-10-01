@@ -51,7 +51,7 @@ class TravelInfoFragment : Fragment() {
 
         val midia = listOf(
             Midia(1, "https://eitruck.s3.sa-east-1.amazonaws.com/infracoes/cara_dirigindo.mp4"),
-            Midia(2, "https://res.cloudinary.com/dujtlyl7w/video/upload/v1758659007/WIN_20240304_11_21_37_Pro_nbiiby.mp4")
+            Midia(2, "https://eitruck.s3.sa-east-1.amazonaws.com/infracoes/mexirica.mp4")
         )
 
         val travel = TravelInfo(1, "ABC1D34","14/08","15/08", 100, "Bovinos", driver, infracoes, midia)

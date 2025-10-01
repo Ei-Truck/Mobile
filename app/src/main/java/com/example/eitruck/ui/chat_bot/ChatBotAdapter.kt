@@ -3,8 +3,10 @@ package com.example.eitruck.ui.chat_bot
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.eitruck.R
 import com.example.eitruck.model.Mensagem
 
@@ -46,6 +48,7 @@ class ChatBotAdapter(
             (holder as SentViewHolder).bind(mensagem)
         } else {
             (holder as ReceivedViewHolder).bind(mensagem)
+
         }
     }
 
@@ -61,8 +64,22 @@ class ChatBotAdapter(
 
     class ReceivedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(msg: Mensagem) {
-            itemView.findViewById<TextView>(R.id.txt_chat).text = msg.texto
+            val txtChat = itemView.findViewById<TextView>(R.id.txt_chat)
+            val loadingView = itemView.findViewById<ImageView>(R.id.loading)
+
+            if (msg.isLoading) {
+                txtChat.visibility = View.GONE
+                Glide.with(itemView.context)
+                    .load(R.drawable.loading)
+                    .into(loadingView)
+                loadingView.visibility = View.VISIBLE
+            } else {
+                txtChat.visibility = View.VISIBLE
+                loadingView.visibility = View.GONE
+                txtChat.text = msg.texto
+            }
         }
     }
+
 
 }

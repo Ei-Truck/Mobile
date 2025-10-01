@@ -4,5 +4,6 @@ import android.R
 
 class Mensagem (
     val texto: String,
-    val isSent: Boolean
+    val isSent: Boolean,
+    var isLoading: Boolean
 )
