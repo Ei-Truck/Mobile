@@ -16,6 +16,9 @@ cardviewV7 = "28.0.0"
 recyclerview = "1.4.0"
 viewpager2 = "1.1.0"
 generativeai = "0.9.0"
+compiler = "3.2.0-alpha11"
+googleGmsGoogleServices = "4.4.3"
+firebaseFirestore = "26.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,8 +36,11 @@ cardview-v7 = { group = "com.android.support", name = "cardview-v7", version.ref
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 androidx-viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewpager2" }
 generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
+androidx-compiler = { group = "androidx.databinding", name = "compiler", version.ref = "compiler" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 
