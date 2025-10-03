@@ -1,7 +1,6 @@
-package com.example.eitruck
+package com.example.eitruck.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivitySplashAitruckBinding
 import com.example.eitruck.ui.chat_bot.ChatBot
 

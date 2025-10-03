@@ -1,4 +1,4 @@
-package com.example.eitruck
+package com.example.eitruck.ui
 
 import android.Manifest
 import android.content.Intent
@@ -9,9 +9,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityMainBinding
-import com.example.eitruck.service.Notifications
+import com.example.eitruck.model.Notification
+import com.example.eitruck.service.NotificationService
 import com.example.eitruck.ui.dash.DashFragment
 import com.example.eitruck.ui.home.HomeFragment
 import com.example.eitruck.ui.travel.TravelFragment
@@ -79,11 +81,17 @@ class Main : AppCompatActivity() {
         }
 
 
-        val notifications = Notifications(this)
-        notifications.showNotification("Bem vindo", "Seja bem vindo ao aplicativo!")
+        val notifications = NotificationService(this)
+        notifications.showNotification(
+            Notification(
+                "0",
+                "Bem vindo",
+                "Seja bem vindo ao aplicativo!"
+            )
+        )
     }
 
-    private fun loadFragment(fragment: androidx.fragment.app.Fragment) {
+    private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
     }
 
