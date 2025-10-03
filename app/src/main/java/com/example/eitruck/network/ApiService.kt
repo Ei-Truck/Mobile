@@ -7,4 +7,5 @@ interface ApiService {
 
     @GET("/viagens")
     suspend fun getTravels(): List<Travel>
+
 }

@@ -1,21 +1,17 @@
 package com.example.eitruck.ui
 
-import android.Manifest
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityMainBinding
-import com.example.eitruck.model.Notification
-import com.example.eitruck.service.NotificationService
 import com.example.eitruck.ui.dash.DashFragment
 import com.example.eitruck.ui.home.HomeFragment
+import com.example.eitruck.ui.notification.Notifications
 import com.example.eitruck.ui.travel.TravelFragment
 
 class Main : AppCompatActivity() {
@@ -76,19 +72,10 @@ class Main : AppCompatActivity() {
 
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+        binding.notification.setOnClickListener {
+            intent = Intent(this, Notifications::class.java)
+            startActivity(intent)
         }
-
-
-        val notifications = NotificationService(this)
-        notifications.showNotification(
-            Notification(
-                "0",
-                "Bem vindo",
-                "Seja bem vindo ao aplicativo!"
-            )
-        )
     }
 
     private fun loadFragment(fragment: Fragment) {
