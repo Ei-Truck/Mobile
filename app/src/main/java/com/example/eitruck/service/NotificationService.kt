@@ -5,8 +5,10 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.example.eitruck.R
+import com.example.eitruck.model.Notification
 
-class Notifications(private val context: Context) {
+class NotificationService(private val context: Context) {
 
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -25,11 +27,11 @@ class Notifications(private val context: Context) {
         }
     }
 
-    fun showNotification(title: String, message: String) {
+    fun showNotification(notification: Notification) {
         val notification = NotificationCompat.Builder(context, channelId)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle(notification.title)
+            .setContentText(notification.message)
+            .setSmallIcon(R.drawable.notification_icon)
             .build()
 
         notificationManager.notify(1, notification)
