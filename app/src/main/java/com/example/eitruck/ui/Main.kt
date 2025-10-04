@@ -1,14 +1,17 @@
-package com.example.eitruck
+package com.example.eitruck.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityMainBinding
 import com.example.eitruck.ui.dash.DashFragment
 import com.example.eitruck.ui.home.HomeFragment
+import com.example.eitruck.ui.notification.Notifications
 import com.example.eitruck.ui.travel.TravelFragment
 
 class Main : AppCompatActivity() {
@@ -62,9 +65,20 @@ class Main : AppCompatActivity() {
             }
             true
         }
+
+        binding.chatBot.setOnClickListener {
+            intent = Intent(this, SplashAITruck::class.java)
+            startActivity(intent)
+
+        }
+
+        binding.notification.setOnClickListener {
+            intent = Intent(this, Notifications::class.java)
+            startActivity(intent)
+        }
     }
 
-    private fun loadFragment(fragment: androidx.fragment.app.Fragment) {
+    private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
     }
 

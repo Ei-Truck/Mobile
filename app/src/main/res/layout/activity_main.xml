@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Main">
+    tools:context=".ui.Main">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/header"
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <ImageButton
-        android:id="@+id/button2"
+        android:id="@+id/notification"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
@@ -90,11 +90,11 @@
         android:padding="0dp"
         android:src="@drawable/ic_icon_notification"
         android:tint="@android:color/white"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/chat_bot"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/button3"
+        android:id="@+id/chat_bot"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
