@@ -57,6 +57,9 @@ class LoginSave(
         }
     }
 
+    fun getUserId(): Int = prefs.getInt("user_id", -1)
+
+
     fun clearToken() {
         prefs.edit().clear().apply()
     }
