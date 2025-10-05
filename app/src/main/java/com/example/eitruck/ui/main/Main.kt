@@ -2,22 +2,29 @@ package com.example.eitruck.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityMainBinding
 import com.example.eitruck.ui.SplashAITruck
 import com.example.eitruck.ui.dash.DashFragment
 import com.example.eitruck.ui.home.HomeFragment
+import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.notification.Notifications
 import com.example.eitruck.ui.travel.TravelFragment
+import com.example.eitruck.worker.LoginSave
+import com.google.android.material.imageview.ShapeableImageView
 
 class Main : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +51,36 @@ class Main : AppCompatActivity() {
             v.setPadding(sysBars.left, sysBars.top, sysBars.right, 0)
             insets
         }
+        val loginSave = LoginSave(this)
+        val prefes = loginSave.getPrefes()
+
+        viewModel.setToken(loginSave.getToken().toString())
+
+        viewModel.getUser(prefes.getInt("user_id", -1))
+        binding.userName.text = prefes.getString("user_name", "Sem login")
+
+        val urlPhoto = prefes.getString("url_photo", null)
+
+        if (!urlPhoto.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(urlPhoto)
+                .into(binding.profileImage)
+        } else {
+            viewModel.user.observe(this) { user ->
+                prefes.edit().apply {
+                    putString("url_photo", user.urlFoto)
+                    apply()
+                }
+                Glide.with(this)
+                    .load(user.urlFoto)
+                    .into(binding.profileImage)
+            }
+        }
+
+
+
+
+
 
         loadFragment(HomeFragment())
 

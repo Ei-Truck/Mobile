@@ -1,7 +1,7 @@
 package com.example.eitruck.model
 
 class User (
-    val nome:String,
+    val nomeCompleto:String,
     val email:String,
     val urlFoto:String
 )

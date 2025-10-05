@@ -1,6 +1,7 @@
 package com.example.eitruck.worker
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.eitruck.model.LoginResponse
@@ -57,7 +58,9 @@ class LoginSave(
         }
     }
 
-    fun getUserId(): Int = prefs.getInt("user_id", -1)
+    fun getPrefes(): SharedPreferences {
+        return prefs
+    }
 
 
     fun clearToken() {
