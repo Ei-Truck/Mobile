@@ -12,7 +12,7 @@ import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityLoginBinding
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.repository.postgres.LoginRepository
-import com.example.eitruck.ui.Main
+import com.example.eitruck.ui.main.Main
 import com.example.eitruck.ui.forgot_password.ForgotpassInput
 import com.example.eitruck.worker.LoginSave
 import kotlinx.coroutines.launch

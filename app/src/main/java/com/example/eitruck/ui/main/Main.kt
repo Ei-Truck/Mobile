@@ -1,4 +1,4 @@
-package com.example.eitruck.ui
+package com.example.eitruck.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityMainBinding
+import com.example.eitruck.ui.SplashAITruck
 import com.example.eitruck.ui.dash.DashFragment
 import com.example.eitruck.ui.home.HomeFragment
 import com.example.eitruck.ui.notification.Notifications
