@@ -1,5 +1,6 @@
 package com.example.eitruck.ui.travel.analyzed_travels
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eitruck.databinding.FragmentAnalyzedTravelsBinding
 import com.example.eitruck.model.Travel
 import com.example.eitruck.model.Truck
+import com.example.eitruck.ui.login.Login
+import com.example.eitruck.worker.LoginSave
 import java.sql.Date
 
 class AnalyzedTravels : Fragment() {
@@ -28,6 +31,16 @@ class AnalyzedTravels : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val token = LoginSave(requireContext(), null).getToken()
+        if (!token.isNullOrEmpty()) {
+            viewModel.setToken(token)
+        } else {
+            val intent = Intent(requireContext(), Login::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
 
         viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
             if (carregando) {

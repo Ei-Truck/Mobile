@@ -5,26 +5,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eitruck.model.Travel
-import com.example.eitruck.repository.TravelRepository
+import com.example.eitruck.repository.postgres.TravelRepository
 import kotlinx.coroutines.launch
 
 class PendingTravelsViewModel : ViewModel() {
 
-    private val repository = TravelRepository()
+    private var repository: TravelRepository? = null
 
     private val _travels = MutableLiveData<List<Travel>>()
-
     val travelsLiveData: LiveData<List<Travel>> get() = _travels
 
     private val carregando = MutableLiveData<Boolean>()
     val carregandoLiveData: LiveData<Boolean> get() = carregando
 
+    fun setToken(token: String) {
+        repository = TravelRepository(token)
+    }
+
     fun getTravels() {
         viewModelScope.launch {
             carregando.value = true
             try {
-                val response = repository.getTravels()
-                _travels.value = response
+                repository?.let {
+                    val response = it.getTravels()
+                    _travels.value = response
+                } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
@@ -33,3 +38,4 @@ class PendingTravelsViewModel : ViewModel() {
         }
     }
 }
+
