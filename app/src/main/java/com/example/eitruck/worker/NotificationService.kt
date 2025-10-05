@@ -1,4 +1,4 @@
-package com.example.eitruck.service
+package com.example.eitruck.worker
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

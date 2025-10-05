@@ -1,4 +1,4 @@
-package com.example.eitruck.network
+package com.example.eitruck.network.service
 
 import com.example.eitruck.model.NotificationRequest
 import com.example.eitruck.model.NotificationResponse

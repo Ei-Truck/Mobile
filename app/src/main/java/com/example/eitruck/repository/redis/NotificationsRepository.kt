@@ -2,7 +2,7 @@ package com.example.eitruck.repository.redis
 
 import com.example.eitruck.model.NotificationRequest
 import com.example.eitruck.model.NotificationResponse
-import com.example.eitruck.network.RedisApiClient
+import com.example.eitruck.network.client.RedisApiClient
 
 class NotificationsRepository {
 
