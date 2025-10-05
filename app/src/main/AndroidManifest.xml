@@ -26,7 +26,7 @@
             android:name=".ui.SplashAITruck"
             android:exported="false" />
         <activity
-            android:name=".ui.Main"
+            android:name=".ui.main.Main"
             android:exported="false"/>
         <activity
             android:name=".ui.forgot_password.ForgotpassChange"
