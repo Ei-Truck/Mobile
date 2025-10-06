@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/back"
+            android:id="@+id/back_notification_to_home"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
