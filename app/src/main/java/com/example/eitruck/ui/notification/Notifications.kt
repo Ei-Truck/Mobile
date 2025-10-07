@@ -30,7 +30,7 @@ class Notifications : AppCompatActivity() {
         binding = ActivityNotificationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.back.setOnClickListener {
+        binding.backNotificationToHome.setOnClickListener {
             finish()
         }
 

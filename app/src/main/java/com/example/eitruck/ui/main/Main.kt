@@ -12,12 +12,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.eitruck.R
+
 import com.example.eitruck.databinding.ActivityMainBinding
 import com.example.eitruck.ui.SplashAITruck
 import com.example.eitruck.ui.dash.DashFragment
 import com.example.eitruck.ui.home.HomeFragment
 import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.notification.Notifications
+import com.example.eitruck.ui.profile.Profile
 import com.example.eitruck.ui.travel.TravelFragment
 import com.example.eitruck.worker.LoginSave
 import com.google.android.material.imageview.ShapeableImageView
@@ -34,6 +36,7 @@ class Main : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Ajuste de insets do sistema
         ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
             val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, sysBars.bottom)
@@ -43,9 +46,6 @@ class Main : AppCompatActivity() {
 
         window.navigationBarColor = getColor(R.color.colorPrimaryDark)
         window.statusBarColor = getColor(R.color.colorPrimaryDark)
-
-
-
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -84,10 +84,11 @@ class Main : AppCompatActivity() {
         }
 
 
+        // Carrega o fragmento inicial
         loadFragment(HomeFragment())
-
         binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
 
+        // Navegação inferior
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
@@ -106,14 +107,21 @@ class Main : AppCompatActivity() {
             true
         }
 
+        // Clique no ChatBot
         binding.chatBot.setOnClickListener {
-            intent = Intent(this, SplashAITruck::class.java)
+            val intent = Intent(this, SplashAITruck::class.java)
             startActivity(intent)
-
         }
 
+        // Clique na notificação
         binding.notification.setOnClickListener {
-            intent = Intent(this, Notifications::class.java)
+            val intent = Intent(this, Notifications::class.java)
+            startActivity(intent)
+        }
+
+        // Clique na imagem de perfil
+        binding.profileImage.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
             startActivity(intent)
         }
     }
@@ -123,18 +131,22 @@ class Main : AppCompatActivity() {
     }
 
     private fun tirarFill(int: Int) {
-        if (int == R.id.nav_home) {
-            binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
-            binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
-            binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
-        } else if(int == R.id.nav_travel) {
-            binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
-            binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel_fill)
-            binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
-        } else{
-            binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
-            binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
-            binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash_fill)
+        when (int) {
+            R.id.nav_home -> {
+                binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
+                binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
+                binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
+            }
+            R.id.nav_travel -> {
+                binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
+                binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel_fill)
+                binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
+            }
+            else -> {
+                binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
+                binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
+                binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash_fill)
+            }
         }
     }
 
