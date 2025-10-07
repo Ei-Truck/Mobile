@@ -1,4 +1,4 @@
-package com.example.eitruck.data.remote.network.service
+package com.example.eitruck.data.remote.network.service.redis
 
 import com.example.eitruck.model.NotificationRequest
 import com.example.eitruck.model.NotificationResponse
