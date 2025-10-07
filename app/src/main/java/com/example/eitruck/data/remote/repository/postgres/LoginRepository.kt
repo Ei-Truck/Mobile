@@ -1,14 +1,13 @@
-package com.example.eitruck.repository.postgres
+package com.example.eitruck.data.remote.repository.postgres
 
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
-import com.example.eitruck.model.User
-import com.example.eitruck.network.client.RetroFitClient
+import com.example.eitruck.data.remote.network.client.postgres.PostgresClient
 import retrofit2.HttpException
 
 class LoginRepository {
 
-    private val api = RetroFitClient(null).api
+    private val api = PostgresClient(null).authService
 
     suspend fun login(request: LoginRequest): LoginResponse? {
         return try {

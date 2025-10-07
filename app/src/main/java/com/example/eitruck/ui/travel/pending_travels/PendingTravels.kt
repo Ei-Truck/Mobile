@@ -8,14 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eitruck.R
 import com.example.eitruck.databinding.FragmentPendingTravelsBinding
-import com.example.eitruck.model.Travel
-import com.example.eitruck.model.Truck
 import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.travel.analyzed_travels.PendingTravelsViewModel
-import com.example.eitruck.worker.LoginSave
-import java.sql.Date
+import com.example.eitruck.data.local.LoginSave
 
 class PendingTravels : Fragment() {
 

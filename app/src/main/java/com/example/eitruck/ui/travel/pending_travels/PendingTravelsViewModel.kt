@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eitruck.model.Travel
-import com.example.eitruck.repository.postgres.TravelRepository
+import com.example.eitruck.data.remote.repository.postgres.TravelRepository
 import kotlinx.coroutines.launch
 
 class PendingTravelsViewModel : ViewModel() {

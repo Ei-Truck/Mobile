@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.eitruck.R
 import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.main.Main
-import com.example.eitruck.worker.LoginSave
+import com.example.eitruck.data.local.LoginSave
 
 class
 SplashScreen : AppCompatActivity() {

@@ -1,6 +1,6 @@
-package com.example.eitruck.network.client
+package com.example.eitruck.data.remote.network.client
 
-import com.example.eitruck.network.service.RedisService
+import com.example.eitruck.data.remote.network.service.RedisService
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory
 

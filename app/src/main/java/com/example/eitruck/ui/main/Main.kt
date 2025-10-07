@@ -2,8 +2,6 @@ package com.example.eitruck.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,12 +15,10 @@ import com.example.eitruck.databinding.ActivityMainBinding
 import com.example.eitruck.ui.SplashAITruck
 import com.example.eitruck.ui.dash.DashFragment
 import com.example.eitruck.ui.home.HomeFragment
-import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.notification.Notifications
 import com.example.eitruck.ui.profile.Profile
 import com.example.eitruck.ui.travel.TravelFragment
-import com.example.eitruck.worker.LoginSave
-import com.google.android.material.imageview.ShapeableImageView
+import com.example.eitruck.data.local.LoginSave
 
 class Main : AppCompatActivity() {
 
@@ -36,7 +32,6 @@ class Main : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ajuste de insets do sistema
         ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
             val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, sysBars.bottom)
@@ -84,11 +79,9 @@ class Main : AppCompatActivity() {
         }
 
 
-        // Carrega o fragmento inicial
         loadFragment(HomeFragment())
         binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
 
-        // Navegação inferior
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> {
@@ -107,19 +100,16 @@ class Main : AppCompatActivity() {
             true
         }
 
-        // Clique no ChatBot
         binding.chatBot.setOnClickListener {
             val intent = Intent(this, SplashAITruck::class.java)
             startActivity(intent)
         }
 
-        // Clique na notificação
         binding.notification.setOnClickListener {
             val intent = Intent(this, Notifications::class.java)
             startActivity(intent)
         }
 
-        // Clique na imagem de perfil
         binding.profileImage.setOnClickListener {
             val intent = Intent(this, Profile::class.java)
             startActivity(intent)

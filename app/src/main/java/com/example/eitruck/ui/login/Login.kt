@@ -11,10 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityLoginBinding
 import com.example.eitruck.model.LoginRequest
-import com.example.eitruck.repository.postgres.LoginRepository
+import com.example.eitruck.data.remote.repository.postgres.LoginRepository
 import com.example.eitruck.ui.main.Main
 import com.example.eitruck.ui.forgot_password.ForgotpassInput
-import com.example.eitruck.worker.LoginSave
+import com.example.eitruck.data.local.LoginSave
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 

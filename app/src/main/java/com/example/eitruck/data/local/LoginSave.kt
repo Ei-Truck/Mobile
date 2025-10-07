@@ -1,14 +1,16 @@
-package com.example.eitruck.worker
+package com.example.eitruck.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Base64
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.eitruck.model.LoginResponse
+import org.json.JSONObject
 
 class LoginSave(
     private val context: Context,
-    private val login: LoginResponse ?= null
+    private val login: LoginResponse?= null
 ) {
 
     private val prefs by lazy {
@@ -56,8 +58,8 @@ class LoginSave(
         if (parts.size != 3) return false
 
         return try {
-            val payloadJson = String(android.util.Base64.decode(parts[1], android.util.Base64.URL_SAFE))
-            val exp = org.json.JSONObject(payloadJson).getLong("exp")
+            val payloadJson = String(Base64.decode(parts[1], Base64.URL_SAFE))
+            val exp = JSONObject(payloadJson).getLong("exp")
             val now = System.currentTimeMillis() / 1000
             now < exp
         } catch (e: Exception) {

@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eitruck.model.User
-import com.example.eitruck.repository.postgres.TravelRepository
-import com.example.eitruck.repository.postgres.UserRepository
+import com.example.eitruck.data.remote.repository.postgres.UserRepository
 import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {

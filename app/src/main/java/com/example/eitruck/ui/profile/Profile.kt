@@ -10,11 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.eitruck.Main
+import com.example.eitruck.ui.main.Main
 import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityProfileBinding
 import com.example.eitruck.ui.settings.Settings
-import com.google.android.material.imageview.ShapeableImageView
 import java.io.File
 
 class Profile : AppCompatActivity() {
