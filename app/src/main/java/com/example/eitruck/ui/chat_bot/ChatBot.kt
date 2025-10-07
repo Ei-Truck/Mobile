@@ -74,6 +74,9 @@ class ChatBot : AppCompatActivity() {
             }
         }
 
+        binding.backToHome.setOnClickListener{
+            finish()
+        }
 
     }
 
