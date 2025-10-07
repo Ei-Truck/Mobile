@@ -28,9 +28,16 @@ class LoginSave(
     fun saveToken() {
         login?.let {
             prefs.edit().apply {
+                val nameParts = login.nomeCompleto.split(" ")
+                val displayName = if (nameParts.size > 1) {
+                    "${nameParts.first()} ${nameParts.last()}"
+                } else {
+                    nameParts[0]
+                }
+
                 putString("auth_token", login.token)
                 putInt("user_id", login.id)
-                putString("user_name", login.nomeCompleto)
+                putString("user_name", displayName)
                 putString("user_email", login.email)
                 putString("user_telefone", login.telefone)
                 putString("user_cargo", login.cargo)

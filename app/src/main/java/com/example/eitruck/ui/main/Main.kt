@@ -2,6 +2,7 @@ package com.example.eitruck.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -56,30 +57,31 @@ class Main : AppCompatActivity() {
 
         viewModel.setToken(loginSave.getToken().toString())
 
+        binding.userName.text = prefes.getString("user_name", "")
+        Glide.with(this).load(prefes.getString("url_photo", "")).into(binding.profileImage)
+
         viewModel.getUser(prefes.getInt("user_id", -1))
-        binding.userName.text = prefes.getString("user_name", "Sem login")
 
-        val urlPhoto = prefes.getString("url_photo", null)
-
-        if (!urlPhoto.isNullOrEmpty()) {
-            Glide.with(this)
-                .load(urlPhoto)
-                .into(binding.profileImage)
-        } else {
-            viewModel.user.observe(this) { user ->
-                prefes.edit().apply {
-                    putString("url_photo", user.urlFoto)
-                    apply()
-                }
-                Glide.with(this)
-                    .load(user.urlFoto)
-                    .into(binding.profileImage)
+        viewModel.user.observe(this) { user ->
+            val nameParts = user.nomeCompleto.split(" ")
+            val displayName = if (nameParts.size > 1) {
+                "${nameParts.first()} ${nameParts.last()}"
+            } else {
+                nameParts[0]
             }
+
+            binding.userName.text = displayName
+            Glide.with(this)
+                .load(user.urlFoto)
+                .into(binding.profileImage)
+
+            prefes.edit().apply {
+                putString("url_photo", user.urlFoto)
+                putString("user_name", displayName)
+                apply()
+            }
+
         }
-
-
-
-
 
 
         loadFragment(HomeFragment())
@@ -135,4 +137,15 @@ class Main : AppCompatActivity() {
             binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash_fill)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val loginSave = LoginSave(this)
+        val prefes = loginSave.getPrefes()
+        val userId = prefes.getInt("user_id", -1)
+        if (userId != -1) {
+            viewModel.getUser(userId)
+        }
+    }
+
 }
