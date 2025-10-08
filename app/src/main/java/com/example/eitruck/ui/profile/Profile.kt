@@ -10,23 +10,34 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.eitruck.ui.main.Main
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.eitruck.R
+import com.example.eitruck.data.local.LoginSave
+import com.example.eitruck.data.remote.repository.postgres.UserRepository
 import com.example.eitruck.databinding.ActivityProfileBinding
+import com.example.eitruck.ui.main.Main
 import com.example.eitruck.ui.settings.Settings
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.IOException
 
 class Profile : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
     private var photoUri: Uri? = null
 
-
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            binding.imgProfile.setImageURI(it)
+            // 🔹 Só envia — não atualiza visual ainda
+            enviarFotoParaApi(it)
         }
     }
 
@@ -34,7 +45,8 @@ class Profile : AppCompatActivity() {
         ActivityResultContracts.TakePicture()
     ) { success: Boolean ->
         if (success && photoUri != null) {
-            binding.imgProfile.setImageURI(photoUri)
+            // 🔹 Só envia — não atualiza visual ainda
+            enviarFotoParaApi(photoUri!!)
         }
     }
 
@@ -59,12 +71,22 @@ class Profile : AppCompatActivity() {
             insets
         }
 
+        val login = LoginSave(this)
+        val savedUrl = login.getPrefes().getString("url_photo", null)
+        savedUrl?.let {
+            Glide.with(this)
+                .load(it)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(binding.imgProfile)
+        }
+
         binding.backProfileToMain.setOnClickListener {
             val intent = Intent(this, Main::class.java)
             startActivity(intent)
         }
 
-        binding.buttonSettings.setOnClickListener{
+        binding.buttonSettings.setOnClickListener {
             val intent = Intent(this, Settings::class.java)
             startActivity(intent)
         }
@@ -74,19 +96,16 @@ class Profile : AppCompatActivity() {
         }
     }
 
-
     private fun showImageOptions() {
-        val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(this)
+        val bottomSheet = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_image_options, null)
         bottomSheet.setContentView(view)
 
-        // Clique para escolher da galeria
         view.findViewById<LinearLayout>(R.id.optionGallery).setOnClickListener {
             pickImageLauncher.launch("image/*")
             bottomSheet.dismiss()
         }
 
-        // Clique para tirar foto
         view.findViewById<LinearLayout>(R.id.optionCamera).setOnClickListener {
             openCamera()
             bottomSheet.dismiss()
@@ -95,13 +114,11 @@ class Profile : AppCompatActivity() {
         bottomSheet.show()
     }
 
-
     private fun openCamera() {
         requestCameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
     }
 
     private fun openCameraInternal() {
-        // Cria arquivo temporário
         val photoFile = File.createTempFile("profile_", ".jpg", cacheDir)
         photoUri = FileProvider.getUriForFile(
             this,
@@ -111,4 +128,55 @@ class Profile : AppCompatActivity() {
         takePhotoLauncher.launch(photoUri)
     }
 
+    private fun enviarFotoParaApi(uri: Uri) {
+        val login = LoginSave(this)
+        val userRepo = UserRepository(login.getToken().toString())
+        val userId = login.getPrefes().getInt("user_id", -1)
+
+        lifecycleScope.launch {
+            try {
+                val tempFile = createTempFileFromUri(uri)
+
+                val requestBody = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+                val multipart = MultipartBody.Part.createFormData("file", "profile_$userId.jpg", requestBody)
+
+                val response = userRepo.uploadPhoto(userId, multipart)
+
+                response.urlFoto?.let { url ->
+                    // ✅ Atualiza imagem só depois da resposta da API
+                    Glide.with(this@Profile)
+                        .load(url)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(binding.imgProfile)
+
+                    val prefsEditor = login.getPrefes().edit()
+                    prefsEditor.putString("url_photo", url)
+                    prefsEditor.apply()
+                }
+
+                Toast.makeText(this@Profile, "Foto atualizada com sucesso!", Toast.LENGTH_SHORT).show()
+                tempFile.delete()
+
+            } catch (e: retrofit2.HttpException) {
+                Toast.makeText(this@Profile, "Erro HTTP ao enviar foto: ${e.code()}", Toast.LENGTH_SHORT).show()
+            } catch (e: IOException) {
+                Toast.makeText(this@Profile, "Erro ao processar imagem", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this@Profile, "Erro ao enviar foto: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun createTempFileFromUri(uri: Uri): File {
+        val inputStream = contentResolver.openInputStream(uri)
+            ?: throw IOException("Não foi possível abrir o URI: $uri")
+        val tempFile = File.createTempFile("profile_", ".jpg", cacheDir)
+        inputStream.use { input ->
+            tempFile.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+        return tempFile
+    }
 }

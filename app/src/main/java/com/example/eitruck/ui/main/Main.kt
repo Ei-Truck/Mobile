@@ -9,8 +9,8 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.eitruck.R
-
 import com.example.eitruck.databinding.ActivityMainBinding
 import com.example.eitruck.ui.SplashAITruck
 import com.example.eitruck.ui.dash.DashFragment
@@ -47,13 +47,19 @@ class Main : AppCompatActivity() {
             v.setPadding(sysBars.left, sysBars.top, sysBars.right, 0)
             insets
         }
+
         val loginSave = LoginSave(this)
         val prefes = loginSave.getPrefes()
 
         viewModel.setToken(loginSave.getToken().toString())
 
         binding.userName.text = prefes.getString("user_name", "")
-        Glide.with(this).load(prefes.getString("url_photo", "")).into(binding.profileImage)
+
+        Glide.with(this)
+            .load(prefes.getString("url_photo", ""))
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(binding.profileImage)
 
         viewModel.getUser(prefes.getInt("user_id", -1))
 
@@ -66,8 +72,11 @@ class Main : AppCompatActivity() {
             }
 
             binding.userName.text = displayName
+
             Glide.with(this)
                 .load(user.urlFoto)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(binding.profileImage)
 
             prefes.edit().apply {
@@ -75,12 +84,11 @@ class Main : AppCompatActivity() {
                 putString("user_name", displayName)
                 apply()
             }
-
         }
 
-
         loadFragment(HomeFragment())
-        binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
+        binding.bottomNavigation.menu.findItem(R.id.nav_home)
+            .setIcon(R.drawable.ic_icon_home_fill)
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
@@ -117,25 +125,36 @@ class Main : AppCompatActivity() {
     }
 
     private fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frame, fragment)
+            .commit()
     }
 
     private fun tirarFill(int: Int) {
         when (int) {
             R.id.nav_home -> {
-                binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
-                binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
-                binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
+                binding.bottomNavigation.menu.findItem(R.id.nav_home)
+                    .setIcon(R.drawable.ic_icon_home_fill)
+                binding.bottomNavigation.menu.findItem(R.id.nav_travel)
+                    .setIcon(R.drawable.ic_icon_travel)
+                binding.bottomNavigation.menu.findItem(R.id.nav_dash)
+                    .setIcon(R.drawable.ic_icon_dash)
             }
             R.id.nav_travel -> {
-                binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
-                binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel_fill)
-                binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash)
+                binding.bottomNavigation.menu.findItem(R.id.nav_home)
+                    .setIcon(R.drawable.ic_icon_home)
+                binding.bottomNavigation.menu.findItem(R.id.nav_travel)
+                    .setIcon(R.drawable.ic_icon_travel_fill)
+                binding.bottomNavigation.menu.findItem(R.id.nav_dash)
+                    .setIcon(R.drawable.ic_icon_dash)
             }
             else -> {
-                binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home)
-                binding.bottomNavigation.menu.findItem(R.id.nav_travel).setIcon(R.drawable.ic_icon_travel)
-                binding.bottomNavigation.menu.findItem(R.id.nav_dash).setIcon(R.drawable.ic_icon_dash_fill)
+                binding.bottomNavigation.menu.findItem(R.id.nav_home)
+                    .setIcon(R.drawable.ic_icon_home)
+                binding.bottomNavigation.menu.findItem(R.id.nav_travel)
+                    .setIcon(R.drawable.ic_icon_travel)
+                binding.bottomNavigation.menu.findItem(R.id.nav_dash)
+                    .setIcon(R.drawable.ic_icon_dash_fill)
             }
         }
     }
@@ -144,10 +163,19 @@ class Main : AppCompatActivity() {
         super.onResume()
         val loginSave = LoginSave(this)
         val prefes = loginSave.getPrefes()
+
+        val urlFoto = prefes.getString("url_photo", null)
+        urlFoto?.let {
+            Glide.with(this)
+                .load(it)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(binding.profileImage)
+        }
+
         val userId = prefes.getInt("user_id", -1)
         if (userId != -1) {
             viewModel.getUser(userId)
         }
     }
-
 }
