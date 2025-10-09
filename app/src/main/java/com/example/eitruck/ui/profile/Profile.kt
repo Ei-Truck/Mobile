@@ -1,6 +1,9 @@
 package com.example.eitruck.ui.profile
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.widget.LinearLayout
@@ -72,6 +75,17 @@ class Profile : AppCompatActivity() {
 
         binding.btnChangePhoto.setOnClickListener {
             showImageOptions()
+        }
+
+        binding.buttonPoliticaPrivacidade.setOnClickListener {
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.modal_politica_privacidade)
+
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setCancelable(true)
+            dialog.setCanceledOnTouchOutside(true)
+
+            dialog.show()
         }
     }
 

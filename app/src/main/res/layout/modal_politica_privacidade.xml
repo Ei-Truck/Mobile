@@ -1,0 +1,182 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@drawable/layout_dialog"
+    android:backgroundTint="@color/colorPrimary"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/titlePrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="12dp"
+                android:text="Política de Privacidade"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/introPrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:text="A Ei Truck valoriza a sua privacidade e está comprometida com a transparência no tratamento dos dados pessoais dos usuários. Esta política descreve como coletamos, usamos e protegemos suas informações, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 – LGPD)."
+                android:textColor="@color/white"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/section1Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Quem somos"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/section1Content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Um projeto para reduzir tempo de análise de eventos de videomonitoramento e telemetria das transportadoras."
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/section2Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Dados que coletamos"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/section2Content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="- Dados fornecidos pelo usuário: nome, e-mail, CPF, empresa e informações de cadastro.\n- Dados coletados automaticamente: endereço IP, informações de navegação e dispositivo."
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/section3Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Finalidade da coleta"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/section3Content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Utilizamos os dados para:\n- Gerenciar o acesso e uso da plataforma;\n- Entrar em contato com clientes e parceiros;\n- Enviar comunicações e materiais informativos;\n- Cumprir obrigações legais e regulatórias."
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/section4Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4. Compartilhamento de dados"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/section4Content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Seus dados podem ser compartilhados com parceiros de tecnologia, provedores de hospedagem e serviços de análise, sempre respeitando a legislação vigente e com contratos que garantem a proteção adequada."
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/section5Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5. Segurança e armazenamento"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/section5Content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Adotamos medidas de segurança técnicas e organizacionais para proteger os dados pessoais contra acesso não autorizado, perda, uso indevido ou divulgação. Os dados são armazenados pelo tempo necessário ao cumprimento das finalidades desta política."
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/section6Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6. Direitos do usuário"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/section6Content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Você pode solicitar a qualquer momento:\n- Acesso aos seus dados pessoais;\n- Correção de informações incorretas ou desatualizadas;\n- Exclusão dos dados, quando permitido por lei;\n- Revogação do consentimento previamente concedido.\nPara exercer seus direitos, entre em contato pelo e-mail: eitruck@outlook.com"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/section7Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7. Alterações nesta política"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_bold_poppins_semibold"
+                android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/section7Content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Esta Política de Privacidade pode ser atualizada periodicamente. Notificaremos mudanças relevantes por meio do nosso site ou e-mail de contato informado no cadastro."
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/footerPrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="© 2025 Ei Truck - Todos os direitos reservados"
+                android:textColor="@color/white"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:gravity="center"
+                android:paddingTop="12dp"
+                android:paddingBottom="16dp"/>
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="303dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                app:srcCompat="@drawable/ic_logo_splash_eitruck" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
