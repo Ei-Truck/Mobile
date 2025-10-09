@@ -36,7 +36,7 @@ class Profile : AppCompatActivity() {
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            // 🔹 Só envia — não atualiza visual ainda
+
             enviarFotoParaApi(it)
         }
     }
@@ -45,7 +45,6 @@ class Profile : AppCompatActivity() {
         ActivityResultContracts.TakePicture()
     ) { success: Boolean ->
         if (success && photoUri != null) {
-            // 🔹 Só envia — não atualiza visual ainda
             enviarFotoParaApi(photoUri!!)
         }
     }
@@ -143,7 +142,6 @@ class Profile : AppCompatActivity() {
                 val response = userRepo.uploadPhoto(userId, multipart)
 
                 response.urlFoto?.let { url ->
-                    // ✅ Atualiza imagem só depois da resposta da API
                     Glide.with(this@Profile)
                         .load(url)
                         .skipMemoryCache(true)
