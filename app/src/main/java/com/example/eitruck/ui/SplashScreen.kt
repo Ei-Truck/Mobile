@@ -10,6 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.eitruck.R
 import com.example.eitruck.ui.login.Login
+import com.example.eitruck.ui.main.Main
+import com.example.eitruck.data.local.LoginSave
 
 class
 SplashScreen : AppCompatActivity() {
@@ -28,7 +30,12 @@ SplashScreen : AppCompatActivity() {
 
     fun redirecionarPagina(){
         Handler.createAsync(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, Login::class.java)
+            val loginSave = LoginSave(this, null)
+            val intent = if (loginSave.isTokenValid()) {
+                Intent(this, Main::class.java)
+            } else {
+                Intent(this, Login::class.java)
+            }
             startActivity(intent)
             finish()
         },2000)
