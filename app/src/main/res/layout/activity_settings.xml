@@ -195,17 +195,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="160dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="440dp"
-            android:text="Sair"
-            android:textSize="20sp"
-            app:icon="@drawable/ic_icon_sair"
-            app:iconSize="20sp" />
-
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
