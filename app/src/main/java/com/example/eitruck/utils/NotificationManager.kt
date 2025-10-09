@@ -1,4 +1,4 @@
-package com.example.eitruck.service
+package com.example.eitruck.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,12 +8,12 @@ import androidx.core.app.NotificationCompat
 import com.example.eitruck.R
 import com.example.eitruck.model.NotificationRequest
 import com.example.eitruck.model.NotificationResponse
-import com.example.eitruck.repository.redis.NotificationsRepository
+import com.example.eitruck.data.remote.repository.redis.NotificationsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class   NotificationService(private val context: Context) {
+class   NotificationManager(private val context: Context) {
 
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

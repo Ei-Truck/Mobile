@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.eitruck.model.NotificationResponse
-import com.example.eitruck.repository.redis.NotificationsRepository
+import com.example.eitruck.data.remote.repository.redis.NotificationsRepository
 
 class NotificationViewModel: ViewModel() {
 
