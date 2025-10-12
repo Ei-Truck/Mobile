@@ -3,6 +3,7 @@ package com.example.eitruck.data.remote.network.client.postgres
 import com.example.eitruck.data.remote.network.service.postgres.AuthService
 import com.example.eitruck.data.remote.network.service.postgres.TravelService
 import com.example.eitruck.data.remote.network.service.postgres.UserService
+import com.example.eitruck.data.remote.network.service.postgres.InfractionService
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
@@ -33,4 +34,6 @@ class PostgresClient(private val token: String?) {
     val authService: AuthService by lazy { retrofit.create(AuthService::class.java) }
     val userService: UserService by lazy { retrofit.create(UserService::class.java) }
     val travelService: TravelService by lazy { retrofit.create(TravelService::class.java) }
+
+    val infractionsService: InfractionService by lazy { retrofit.create(InfractionService::class.java) }
 }
