@@ -34,7 +34,7 @@ class PendingTravelsAdapter(
 
         holder.pontos.text = travel.pontuacao_total.toString()
 
-        if (travel.tratada){
+        if (travel.analisada){
             holder.alerta.visibility = View.GONE
         } else {
             holder.alerta.visibility = View.VISIBLE

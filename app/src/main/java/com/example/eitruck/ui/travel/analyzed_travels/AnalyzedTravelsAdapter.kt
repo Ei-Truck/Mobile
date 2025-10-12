@@ -37,9 +37,9 @@ class AnalyzedTravelsAdapter(
         val data: Date = formatoEntrada.parse(travel.data_inicio_viagem)
         holder.data.text = formatoSaida.format(data)
 
-        holder.pontos.text = travel.id_viagem.toString()
+        holder.pontos.text = travel.pontuacao_total.toString()
 
-        if (travel.tratada){
+        if (travel.analisada){
             holder.alerta.visibility = View.GONE
         } else {
             holder.alerta.visibility = View.VISIBLE

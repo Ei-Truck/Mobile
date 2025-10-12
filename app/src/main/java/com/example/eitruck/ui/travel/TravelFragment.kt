@@ -39,11 +39,11 @@ class TravelFragment : Fragment() {
             val text = tabView.findViewById<TextView>(R.id.tab_text)
 
             when (position) {
-                0 -> {
+                1 -> {
                     icon.setImageResource(R.drawable.icon_analisadas)
                     text.text = "Analisadas"
                 }
-                1 -> {
+                0 -> {
                     icon.setImageResource(R.drawable.icon_pendentes)
                     text.text = "Pendentes"
                 }
