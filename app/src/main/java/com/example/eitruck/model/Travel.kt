@@ -1,17 +1,12 @@
 package com.example.eitruck.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.Date
 
 class Travel (
-    val id: Int,
-    val caminhao: Truck,
-    val dtHrInicio: String,
-    val pontuacao: Int =600,
+    val id_viagem: Int,
+    val placa_caminhao: String,
+    val data_inicio_viagem: String,
+    val pontuacao_total: Int,
     @SerializedName("wasAnalyzed")
-    val tratada: Boolean
-)
-
-data class Truck(
-    val placa: String
+    val tratada: Boolean = true
 )
