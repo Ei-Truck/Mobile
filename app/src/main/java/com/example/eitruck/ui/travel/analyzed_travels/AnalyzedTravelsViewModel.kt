@@ -28,7 +28,9 @@ class AnalyzedTravelsViewModel : ViewModel() {
             try {
                 repository?.let {
                     val response = it.getTravels()
-                    _travels.value = response
+                    _travels.value = response.filter { travel ->
+                        travel.tratada
+                    }
                 } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception) {
                 e.printStackTrace()
