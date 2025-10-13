@@ -1,41 +1,43 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.EiTruck" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Tema base do app -->
+    <style name="Theme.EiTruck" parent="Theme.Material3.DayNight.NoActionBar">
 
+        <!-- Paleta de cores -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSecondaryVariant">@color/colorTertiary</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-
         <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorSurface">@color/colorBackground</item>
+        <item name="colorOnSurface">@color/textColorPrimary</item>
 
+        <!-- Status e nav bar -->
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="android:windowLightStatusBar">true</item>
-
         <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
 
-
+        <!-- Tipografia -->
         <item name="android:fontFamily">@font/texto_inter_regular</item>
         <item name="fontFamily">@font/texto_inter_regular</item>
 
+        <item name="materialCardViewStyle">@style/CustomCardStyle</item>
+
+        <style name="CustomCardStyle" parent="@style/Widget.Material3.CardView.Elevated">
+            <item name="strokeColor">@android:color/transparent</item>
+            <item name="strokeWidth">0dp</item>
+        </style>
+
+
     </style>
 
+    <!-- Exemplo de forma circular -->
     <style name="CircularShape">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-    <!-- Base application theme. -->
-    <style name="Base.Theme.EiTruck" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
-
 
 </resources>
