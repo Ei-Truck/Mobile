@@ -1,12 +1,15 @@
 package com.example.eitruck.ui.travel.pending_travels
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.model.Travel
 import com.example.eitruck.ui.travel.TravelsViewHolder
+import com.example.eitruck.ui.travel_info.TravelInfoFragment
 import java.util.Date
 
 class PendingTravelsAdapter(
@@ -38,6 +41,20 @@ class PendingTravelsAdapter(
             holder.alerta.visibility = View.GONE
         } else {
             holder.alerta.visibility = View.VISIBLE
+        }
+
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("id", travel.id_viagem)
+            val fragment = TravelInfoFragment()
+            fragment.arguments = bundle
+
+            val activity = it.context as AppCompatActivity
+            activity.supportFragmentManager.beginTransaction()
+                .replace(R.id.frame, fragment)
+                .addToBackStack(null)
+                .commit()
+
         }
     }
 
