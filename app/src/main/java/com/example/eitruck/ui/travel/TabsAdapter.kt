@@ -9,8 +9,8 @@ class TabsAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> AnalyzedTravels()
-            1 -> PendingTravels()
+            1 -> AnalyzedTravels()
+            0 -> PendingTravels()
             else -> AnalyzedTravels()
         }
     }

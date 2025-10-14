@@ -29,7 +29,10 @@ class PendingTravels : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         val token = LoginSave(requireContext(), null).getToken()
+        viewModel.userId = LoginSave(requireContext(), null).getPrefes().getInt("user_id", -1)
         if (!token.isNullOrEmpty()) {
             viewModel.setToken(token)
         } else {
@@ -53,9 +56,22 @@ class PendingTravels : Fragment() {
         }
 
         if (viewModel.travelsLiveData.value.isNullOrEmpty()) {
-            viewModel.getTravels()
+            if (viewModel.travelsLiveData.value.isNullOrEmpty()) {
+                viewModel.getTravels(requireContext())
+            }
         }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        val token = LoginSave(requireContext(), null).getToken()
+        if (!token.isNullOrEmpty()) {
+            viewModel.setToken(token)
+            viewModel.getTravels(requireContext())
+        }
+    }
+
 
 }

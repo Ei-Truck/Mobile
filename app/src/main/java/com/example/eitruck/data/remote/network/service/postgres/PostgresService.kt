@@ -29,7 +29,7 @@ interface UserService {
 }
 
 interface TravelService {
-    @GET("/viagens")
+    @GET("/viagens/relatorio-simples")
     suspend fun getTravels(): List<Travel>
 }
 

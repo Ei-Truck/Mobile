@@ -12,6 +12,7 @@ import com.example.eitruck.data.remote.repository.redis.NotificationsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.sql.Time
 
 class   NotificationManager(private val context: Context) {
 
@@ -41,12 +42,11 @@ class   NotificationManager(private val context: Context) {
             .setSmallIcon(R.drawable.notification_icon)
             .build()
 
-        notificationManager.notify(1, notification)
+        val notificationId = notificationResponse.id.hashCode()
+        notificationManager.notify(notificationId, notification)
     }
 
     fun sendNotification(id: String, notificationResponse: NotificationResponse) {
-        showNotification(notificationResponse)
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val request = NotificationRequest(
@@ -54,12 +54,13 @@ class   NotificationManager(private val context: Context) {
                     message = notificationResponse.message
                 )
                 val response = notificationsRepository.createNotification(id, request)
-
                 showNotification(response)
             } catch (e: Exception) {
                 e.printStackTrace()
+                showNotification(notificationResponse)
             }
         }
     }
+
 
 }
