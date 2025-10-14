@@ -1,0 +1,13 @@
+package com.example.eitruck.data.remote.repository.postgres
+
+import com.example.eitruck.data.remote.network.client.postgres.PostgresClient
+import com.example.eitruck.model.WeeklyReport
+
+class InfractionsRepository(token: String) {
+
+    val api = PostgresClient(token).infractionsService
+
+    suspend fun getWeeklyReport(): List<WeeklyReport> {
+        return api.getInfractions()
+    }
+}

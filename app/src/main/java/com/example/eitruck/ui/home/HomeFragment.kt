@@ -2,8 +2,10 @@ package com.example.eitruck.ui.home
 
 import MotoristaRanking
 import android.app.Dialog
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,15 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
+import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.FragmentHomeBinding
 import com.example.eitruck.ui.filter.FilterHomeDialog
 import com.example.eitruck.ui.filter.FiltrosDisponiveis
+import com.example.eitruck.ui.login.Login
 import com.github.mikephil.charting.charts.CombinedChart
 
 
@@ -26,6 +31,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
+
+    private val viewModel: HomeViewModel by activityViewModels()
 
     private var regiao = ""
     private var segmento = ""
@@ -62,10 +69,21 @@ class HomeFragment : Fragment() {
 
         val combinedChart = view.findViewById<CombinedChart>(R.id.graficoSemanal)
 
-        val valores = arrayOf(7f, 15f, 12f, 11f, 20f)
-        val labels = arrayOf("Segunda", "Terça", "Quarta", "Quinta", "Sexta")
+        val token = LoginSave(requireContext(), null).getToken()
+        if (!token.isNullOrEmpty()) {
+            viewModel.setToken(token)
+        } else {
+            val intent = Intent(requireContext(), Login::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
 
-        HomeGraph(combinedChart, valores, labels, requireContext())
+
+        viewModel.getWeeklyReport()
+        viewModel.infractions.observe(viewLifecycleOwner){ infraction ->
+            HomeGraph(combinedChart, infraction, requireContext())
+
+        }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.ranking)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
