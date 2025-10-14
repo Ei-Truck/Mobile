@@ -57,4 +57,8 @@ class AnalyzedTravels : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getTravels()
+    }
 }
