@@ -6,6 +6,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +23,7 @@ import com.example.eitruck.R
 import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.data.remote.repository.postgres.UserRepository
 import com.example.eitruck.databinding.ActivityProfileBinding
-import com.example.eitruck.ui.main.Main
+import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.settings.Settings
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
@@ -105,6 +108,35 @@ class Profile : AppCompatActivity() {
             dialog.setCanceledOnTouchOutside(true)
 
             dialog.show()
+        }
+
+        binding.btnLogout.setOnClickListener {
+            val dialog: Dialog = Dialog(this)
+            dialog.setContentView(R.layout.modal_logout)
+
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.window?.setGravity(Gravity.CENTER)
+            dialog.setCancelable(true)
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.show()
+
+            dialog.findViewById<Button>(R.id.btn_exit).setOnClickListener {
+                LoginSave(this).clearToken()
+                val intent = Intent(this, Login::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
+
+            dialog.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+
+
         }
     }
 
