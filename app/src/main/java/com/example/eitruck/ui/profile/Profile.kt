@@ -1,0 +1,194 @@
+package com.example.eitruck.ui.profile
+
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Bundle
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.eitruck.R
+import com.example.eitruck.data.local.LoginSave
+import com.example.eitruck.data.remote.repository.postgres.UserRepository
+import com.example.eitruck.databinding.ActivityProfileBinding
+import com.example.eitruck.ui.main.Main
+import com.example.eitruck.ui.settings.Settings
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+import java.io.IOException
+
+class Profile : AppCompatActivity() {
+
+    private lateinit var binding: ActivityProfileBinding
+    private var photoUri: Uri? = null
+
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+
+            enviarFotoParaApi(it)
+        }
+    }
+
+    private val takePhotoLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success: Boolean ->
+        if (success && photoUri != null) {
+            enviarFotoParaApi(photoUri!!)
+        }
+    }
+
+    private val requestCameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            openCameraInternal()
+        } else {
+            Toast.makeText(this, "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, sysBars.bottom)
+            insets
+        }
+
+        val login = LoginSave(this)
+        val savedUrl = login.getPrefes().getString("url_photo", null)
+        savedUrl?.let {
+            Glide.with(this)
+                .load(it)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(binding.imgProfile)
+        }
+
+        binding.backProfileToMain.setOnClickListener {
+            val intent = Intent(this, Main::class.java)
+            startActivity(intent)
+        }
+
+        binding.buttonSettings.setOnClickListener {
+            val intent = Intent(this, Settings::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnChangePhoto.setOnClickListener {
+            showImageOptions()
+        }
+
+        binding.buttonPoliticaPrivacidade.setOnClickListener {
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.modal_politica_privacidade)
+
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setCancelable(true)
+            dialog.setCanceledOnTouchOutside(true)
+
+            dialog.show()
+        }
+    }
+
+    private fun showImageOptions() {
+        val bottomSheet = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_image_options, null)
+        bottomSheet.setContentView(view)
+
+        view.findViewById<LinearLayout>(R.id.optionGallery).setOnClickListener {
+            pickImageLauncher.launch("image/*")
+            bottomSheet.dismiss()
+        }
+
+        view.findViewById<LinearLayout>(R.id.optionCamera).setOnClickListener {
+            openCamera()
+            bottomSheet.dismiss()
+        }
+
+        bottomSheet.show()
+    }
+
+    private fun openCamera() {
+        requestCameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+    }
+
+    private fun openCameraInternal() {
+        val photoFile = File.createTempFile("profile_", ".jpg", cacheDir)
+        photoUri = FileProvider.getUriForFile(
+            this,
+            "${packageName}.provider",
+            photoFile
+        )
+        takePhotoLauncher.launch(photoUri)
+    }
+
+    private fun enviarFotoParaApi(uri: Uri) {
+        val login = LoginSave(this)
+        val userRepo = UserRepository(login.getToken().toString())
+        val userId = login.getPrefes().getInt("user_id", -1)
+
+        lifecycleScope.launch {
+            try {
+                val tempFile = createTempFileFromUri(uri)
+
+                val requestBody = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+                val multipart = MultipartBody.Part.createFormData("file", "profile_$userId.jpg", requestBody)
+
+                val response = userRepo.uploadPhoto(userId, multipart)
+
+                response.urlFoto?.let { url ->
+                    Glide.with(this@Profile)
+                        .load(url)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(binding.imgProfile)
+
+                    val prefsEditor = login.getPrefes().edit()
+                    prefsEditor.putString("url_photo", url)
+                    prefsEditor.apply()
+                }
+
+                Toast.makeText(this@Profile, "Foto atualizada com sucesso!", Toast.LENGTH_SHORT).show()
+                tempFile.delete()
+
+            } catch (e: retrofit2.HttpException) {
+                Toast.makeText(this@Profile, "Erro HTTP ao enviar foto: ${e.code()}", Toast.LENGTH_SHORT).show()
+            } catch (e: IOException) {
+                Toast.makeText(this@Profile, "Erro ao processar imagem", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this@Profile, "Erro ao enviar foto: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun createTempFileFromUri(uri: Uri): File {
+        val inputStream = contentResolver.openInputStream(uri)
+            ?: throw IOException("Não foi possível abrir o URI: $uri")
+        val tempFile = File.createTempFile("profile_", ".jpg", cacheDir)
+        inputStream.use { input ->
+            tempFile.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+        return tempFile
+    }
+}

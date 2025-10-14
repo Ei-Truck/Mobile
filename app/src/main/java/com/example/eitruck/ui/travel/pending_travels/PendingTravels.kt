@@ -1,5 +1,6 @@
 package com.example.eitruck.ui.travel.pending_travels
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.eitruck.R
 import com.example.eitruck.databinding.FragmentPendingTravelsBinding
-import com.example.eitruck.model.Travel
-import com.example.eitruck.model.Truck
+import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.travel.analyzed_travels.PendingTravelsViewModel
-import java.sql.Date
+import com.example.eitruck.data.local.LoginSave
 
 class PendingTravels : Fragment() {
 
@@ -30,6 +29,18 @@ class PendingTravels : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        val token = LoginSave(requireContext(), null).getToken()
+        viewModel.userId = LoginSave(requireContext(), null).getPrefes().getInt("user_id", -1)
+        if (!token.isNullOrEmpty()) {
+            viewModel.setToken(token)
+        } else {
+            val intent = Intent(requireContext(), Login::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
         viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
             if (carregando) {
                 binding.progressBar.visibility = View.VISIBLE
@@ -45,9 +56,22 @@ class PendingTravels : Fragment() {
         }
 
         if (viewModel.travelsLiveData.value.isNullOrEmpty()) {
-            viewModel.getTravels()
+            if (viewModel.travelsLiveData.value.isNullOrEmpty()) {
+                viewModel.getTravels(requireContext())
+            }
         }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        val token = LoginSave(requireContext(), null).getToken()
+        if (!token.isNullOrEmpty()) {
+            viewModel.setToken(token)
+            viewModel.getTravels(requireContext())
+        }
+    }
+
 
 }
