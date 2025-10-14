@@ -34,6 +34,5 @@ class PostgresClient(private val token: String?) {
     val authService: AuthService by lazy { retrofit.create(AuthService::class.java) }
     val userService: UserService by lazy { retrofit.create(UserService::class.java) }
     val travelService: TravelService by lazy { retrofit.create(TravelService::class.java) }
-
     val infractionsService: InfractionService by lazy { retrofit.create(InfractionService::class.java) }
 }
