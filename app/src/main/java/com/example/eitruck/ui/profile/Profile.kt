@@ -84,8 +84,7 @@ class Profile : AppCompatActivity() {
         }
 
         binding.backProfileToMain.setOnClickListener {
-            val intent = Intent(this, Main::class.java)
-            startActivity(intent)
+            finish()
         }
 
         binding.buttonSettings.setOnClickListener {
@@ -147,6 +146,8 @@ class Profile : AppCompatActivity() {
         val userId = login.getPrefes().getInt("user_id", -1)
 
         lifecycleScope.launch {
+            binding.loadingView.visibility = android.view.View.VISIBLE
+            binding.progressBar.visibility = android.view.View.VISIBLE
             try {
                 val tempFile = createTempFileFromUri(uri)
 
@@ -176,6 +177,9 @@ class Profile : AppCompatActivity() {
                 Toast.makeText(this@Profile, "Erro ao processar imagem", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Toast.makeText(this@Profile, "Erro ao enviar foto: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                binding.loadingView.visibility = android.view.View.GONE
+                binding.progressBar.visibility = android.view.View.GONE
             }
         }
     }
