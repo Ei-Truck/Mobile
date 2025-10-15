@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
@@ -24,6 +25,7 @@ import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.data.remote.repository.postgres.UserRepository
 import com.example.eitruck.databinding.ActivityProfileBinding
 import com.example.eitruck.ui.login.Login
+import com.example.eitruck.ui.main.ProfileViewModel
 import com.example.eitruck.ui.settings.Settings
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
@@ -37,6 +39,9 @@ class Profile : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
     private var photoUri: Uri? = null
+
+    private val viewModel: ProfileViewModel by viewModels()
+
 
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -85,6 +90,37 @@ class Profile : AppCompatActivity() {
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(binding.imgProfile)
         }
+
+        val name = login.getPrefes().getString("user_name", "")
+        val email = login.getPrefes().getString("user_email", "")
+        val phone = login.getPrefes().getString("user_phone", "")
+
+        binding.userName.text = name
+        binding.userEmail.text = email
+        binding.userPhone.text = phone
+
+        viewModel.setToken(login.getToken().toString())
+        viewModel.getUser(login.getPrefes().getInt("user_id", -1))
+
+        viewModel.user.observe(this) { user ->
+            val prefsEditor = login.getPrefes().edit()
+            if (user != null) {
+                if (user.nomeCompleto != name) {
+                    binding.userName.text = user.nomeCompleto
+                    prefsEditor.putString("user_name", user.nomeCompleto)
+                }
+                if (user.email != email) {
+                    binding.userEmail.text = user.email
+                    prefsEditor.putString("user_email", user.email)
+                }
+                if (user.telefone != phone) {
+                    binding.userPhone.text = user.telefone
+                    prefsEditor.putString("user_phone", user.telefone)
+                }
+                prefsEditor.apply()
+            }
+        }
+
 
         binding.backProfileToMain.setOnClickListener {
             finish()

@@ -37,8 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -110,7 +109,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/foto_perfil"
+                android:src="@drawable/no_profile"
                 app:shapeAppearanceOverlay="@style/CircularShape" />
 
             <!-- Ícone de câmera sobreposto -->
@@ -167,12 +166,11 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/textView29"
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="Marcelo Paschoareli"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -200,12 +198,11 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/textView31"
+                        android:id="@+id/user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="daniel.severo@gmail.com"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -233,12 +230,11 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/textView33"
+                        android:id="@+id/user_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="55 (11) 93775-2605"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>
