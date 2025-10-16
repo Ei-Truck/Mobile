@@ -13,8 +13,12 @@ import com.example.eitruck.R
 class FilterHomeDialog(
     private val context: Context,
     private val filtrosDisponiveis: FiltrosDisponiveis,
+    private val regiaoSelecionada: String? = null,
+    private val segmentoSelecionado: String? = null,
+    private val unidadeSelecionada: String? = null,
     private val onFilterSelected: (regiao: String?, segmento: String?, unidade: String?) -> Unit
-) {
+)
+ {
 
     fun show() {
         val dialog = Dialog(context)
@@ -36,21 +40,21 @@ class FilterHomeDialog(
         val btnFiltrar      = dialog.findViewById<Button>(R.id.filtrarHome)
 
         if (filtrosDisponiveis.regioes.isNotEmpty()) {
-            setupSpinner(spinnerRegiao, filtrosDisponiveis.regioes)
+            setupSpinner(spinnerRegiao, filtrosDisponiveis.regioes, regiaoSelecionada)
             layoutRegiao.visibility = View.VISIBLE
         } else {
             layoutRegiao.visibility = View.GONE
         }
 
         if (filtrosDisponiveis.unidades.isNotEmpty()) {
-            setupSpinner(spinnerUnidade, filtrosDisponiveis.unidades)
+            setupSpinner(spinnerUnidade, filtrosDisponiveis.unidades, unidadeSelecionada)
             layoutUnidade.visibility = View.VISIBLE
         } else {
             layoutUnidade.visibility = View.GONE
         }
 
         if (filtrosDisponiveis.segmentos.isNotEmpty()) {
-            setupSpinner(spinnerSegmento, filtrosDisponiveis.segmentos)
+            setupSpinner(spinnerSegmento, filtrosDisponiveis.segmentos, segmentoSelecionado)
             layoutSegmento.visibility = View.VISIBLE
         } else {
             layoutSegmento.visibility = View.GONE
@@ -62,19 +66,22 @@ class FilterHomeDialog(
             val segmento = if (spinnerSegmento.visibility == View.VISIBLE) spinnerSegmento.selectedItem.toString() else null
 
             onFilterSelected(regiao, segmento, unidade)
+
             dialog.dismiss()
         }
 
         dialog.show()
     }
 
-    private fun setupSpinner(spinner: Spinner, items: List<String>) {
-        val adapter = ArrayAdapter(context, R.layout.spinner_item, items)
-        adapter.setDropDownViewResource(R.layout.spinner_drop_item)
-        spinner.adapter = adapter
-        spinner.setSelection(0) // default
-    }
-}
+     private fun setupSpinner(spinner: Spinner, items: List<String>, selectedItem: String?) {
+         val adapter = ArrayAdapter(context, R.layout.spinner_item, items)
+         adapter.setDropDownViewResource(R.layout.spinner_drop_item)
+         spinner.adapter = adapter
+
+         val index = items.indexOf(selectedItem)
+         spinner.setSelection(if (index != -1) index else 0)
+     }
+ }
 
 // Modelo que representa os filtros disponíveis (vem do back)
 data class FiltrosDisponiveis(
