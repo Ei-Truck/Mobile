@@ -24,7 +24,7 @@ interface UserService {
     suspend fun getUser(@Path("id") id: Int): User
 
     @Multipart
-    @POST("/usuarios/usuarios/{id}/foto")
+    @POST("/usuarios/{id}/foto")
     suspend fun uploadPhoto(@Path("id") id: Int, @Part photo: MultipartBody.Part): User
 }
 
