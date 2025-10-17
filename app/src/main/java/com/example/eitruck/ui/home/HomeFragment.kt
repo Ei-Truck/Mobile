@@ -20,6 +20,7 @@ import com.example.eitruck.databinding.FragmentHomeBinding
 import com.example.eitruck.ui.filter.FilterHomeDialog
 import com.example.eitruck.ui.filter.FiltrosDisponiveis
 import com.example.eitruck.ui.login.Login
+import com.example.eitruck.ui.main.Main
 import com.github.mikephil.charting.charts.CombinedChart
 
 class HomeFragment : Fragment() {
@@ -68,7 +69,6 @@ class HomeFragment : Fragment() {
             requireActivity().finish()
         }
 
-        // ✅ Só carrega se ainda não tiver dados
         if (viewModel.infractions.value.isNullOrEmpty()) {
             viewModel.getWeeklyReport()
         } else {
@@ -79,12 +79,11 @@ class HomeFragment : Fragment() {
             HomeGraph(combinedChart, infraction, requireContext())
         }
 
-        // ✅ Mostra/oculta ProgressBar corretamente
-        viewModel.carregandoLiveData.observe(viewLifecycleOwner) {
-            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
+            (requireActivity() as Main).showLoading(carregando)
         }
 
-        // RecyclerView setup
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.ranking)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = HomeAdapter(emptyList())
@@ -112,6 +111,8 @@ class HomeFragment : Fragment() {
 
         var segmentosDisponiveis: List<String> = listOf("Todos")
         var unidadesDisponiveis: List<String> = listOf("Todos")
+        var regioesDisponiveis: List<String> = listOf("Todos")
+
 
         if (viewModel.segments.value.isNullOrEmpty()) {
             viewModel.getSegments()
@@ -119,6 +120,10 @@ class HomeFragment : Fragment() {
 
         if (viewModel.units.value.isNullOrEmpty()) {
             viewModel.getUnits()
+        }
+
+        if (viewModel.regions.value.isNullOrEmpty()) {
+            viewModel.getRegions()
         }
 
         viewModel.segments.observe(viewLifecycleOwner) { segments ->
@@ -129,10 +134,15 @@ class HomeFragment : Fragment() {
             unidadesDisponiveis = if (units.isEmpty()) listOf("Todos") else listOf("Todos") + units
         }
 
+        viewModel.regions.observe(viewLifecycleOwner) { regions ->
+            regioesDisponiveis = if (regions.isEmpty()) listOf("Todos") else listOf("Todos") + regions
+        }
+
+
         botaoFiltro.setOnClickListener {
             val filtros = FiltrosDisponiveis(
                 segmentos = segmentosDisponiveis,
-                regioes = listOf("Todos", "Região 1", "Região 2"),
+                regioes = regioesDisponiveis,
                 unidades = unidadesDisponiveis
             )
 
@@ -202,11 +212,5 @@ class HomeFragment : Fragment() {
                 ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
             )
         }
-
-        Toast.makeText(
-            requireContext(),
-            "${viewModel.unidade} ${viewModel.segmento} ${viewModel.regiao}",
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }

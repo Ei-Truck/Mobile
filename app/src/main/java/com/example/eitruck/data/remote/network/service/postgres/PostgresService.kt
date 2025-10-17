@@ -2,6 +2,7 @@ package com.example.eitruck.data.remote.network.service.postgres
 
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
+import com.example.eitruck.model.Region
 import com.example.eitruck.model.Segments
 import com.example.eitruck.model.Travel
 import com.example.eitruck.model.Units
@@ -52,4 +53,10 @@ interface UnitsService {
 
     @GET("/unidades")
     suspend fun getUnits(): List<Units>
+}
+
+interface RegionService {
+
+    @GET("/localidades")
+    suspend fun getRegions() : List<Region>
 }

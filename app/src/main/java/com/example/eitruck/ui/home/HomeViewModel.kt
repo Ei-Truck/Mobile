@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eitruck.data.remote.repository.postgres.InfractionsRepository
+import com.example.eitruck.data.remote.repository.postgres.RegionRepository
 import com.example.eitruck.model.WeeklyReport
 import com.example.eitruck.data.remote.repository.postgres.SegmentsRepository
 import com.example.eitruck.data.remote.repository.postgres.UnitRepository
@@ -18,6 +19,8 @@ class HomeViewModel : ViewModel() {
     private var infractionRepository: InfractionsRepository? = null
     private var segmentsRepository: SegmentsRepository? = null
     private var unitRepository: UnitRepository? = null
+    private var regionRepository: RegionRepository? = null
+
 
     private val _infractions = MutableLiveData<List<WeeklyReport>>()
     val infractions: MutableLiveData<List<WeeklyReport>> get() = _infractions
@@ -28,6 +31,10 @@ class HomeViewModel : ViewModel() {
     private val _units = MutableLiveData<List<String>>()
     val units: MutableLiveData<List<String>> get() = _units
 
+    private val _regions = MutableLiveData<List<String>>()
+    val regions: MutableLiveData<List<String>> get() = _regions
+
+
     private val carregando = MutableLiveData<Boolean>()
     val carregandoLiveData: MutableLiveData<Boolean> get() = carregando
 
@@ -35,6 +42,7 @@ class HomeViewModel : ViewModel() {
         infractionRepository = InfractionsRepository(token)
         segmentsRepository = SegmentsRepository(token)
         unitRepository = UnitRepository(token)
+        regionRepository = RegionRepository(token)
     }
 
     fun getWeeklyReport() {
@@ -78,6 +86,23 @@ class HomeViewModel : ViewModel() {
                     val response = it.getUnit()
                     val lista = response.map { it.nome }
                     _units.value = lista
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                carregando.value = false
+            }
+        }
+    }
+
+    fun getRegions() {
+        carregando.value = true
+        viewModelScope.launch {
+            try {
+                regionRepository?.let {
+                    val response = it.getRegions()
+                    val lista = response.map { it.nome }
+                    _regions.value = lista
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
