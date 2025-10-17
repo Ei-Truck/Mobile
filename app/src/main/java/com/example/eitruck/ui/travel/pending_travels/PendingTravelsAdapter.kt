@@ -32,10 +32,10 @@ class PendingTravelsAdapter(
         val travel = travels[position]
         holder.placa.text = travel.placa_caminhao
 
-        val data: Date = formatoEntrada.parse(travel.data_inicio_viagem)
+        val data: Date = formatoEntrada.parse(travel.dataInicioViagem)
         holder.data.text = formatoSaida.format(data)
 
-        holder.pontos.text = travel.pontuacao_total.toString()
+        holder.pontos.text = travel.pontuacaoTotal.toString()
 
         if (travel.analisada){
             holder.alerta.visibility = View.GONE
@@ -45,7 +45,7 @@ class PendingTravelsAdapter(
 
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt("id", travel.id_viagem)
+            bundle.putInt("id", travel.idViagem)
             val fragment = TravelInfoFragment()
             fragment.arguments = bundle
 

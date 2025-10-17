@@ -38,16 +38,16 @@ class PendingTravelsViewModel : ViewModel() {
 
                     val prefs = TravelPreferences(context)
                     val oldIds = prefs.getTravelIds()
-                    val newIds = pendingTravels.map { it.id_viagem.toString() }.toSet()
+                    val newIds = pendingTravels.map { it.idViagem.toString() }.toSet()
                     val newlyAdded = newIds.subtract(oldIds)
 
                     if (newlyAdded.isNotEmpty()) {
                         val notificationManager = NotificationManager(context)
                         newlyAdded.forEach { id ->
-                            val travel = pendingTravels.first { it.id_viagem.toString() == id }
+                            val travel = pendingTravels.first { it.idViagem.toString() == id }
                             notificationManager.sendNotification(userId.toString(),
                                 NotificationResponse(
-                                    id = travel.id_viagem.toString(),
+                                    id = travel.idViagem.toString(),
                                     title = "Nova Viagem",
                                     message = "Viagem de placa ${travel.placa_caminhao} pronta para analise!",
                                     createdAt = ""
