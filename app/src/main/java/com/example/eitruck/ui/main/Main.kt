@@ -2,6 +2,7 @@ package com.example.eitruck.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -177,5 +178,12 @@ class Main : AppCompatActivity() {
         if (userId != -1) {
             viewModel.getUser(userId)
         }
+    }
+
+    fun showLoading(show: Boolean) {
+        val overlay = binding.loadingView
+        val progress = binding.progressBar
+        overlay.visibility = if (show) View.VISIBLE else View.GONE
+        progress.visibility = if (show) View.VISIBLE else View.GONE
     }
 }
