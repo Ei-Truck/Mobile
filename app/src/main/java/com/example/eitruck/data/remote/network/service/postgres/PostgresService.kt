@@ -2,7 +2,10 @@ package com.example.eitruck.data.remote.network.service.postgres
 
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
+import com.example.eitruck.model.Region
+import com.example.eitruck.model.Segments
 import com.example.eitruck.model.Travel
+import com.example.eitruck.model.Units
 import com.example.eitruck.model.User
 import com.example.eitruck.model.WeeklyReport
 import okhttp3.MultipartBody
@@ -38,4 +41,22 @@ interface InfractionService {
     @GET("/infracoes/relatorio")
     suspend fun getInfractions(): List<WeeklyReport>
 
+}
+
+interface SegmentsService {
+
+    @GET("/segmentos")
+    suspend fun getSegments(): List<Segments>
+}
+
+interface UnitsService {
+
+    @GET("/unidades")
+    suspend fun getUnits(): List<Units>
+}
+
+interface RegionService {
+
+    @GET("/localidades")
+    suspend fun getRegions() : List<Region>
 }
