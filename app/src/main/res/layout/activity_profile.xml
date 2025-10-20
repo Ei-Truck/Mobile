@@ -8,7 +8,39 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.Profile">
 
+    <!-- Fundo escuro e bloqueador -->
+    <View
+        android:id="@+id/loadingView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#32000000"
+        android:clickable="true"
+        android:elevation="98dp"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:elevation="99dp"
+        android:foregroundGravity="center"
+        android:indeterminateTint="@color/colorTertiary"
+        android:progressBackgroundTint="@color/colorTertiary"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
@@ -39,8 +71,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
-                app:icon="@drawable/arrow_back"
-                app:iconTint="#000000" />
+                app:icon="@drawable/arrow_back" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -58,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_icon_settings" />
+                android:src="@drawable/ic_icon_setting" />
 
         </LinearLayout>
 
@@ -78,7 +109,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/foto_perfil"
+                android:src="@drawable/no_profile"
                 app:shapeAppearanceOverlay="@style/CircularShape" />
 
             <!-- Ícone de câmera sobreposto -->
@@ -135,12 +166,11 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/textView29"
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="Marcelo Paschoareli"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -168,12 +198,11 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/textView31"
+                        android:id="@+id/user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="daniel.severo@gmail.com"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -201,12 +230,11 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/textView33"
+                        android:id="@+id/user_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="55 (11) 93775-2605"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -289,7 +317,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/bnt_logout"
+                android:id="@+id/btn_logout"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"

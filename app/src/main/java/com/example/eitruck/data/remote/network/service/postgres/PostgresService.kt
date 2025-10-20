@@ -2,10 +2,9 @@ package com.example.eitruck.data.remote.network.service.postgres
 
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
-import com.example.eitruck.model.NotificationRequest
-import com.example.eitruck.model.NotificationResponse
 import com.example.eitruck.model.Travel
 import com.example.eitruck.model.User
+import com.example.eitruck.model.WeeklyReport
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,7 +24,7 @@ interface UserService {
     suspend fun getUser(@Path("id") id: Int): User
 
     @Multipart
-    @POST("/usuarios/usuarios/{id}/foto")
+    @POST("/usuarios/{id}/foto")
     suspend fun uploadPhoto(@Path("id") id: Int, @Part photo: MultipartBody.Part): User
 }
 
@@ -34,7 +33,9 @@ interface TravelService {
     suspend fun getTravels(): List<Travel>
 }
 
-interface NotificationService {
-    @POST("/notificacoes")
-    suspend fun sendNotification(@Body request: NotificationRequest): NotificationResponse
+interface InfractionService {
+
+    @GET("/infracoes/relatorio")
+    suspend fun getInfractions(): List<WeeklyReport>
+
 }
