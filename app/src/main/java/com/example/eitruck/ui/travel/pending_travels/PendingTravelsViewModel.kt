@@ -34,7 +34,7 @@ class PendingTravelsViewModel : ViewModel() {
             try {
                 repository?.let {
                     val response = it.getTravels()
-                    val pendingTravels = response.filter { travel -> !travel.analisada }
+                    val pendingTravels = response.filter { travel -> !travel.wasAnalysed }
 
                     val prefs = TravelPreferences(context)
                     val oldIds = prefs.getTravelIds()
@@ -49,7 +49,7 @@ class PendingTravelsViewModel : ViewModel() {
                                 NotificationResponse(
                                     id = travel.idViagem.toString(),
                                     title = "Nova Viagem",
-                                    message = "Viagem de placa ${travel.placa_caminhao} pronta para analise!",
+                                    message = "Viagem de placa ${travel.placaCaminhao} pronta para analise!",
                                     createdAt = ""
                                 )
                             )
