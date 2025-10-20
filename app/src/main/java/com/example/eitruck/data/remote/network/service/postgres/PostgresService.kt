@@ -1,5 +1,6 @@
 package com.example.eitruck.data.remote.network.service.postgres
 
+import com.example.eitruck.model.DriverMonthlyReport
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
 import com.example.eitruck.model.Travel
@@ -38,4 +39,10 @@ interface InfractionService {
     @GET("/infracoes/relatorio")
     suspend fun getInfractions(): List<WeeklyReport>
 
+}
+
+interface DriverService {
+
+    @GET("/motoristas/pontuacao-mensal")
+    suspend fun getDrivers(): List<DriverMonthlyReport>
 }
