@@ -8,7 +8,7 @@ class DriverRepository(token: String?) {
     val api = PostgresClient(token).driverService
 
     suspend fun getDrivers(): List<DriverMonthlyReport> {
-        return api.getDrivers()
+        return api.getDriverMonthlyReport()
     }
 
 }

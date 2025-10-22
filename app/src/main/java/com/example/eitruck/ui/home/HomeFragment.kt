@@ -1,14 +1,13 @@
 package com.example.eitruck.ui.home
 
-import MotoristaRanking
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.FragmentHomeBinding
+import com.example.eitruck.model.DriverMonthlyReport
 import com.example.eitruck.ui.filter.FilterHomeDialog
 import com.example.eitruck.ui.filter.FiltrosDisponiveis
 import com.example.eitruck.ui.login.Login
@@ -27,25 +27,11 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
-
     private val viewModel: HomeViewModel by activityViewModels()
+    private var motoristas: List<DriverMonthlyReport> = emptyList()
+    private val numPaginas = 5
+    private var pagina = 1
 
-    private val listaCompleta: List<MotoristaRanking> = listOf(
-        MotoristaRanking(1, "Motorista 1", 1000),
-        MotoristaRanking(2, "Motorista 2", 750),
-        MotoristaRanking(3, "Motorista 3", 500),
-        MotoristaRanking(4, "Motorista 4", 250),
-        MotoristaRanking(5, "Motorista 5", 100),
-        MotoristaRanking(6, "Motorista 6", 100),
-        MotoristaRanking(7, "Motorista 7", 100),
-        MotoristaRanking(8, "Motorista 8", 100),
-        MotoristaRanking(9, "Motorista 9", 100),
-        MotoristaRanking(10, "Motorista 10", 100),
-        MotoristaRanking(11, "Motorista 11", 100)
-    )
-
-    private val totalPages = (listaCompleta.size + 5 - 1) / 5
-    private var currentPage = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,16 +50,26 @@ class HomeFragment : Fragment() {
         if (!token.isNullOrEmpty()) {
             viewModel.setToken(token)
         } else {
-            val intent = Intent(requireContext(), Login::class.java)
-            startActivity(intent)
+            startActivity(Intent(requireContext(), Login::class.java))
             requireActivity().finish()
         }
 
-        if (viewModel.infractions.value.isNullOrEmpty()) {
+        if (viewModel.drivers.value.isNullOrEmpty() || viewModel.infractions.value.isNullOrEmpty()) {
+            viewModel.getDriverWeeklyReport()
             viewModel.getWeeklyReport()
-        } else {
-            HomeGraph(combinedChart, viewModel.infractions.value!!, requireContext())
+            viewModel.getSegments()
+            viewModel.getUnits()
+            viewModel.getRegions()
         }
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.ranking)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.drivers.observe(viewLifecycleOwner) {
+            motoristas = it
+            atualizarPagina()
+        }
+
 
         viewModel.infractions.observe(viewLifecycleOwner) { infraction ->
             HomeGraph(combinedChart, infraction, requireContext())
@@ -83,48 +79,10 @@ class HomeFragment : Fragment() {
             (requireActivity() as Main).showLoading(carregando)
         }
 
-
-        val recyclerView = view.findViewById<RecyclerView>(R.id.ranking)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = HomeAdapter(emptyList())
-        recyclerView.adapter = adapter
-        recyclerView.isNestedScrollingEnabled = false
-        recyclerView.post { recyclerView.expand() }
-
-        loadPage(currentPage)
-
-        binding.backButton.setOnClickListener {
-            if (currentPage > 1) {
-                currentPage--
-                loadPage(currentPage)
-            }
-        }
-
-        binding.nextButton.setOnClickListener {
-            if (currentPage < totalPages) {
-                currentPage++
-                loadPage(currentPage)
-            }
-        }
-
         val botaoFiltro = view.findViewById<Button>(R.id.filtro_botao)
-
         var segmentosDisponiveis: List<String> = listOf("Todos")
         var unidadesDisponiveis: List<String> = listOf("Todos")
         var regioesDisponiveis: List<String> = listOf("Todos")
-
-
-        if (viewModel.segments.value.isNullOrEmpty()) {
-            viewModel.getSegments()
-        }
-
-        if (viewModel.units.value.isNullOrEmpty()) {
-            viewModel.getUnits()
-        }
-
-        if (viewModel.regions.value.isNullOrEmpty()) {
-            viewModel.getRegions()
-        }
 
         viewModel.segments.observe(viewLifecycleOwner) { segments ->
             segmentosDisponiveis = if (segments.isEmpty()) listOf("Todos") else listOf("Todos") + segments
@@ -137,7 +95,6 @@ class HomeFragment : Fragment() {
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
             regioesDisponiveis = if (regions.isEmpty()) listOf("Todos") else listOf("Todos") + regions
         }
-
 
         botaoFiltro.setOnClickListener {
             val filtros = FiltrosDisponiveis(
@@ -158,59 +115,67 @@ class HomeFragment : Fragment() {
                 viewModel.unidade = unidade ?: "Todos"
             }.show()
         }
-    }
 
-    fun RecyclerView.expand() {
-        val adapter = adapter ?: return
-        var totalHeight = 0
-        for (i in 0 until adapter.itemCount) {
-            val holder = adapter.createViewHolder(this, adapter.getItemViewType(i))
-            adapter.onBindViewHolder(holder, i)
-            holder.itemView.measure(
-                View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.UNSPECIFIED
-            )
-            totalHeight += holder.itemView.measuredHeight
+        binding.backButton.setOnClickListener {
+            if (pagina > 1) {
+                pagina--
+                atualizarPagina()
+            }
         }
-        layoutParams.height = totalHeight
-        requestLayout()
+
+        binding.nextButton.setOnClickListener {
+            val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
+            if (pagina < totalPaginas) {
+                pagina++
+                atualizarPagina()
+            }
+        }
+
     }
 
-    fun loadPage(page: Int) {
-        val pageSize = 5
-        val startIndex = (page - 1) * pageSize
-        val endIndex = minOf(startIndex + pageSize, listaCompleta.size)
+    private fun atualizarPagina() {
+        if (motoristas.isEmpty()) return
 
-        if (startIndex >= listaCompleta.size) return
+        val recyclerView = binding.ranking
+        val inicio = (pagina - 1) * numPaginas
+        val fim = minOf(inicio + numPaginas, motoristas.size)
+        val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
 
-        val subList = listaCompleta.subList(startIndex, endIndex)
+        val motoristasPagina = motoristas.subList(inicio, fim)
 
-        adapter.updateData(subList)
-        binding.pagesNumber.text =
-            "$page/${(listaCompleta.size + pageSize - 1) / pageSize}"
-
-        mudarBotao(page)
-    }
-
-    fun mudarBotao(page: Int) {
-        if (currentPage == totalPages) {
-            binding.nextButton.iconTint = ColorStateList.valueOf(
-                ContextCompat.getColor(requireContext(), R.color.textColorSecondary)
-            )
+        if (!::adapter.isInitialized) {
+            adapter = HomeAdapter(motoristasPagina)
+            recyclerView.adapter = adapter
         } else {
-            binding.nextButton.iconTint = ColorStateList.valueOf(
-                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-            )
+            adapter.updateData(motoristasPagina)
         }
 
-        if (currentPage == 1) {
-            binding.backButton.iconTint = ColorStateList.valueOf(
-                ContextCompat.getColor(requireContext(), R.color.textColorSecondary)
-            )
-        } else {
-            binding.backButton.iconTint = ColorStateList.valueOf(
-                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-            )
+        binding.pagesNumber.text = "$pagina/$totalPaginas"
+
+        expandirRecycler(recyclerView)
+    }
+
+
+    private fun expandirRecycler(recyclerView: RecyclerView) {
+        recyclerView.post {
+            val adapter = recyclerView.adapter ?: return@post
+            var totalHeight = 0
+            val widthSpec = View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY)
+            val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+
+            for (i in 0 until adapter.itemCount) {
+                val holder = adapter.createViewHolder(recyclerView, adapter.getItemViewType(i))
+                adapter.bindViewHolder(holder, i)
+                holder.itemView.measure(widthSpec, heightSpec)
+                totalHeight += holder.itemView.measuredHeight
+            }
+
+            val params = recyclerView.layoutParams
+            params.height = totalHeight
+            recyclerView.layoutParams = params
+            recyclerView.requestLayout()
         }
     }
+
+
 }

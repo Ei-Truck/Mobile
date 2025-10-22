@@ -1,13 +1,16 @@
 package com.example.eitruck.ui.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.eitruck.data.remote.repository.postgres.DriverRepository
 import com.example.eitruck.data.remote.repository.postgres.InfractionsRepository
 import com.example.eitruck.data.remote.repository.postgres.RegionRepository
 import com.example.eitruck.model.WeeklyReport
 import com.example.eitruck.data.remote.repository.postgres.SegmentsRepository
 import com.example.eitruck.data.remote.repository.postgres.UnitRepository
+import com.example.eitruck.model.DriverMonthlyReport
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
@@ -20,29 +23,35 @@ class HomeViewModel : ViewModel() {
     private var segmentsRepository: SegmentsRepository? = null
     private var unitRepository: UnitRepository? = null
     private var regionRepository: RegionRepository? = null
+    private var driverRepository: DriverRepository? = null
+
 
 
     private val _infractions = MutableLiveData<List<WeeklyReport>>()
-    val infractions: MutableLiveData<List<WeeklyReport>> get() = _infractions
+    val infractions: LiveData<List<WeeklyReport>> get() = _infractions
 
     private val _segments = MutableLiveData<List<String>>()
-    val segments: MutableLiveData<List<String>> get() = _segments
+    val segments: LiveData<List<String>> get() = _segments
 
     private val _units = MutableLiveData<List<String>>()
-    val units: MutableLiveData<List<String>> get() = _units
+    val units: LiveData<List<String>> get() = _units
 
     private val _regions = MutableLiveData<List<String>>()
-    val regions: MutableLiveData<List<String>> get() = _regions
+    val regions: LiveData<List<String>> get() = _regions
+
+    private val _drivers = MutableLiveData<List<DriverMonthlyReport>>()
+    val drivers: LiveData<List<DriverMonthlyReport>> get() = _drivers
 
 
     private val carregando = MutableLiveData<Boolean>()
-    val carregandoLiveData: MutableLiveData<Boolean> get() = carregando
+    val carregandoLiveData: LiveData<Boolean> get() = carregando
 
     fun setToken(token: String) {
         infractionRepository = InfractionsRepository(token)
         segmentsRepository = SegmentsRepository(token)
         unitRepository = UnitRepository(token)
         regionRepository = RegionRepository(token)
+        driverRepository = DriverRepository(token)
     }
 
     fun getWeeklyReport() {
@@ -104,6 +113,22 @@ class HomeViewModel : ViewModel() {
                     val lista = response.map { it.nome }
                     _regions.value = lista
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                carregando.value = false
+            }
+        }
+    }
+
+    fun getDriverWeeklyReport() {
+        carregando.value = true
+        viewModelScope.launch {
+            try {
+                driverRepository?.let {
+                    val response = it.getDrivers()
+                    _drivers.value = response
+                    } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
