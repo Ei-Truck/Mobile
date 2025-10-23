@@ -83,7 +83,6 @@ class FilterHomeDialog(
      }
  }
 
-// Modelo que representa os filtros disponíveis (vem do back)
 data class FiltrosDisponiveis(
     val regioes: List<String> = emptyList(),
     val segmentos: List<String> = emptyList(),

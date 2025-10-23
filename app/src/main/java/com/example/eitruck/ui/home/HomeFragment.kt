@@ -1,14 +1,12 @@
 package com.example.eitruck.ui.home
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -113,9 +111,12 @@ class HomeFragment : Fragment() {
                 viewModel.regiao = regiao ?: "Todos"
                 viewModel.segmento = segmento ?: "Todos"
                 viewModel.unidade = unidade ?: "Todos"
+
+                pagina = 1
+                viewModel.filtrarDrivers()
+                Toast.makeText(requireContext(), "${viewModel.regiao} ${viewModel.segmento} ${viewModel.unidade}", Toast.LENGTH_SHORT).show()
             }.show()
         }
-
         binding.backButton.setOnClickListener {
             if (pagina > 1) {
                 pagina--
@@ -134,13 +135,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun atualizarPagina() {
-        if (motoristas.isEmpty()) return
-
         val recyclerView = binding.ranking
+        if (motoristas.isEmpty()) {
+            if (!::adapter.isInitialized) {
+                adapter = HomeAdapter(emptyList())
+                recyclerView.adapter = adapter
+            } else {
+                adapter.updateData(emptyList())
+            }
+
+            binding.pagesNumber.text = "0/0"
+
+            val params = recyclerView.layoutParams
+            params.height = 0
+            recyclerView.layoutParams = params
+            recyclerView.requestLayout()
+            return
+        }
+
+        val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
+        if (pagina > totalPaginas) pagina = totalPaginas
+        if (pagina < 1) pagina = 1
+
         val inicio = (pagina - 1) * numPaginas
         val fim = minOf(inicio + numPaginas, motoristas.size)
-        val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
-
         val motoristasPagina = motoristas.subList(inicio, fim)
 
         if (!::adapter.isInitialized) {
@@ -151,9 +169,9 @@ class HomeFragment : Fragment() {
         }
 
         binding.pagesNumber.text = "$pagina/$totalPaginas"
-
         expandirRecycler(recyclerView)
     }
+
 
 
     private fun expandirRecycler(recyclerView: RecyclerView) {

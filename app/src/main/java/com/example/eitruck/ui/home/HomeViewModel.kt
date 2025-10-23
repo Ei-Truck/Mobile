@@ -42,6 +42,7 @@ class HomeViewModel : ViewModel() {
     private val _drivers = MutableLiveData<List<DriverMonthlyReport>>()
     val drivers: LiveData<List<DriverMonthlyReport>> get() = _drivers
 
+    private var allDrivers: List<DriverMonthlyReport> = emptyList()
 
     private val carregando = MutableLiveData<Boolean>()
     val carregandoLiveData: LiveData<Boolean> get() = carregando
@@ -125,15 +126,34 @@ class HomeViewModel : ViewModel() {
         carregando.value = true
         viewModelScope.launch {
             try {
-                driverRepository?.let {
-                    val response = it.getDrivers()
-                    _drivers.value = response
-                    } ?: throw IllegalStateException("Token não definido!")
+                driverRepository?.let { repo ->
+                    val response = repo.getDrivers()
+                    allDrivers = response
+                    filtrarDrivers()
+                } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception) {
                 e.printStackTrace()
+                _drivers.value = emptyList()
             } finally {
                 carregando.value = false
             }
         }
     }
+
+    fun filtrarDrivers() {
+        val reg = if (regiao == "Todos" || regiao.isBlank()) "" else regiao
+        val seg = if (segmento == "Todos" || segmento.isBlank()) "" else segmento
+        val uni = if (unidade == "Todos" || unidade.isBlank()) "" else unidade
+
+        val filtrados = allDrivers.filter { motorista ->
+            (reg.isEmpty() || motorista.localidade.contains(reg, ignoreCase = true)) &&
+                    (seg.isEmpty() || motorista.segmento.contains(seg, ignoreCase = true)) &&
+                    (uni.isEmpty() || motorista.unidade.contains(uni, ignoreCase = true))
+        }
+
+        _drivers.postValue(filtrados)
+    }
+
+
+
 }
