@@ -41,8 +41,7 @@ class Settings : AppCompatActivity() {
         }
 
         binding.backSettingsToProfile.setOnClickListener {
-            val intent = Intent(this, Profile::class.java)
-            startActivity(intent)
+            finish()
         }
 
         setupSwitchListeners()

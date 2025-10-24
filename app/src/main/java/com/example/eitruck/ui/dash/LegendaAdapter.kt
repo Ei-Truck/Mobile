@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.model.LegendaItem
 
-class LegendaAdapter(private val lista: List<LegendaItem>) :
+class LegendaAdapter(private var lista: List<LegendaItem>) :
     RecyclerView.Adapter<LegendaAdapter.LegendaViewHolder>() {
 
     class LegendaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -27,10 +27,15 @@ class LegendaAdapter(private val lista: List<LegendaItem>) :
     override fun onBindViewHolder(holder: LegendaViewHolder, position: Int) {
         val item = lista[position]
         holder.corView.setBackgroundColor(item.cor)
-        holder.txtNome.text = item.nome
-        holder.txtQtd.text = item.quantidade.toString()
-        holder.txtPerc.text = item.percentual
+        holder.txtNome.text = item.tipo_infracao
+        holder.txtQtd.text = item.total_ocorrencias.toString()
+        holder.txtPerc.text = item.porcentagem_do_total
     }
 
     override fun getItemCount() = lista.size
+
+    fun updateData(novaLista: List<LegendaItem>) {
+        lista = novaLista
+        notifyDataSetChanged()
+    }
 }

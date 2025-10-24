@@ -1,24 +1,28 @@
 package com.example.eitruck.model
 
-class TravelInfo (
-    val id: Int,
-    val placa: String,
-    val starDate: String,
-    val endDate: String,
-    val km: Int,
-    val segment: String,
-    val motorista: List<Driver>,
-    val infracoes: List<Infractions>,
-    val midia: List<Midia>
+data class TravelInfo (
+    val idViagem: Int,
+    val placaCaminhao: String,
+    val dataInicioViagem: String,
+    val dataFimViagem: String,
+    val kmViagem: Int,
+    val segmento: String,
+    val unidade: String,
+    val nomeMotorista: List<DriverTravelInfo>,
+    val riscoMotorista: String,
+    val urlMidiaConcatenada: String,
+    val tipoGravidade: String,
+    val tipoInfracao: String,
+    val infracoes: List<InfractionsTravelInfo>
 )
 
-data class Infractions(
+data class InfractionsTravelInfo(
     val id: Int,
     val quantidade: Int,
     val tipoInfracao: String
 )
 
-data class Driver(
+data class DriverTravelInfo(
     val id: Int,
     val nome: String,
     val risco: String,

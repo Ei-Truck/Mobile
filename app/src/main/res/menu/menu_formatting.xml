@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_bold"
+        android:title="Negrito"
+        android:icon="@drawable/caminhao_logo"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_italic"
+        android:title="Itálico"
+        android:icon="@drawable/ic_icon_dash"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_list"
+        android:title="Lista"
+        android:icon="@drawable/ic_icon_home"
+        app:showAsAction="always" />
+</menu>

@@ -32,11 +32,18 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="24sp" />
 
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Concluir Análise" />
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
@@ -62,7 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Informações Viagem"
+                            android:text="Informações da Viagem"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="24sp" />
 
@@ -111,6 +118,7 @@
                                 android:id="@+id/imageView8"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="52sp"
                                 android:src="@drawable/ic_date" />
 
                             <TextView
@@ -149,6 +157,7 @@
                                 android:id="@+id/imageView9"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="52sp"
                                 android:src="@drawable/ic_location" />
 
                             <TextView
@@ -170,6 +179,7 @@
                                 android:id="@+id/imageView10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="52sp"
                                 android:src="@drawable/ic_segment" />
 
                             <TextView
@@ -380,6 +390,25 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="Escrever Tratativa"
+                app:icon="@drawable/ic_icon_tratativa" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/colorTertiary"
+                android:text="Gerar Relatório"
+                app:icon="@drawable/ic_icon_relatorio" />
 
         </LinearLayout>
     </ScrollView>
