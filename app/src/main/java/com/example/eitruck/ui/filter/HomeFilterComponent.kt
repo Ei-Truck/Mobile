@@ -16,9 +16,11 @@ class FilterHomeDialog(
     private val regiaoSelecionada: String? = null,
     private val segmentoSelecionado: String? = null,
     private val unidadeSelecionada: String? = null,
+    private val showRegiao: Boolean = true,
+    private val showSegmento: Boolean = true,
+    private val showUnidade: Boolean = true,
     private val onFilterSelected: (regiao: String?, segmento: String?, unidade: String?) -> Unit
-)
- {
+) {
 
     fun show() {
         val dialog = Dialog(context)
@@ -39,51 +41,42 @@ class FilterHomeDialog(
         val spinnerSegmento = dialog.findViewById<Spinner>(R.id.segmento_drop)
         val btnFiltrar      = dialog.findViewById<Button>(R.id.filtrarHome)
 
-        if (filtrosDisponiveis.regioes.isNotEmpty()) {
+        layoutRegiao.visibility = if (showRegiao && filtrosDisponiveis.regioes.isNotEmpty()) View.VISIBLE else View.GONE
+        layoutSegmento.visibility = if (showSegmento && filtrosDisponiveis.segmentos.isNotEmpty()) View.VISIBLE else View.GONE
+        layoutUnidade.visibility = if (showUnidade && filtrosDisponiveis.unidades.isNotEmpty()) View.VISIBLE else View.GONE
+
+        if (layoutRegiao.visibility == View.VISIBLE) {
             setupSpinner(spinnerRegiao, filtrosDisponiveis.regioes, regiaoSelecionada)
-            layoutRegiao.visibility = View.VISIBLE
-        } else {
-            layoutRegiao.visibility = View.GONE
         }
-
-        if (filtrosDisponiveis.unidades.isNotEmpty()) {
-            setupSpinner(spinnerUnidade, filtrosDisponiveis.unidades, unidadeSelecionada)
-            layoutUnidade.visibility = View.VISIBLE
-        } else {
-            layoutUnidade.visibility = View.GONE
-        }
-
-        if (filtrosDisponiveis.segmentos.isNotEmpty()) {
+        if (layoutSegmento.visibility == View.VISIBLE) {
             setupSpinner(spinnerSegmento, filtrosDisponiveis.segmentos, segmentoSelecionado)
-            layoutSegmento.visibility = View.VISIBLE
-        } else {
-            layoutSegmento.visibility = View.GONE
+        }
+        if (layoutUnidade.visibility == View.VISIBLE) {
+            setupSpinner(spinnerUnidade, filtrosDisponiveis.unidades, unidadeSelecionada)
         }
 
         btnFiltrar.setOnClickListener {
-            val regiao   = if (spinnerRegiao.visibility == View.VISIBLE) spinnerRegiao.selectedItem.toString() else null
-            val unidade  = if (spinnerUnidade.visibility == View.VISIBLE) spinnerUnidade.selectedItem.toString() else null
-            val segmento = if (spinnerSegmento.visibility == View.VISIBLE) spinnerSegmento.selectedItem.toString() else null
+            val regiao   = if (spinnerRegiao.visibility == View.VISIBLE) spinnerRegiao.selectedItem?.toString() else null
+            val unidade  = if (spinnerUnidade.visibility == View.VISIBLE) spinnerUnidade.selectedItem?.toString() else null
+            val segmento = if (spinnerSegmento.visibility == View.VISIBLE) spinnerSegmento.selectedItem?.toString() else null
 
             onFilterSelected(regiao, segmento, unidade)
-
             dialog.dismiss()
         }
 
         dialog.show()
     }
 
-     private fun setupSpinner(spinner: Spinner, items: List<String>, selectedItem: String?) {
-         val adapter = ArrayAdapter(context, R.layout.spinner_item, items)
-         adapter.setDropDownViewResource(R.layout.spinner_drop_item)
-         spinner.adapter = adapter
+    private fun setupSpinner(spinner: Spinner, items: List<String>, selectedItem: String?) {
+        val adapter = ArrayAdapter(context, R.layout.spinner_item, items)
+        adapter.setDropDownViewResource(R.layout.spinner_drop_item)
+        spinner.adapter = adapter
 
-         val index = items.indexOf(selectedItem)
-         spinner.setSelection(if (index != -1) index else 0)
-     }
- }
+        val index = items.indexOf(selectedItem)
+        spinner.setSelection(if (index != -1) index else 0)
+    }
+}
 
-// Modelo que representa os filtros disponíveis (vem do back)
 data class FiltrosDisponiveis(
     val regioes: List<String> = emptyList(),
     val segmentos: List<String> = emptyList(),
