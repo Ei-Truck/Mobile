@@ -47,6 +47,7 @@ class HomeViewModel : ViewModel() {
     private val carregando = MutableLiveData<Boolean>()
     val carregandoLiveData: LiveData<Boolean> get() = carregando
 
+
     fun setToken(token: String) {
         infractionRepository = InfractionsRepository(token)
         segmentsRepository = SegmentsRepository(token)

@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
 import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.FragmentHomeBinding
+import com.example.eitruck.domain.AnalyticsManager
+import com.example.eitruck.domain.FilterStrategy
+import com.example.eitruck.domain.LocalManager
+import com.example.eitruck.domain.RegionsManager
+import com.example.eitruck.domain.SegmentsManager
 import com.example.eitruck.model.DriverMonthlyReport
 import com.example.eitruck.ui.filter.FilterHomeDialog
 import com.example.eitruck.ui.filter.FiltrosDisponiveis
@@ -30,6 +35,10 @@ class HomeFragment : Fragment() {
     private val numPaginas = 5
     private var pagina = 1
 
+    // listas para armazenar filtros carregados
+    private var segmentosDisponiveis: List<String> = emptyList()
+    private var unidadesDisponiveis: List<String> = emptyList()
+    private var regioesDisponiveis: List<String> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,14 +69,13 @@ class HomeFragment : Fragment() {
             viewModel.getRegions()
         }
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.ranking)
+        val recyclerView = binding.ranking
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.drivers.observe(viewLifecycleOwner) {
             motoristas = it
             atualizarPagina()
         }
-
 
         viewModel.infractions.observe(viewLifecycleOwner) { infraction ->
             HomeGraph(combinedChart, infraction, requireContext())
@@ -77,24 +85,34 @@ class HomeFragment : Fragment() {
             (requireActivity() as Main).showLoading(carregando)
         }
 
-        val botaoFiltro = view.findViewById<Button>(R.id.filtro_botao)
-        var segmentosDisponiveis: List<String> = listOf("Todos")
-        var unidadesDisponiveis: List<String> = listOf("Todos")
-        var regioesDisponiveis: List<String> = listOf("Todos")
-
         viewModel.segments.observe(viewLifecycleOwner) { segments ->
-            segmentosDisponiveis = if (segments.isEmpty()) listOf("Todos") else listOf("Todos") + segments
+            segmentosDisponiveis = if (segments.isEmpty()) listOf() else listOf("Todos") + segments
+            atualizarEstadoBotaoFiltro()
         }
 
         viewModel.units.observe(viewLifecycleOwner) { units ->
-            unidadesDisponiveis = if (units.isEmpty()) listOf("Todos") else listOf("Todos") + units
+            unidadesDisponiveis = if (units.isEmpty()) listOf() else listOf("Todos") + units
+            atualizarEstadoBotaoFiltro()
         }
 
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
-            regioesDisponiveis = if (regions.isEmpty()) listOf("Todos") else listOf("Todos") + regions
+            regioesDisponiveis = if (regions.isEmpty()) listOf() else listOf("Todos") + regions
+            atualizarEstadoBotaoFiltro()
         }
 
-        botaoFiltro.setOnClickListener {
+        val cargo = LoginSave(requireContext()).getPrefes().getString("user_cargo", "gerente_local")
+
+        val strategy: FilterStrategy = when (cargo) {
+            "Gerente de Análise" -> AnalyticsManager()
+            "Analista Regional" -> RegionsManager()
+            "Analista Segmento" -> SegmentsManager()
+            "Analista Local" -> LocalManager()
+            else -> LocalManager()
+        }
+
+        binding.filtroBotao.isEnabled = false
+
+        binding.filtroBotao.setOnClickListener {
             val filtros = FiltrosDisponiveis(
                 segmentos = segmentosDisponiveis,
                 regioes = regioesDisponiveis,
@@ -106,7 +124,10 @@ class HomeFragment : Fragment() {
                 filtrosDisponiveis = filtros,
                 regiaoSelecionada = viewModel.regiao.ifEmpty { "Todos" },
                 segmentoSelecionado = viewModel.segmento.ifEmpty { "Todos" },
-                unidadeSelecionada = viewModel.unidade.ifEmpty { "Todos" }
+                unidadeSelecionada = viewModel.unidade.ifEmpty { "Todos" },
+                showRegiao = strategy.showRegiao,
+                showSegmento = strategy.showSegmento,
+                showUnidade = strategy.showUnidade
             ) { regiao, segmento, unidade ->
                 viewModel.regiao = regiao ?: "Todos"
                 viewModel.segmento = segmento ?: "Todos"
@@ -114,9 +135,10 @@ class HomeFragment : Fragment() {
 
                 pagina = 1
                 viewModel.filtrarDrivers()
-                Toast.makeText(requireContext(), "${viewModel.regiao} ${viewModel.segmento} ${viewModel.unidade}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "$regiao $segmento $unidade", Toast.LENGTH_SHORT).show()
             }.show()
         }
+
         binding.backButton.setOnClickListener {
             if (pagina > 1) {
                 pagina--
@@ -131,8 +153,15 @@ class HomeFragment : Fragment() {
                 atualizarPagina()
             }
         }
-
     }
+
+    private fun atualizarEstadoBotaoFiltro() {
+        val pronto = segmentosDisponiveis.isNotEmpty() &&
+                unidadesDisponiveis.isNotEmpty() &&
+                regioesDisponiveis.isNotEmpty()
+        binding.filtroBotao.isEnabled = pronto
+    }
+
 
     private fun atualizarPagina() {
         val recyclerView = binding.ranking
@@ -145,10 +174,7 @@ class HomeFragment : Fragment() {
             }
 
             binding.pagesNumber.text = "0/0"
-
-            val params = recyclerView.layoutParams
-            params.height = 0
-            recyclerView.layoutParams = params
+            recyclerView.layoutParams.height = 0
             recyclerView.requestLayout()
             return
         }
@@ -172,8 +198,6 @@ class HomeFragment : Fragment() {
         expandirRecycler(recyclerView)
     }
 
-
-
     private fun expandirRecycler(recyclerView: RecyclerView) {
         recyclerView.post {
             val adapter = recyclerView.adapter ?: return@post
@@ -188,12 +212,8 @@ class HomeFragment : Fragment() {
                 totalHeight += holder.itemView.measuredHeight
             }
 
-            val params = recyclerView.layoutParams
-            params.height = totalHeight
-            recyclerView.layoutParams = params
+            recyclerView.layoutParams.height = totalHeight
             recyclerView.requestLayout()
         }
     }
-
-
 }
