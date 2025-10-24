@@ -135,7 +135,6 @@ class HomeFragment : Fragment() {
 
                 pagina = 1
                 viewModel.filtrarDrivers()
-                Toast.makeText(requireContext(), "$regiao $segmento $unidade", Toast.LENGTH_SHORT).show()
             }.show()
         }
 
