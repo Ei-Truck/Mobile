@@ -114,8 +114,6 @@ class Profile : AppCompatActivity() {
                 prefsEditor.putString("user_phone", it.telefone)
                 prefsEditor.apply()
             }
-
-            Toast.makeText(this, login.getPrefes().getString("user_name", ""), Toast.LENGTH_SHORT).show()
         }
 
 
