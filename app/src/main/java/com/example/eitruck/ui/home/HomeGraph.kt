@@ -19,6 +19,9 @@ class HomeGraph(
     init {
         if (valores.isEmpty()) {
             combinedChart.clear()
+            combinedChart.setNoDataText("Nenhum dado disponível")
+            combinedChart.setNoDataTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
+            combinedChart.setNoDataTextTypeface(context.resources.getFont(R.font.texto_inter_regular))
             combinedChart.invalidate()
         } else {
             configurarGrafico()
