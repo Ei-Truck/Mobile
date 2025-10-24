@@ -74,17 +74,19 @@ class Login : AppCompatActivity() {
                 load.visibility = android.view.View.VISIBLE
 
                 val response = loginRepository.login(LoginRequest(email, password))
-                if (response == null){
-                    erroCredential("Endereço de email e/ou senha invalido(s). Tente novamente")
-                } else{
-                    val loginSave = LoginSave(this@Login, response)
-                    loginSave.saveToken()
-                    val intent = Intent(this@Login, Main::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+
+                val loginSave = LoginSave(this@Login, response)
+                loginSave.saveToken()
+                val intent = Intent(this@Login, Main::class.java)
+                startActivity(intent)
+                finish()
+
             } catch (e: HttpException) {
-                Toast.makeText(this@Login, "Erro de rede (${e.code()})", Toast.LENGTH_SHORT).show()
+                if (e.code() == 404) {
+                    erroCredential("Endereço de email e/ou senha invalido(s). Tente novamente")
+                } else {
+                    Toast.makeText(this@Login, "Erro de rede (${e.code()})", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
                 Toast.makeText(this@Login, "Erro inesperado: ${e.message}", Toast.LENGTH_SHORT).show()
             } finally {
