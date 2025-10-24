@@ -33,6 +33,14 @@ class Main : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupInsets()
+        loadUserData()
+        setupBottomNavigation()
+        setupClickListeners()
+        loadFragment(HomeFragment())
+    }
+
+    private fun setupInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
             val sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, sysBars.bottom)
@@ -48,48 +56,58 @@ class Main : AppCompatActivity() {
             v.setPadding(sysBars.left, sysBars.top, sysBars.right, 0)
             insets
         }
+    }
 
+    private fun loadUserData() {
         val loginSave = LoginSave(this)
         val prefes = loginSave.getPrefes()
 
         viewModel.setToken(loginSave.getToken().toString())
 
-        binding.userName.text = prefes.getString("user_name", "")
-
-        Glide.with(this)
-            .load(prefes.getString("url_photo", ""))
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .into(binding.profileImage)
-
-        viewModel.getUser(prefes.getInt("user_id", -1))
-
-        viewModel.user.observe(this) { user ->
-            val nameParts = user.nomeCompleto.split(" ")
-            val displayName = if (nameParts.size > 1) {
-                "${nameParts.first()} ${nameParts.last()}"
-            } else {
-                nameParts[0]
-            }
-
-            binding.userName.text = displayName
-
+        val urlFoto = prefes.getString("url_photo", null)
+        urlFoto?.let {
             Glide.with(this)
-                .load(user.urlFoto)
+                .load(it)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(binding.profileImage)
-
-            prefes.edit().apply {
-                putString("url_photo", user.urlFoto)
-                putString("user_name", displayName)
-                apply()
-            }
         }
 
-        loadFragment(HomeFragment())
-        binding.bottomNavigation.menu.findItem(R.id.nav_home)
-            .setIcon(R.drawable.ic_icon_home_fill)
+        val fullName = prefes.getString("user_name", "")
+        binding.userName.text = getDisplayName(fullName)
+
+        val userId = prefes.getInt("user_id", -1)
+        if (userId != -1) {
+            viewModel.getUser(userId)
+        }
+
+        viewModel.user.observe(this) { user ->
+            user?.let {
+                prefes.edit().apply {
+                    putString("user_name", it.nomeCompleto)
+                    putString("url_photo", it.urlFoto)
+                    apply()
+                }
+
+                binding.userName.text = getDisplayName(it.nomeCompleto)
+
+                Glide.with(this)
+                    .load(it.urlFoto)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(binding.profileImage)
+            }
+        }
+    }
+
+    private fun getDisplayName(fullName: String?): String {
+        if (fullName.isNullOrBlank()) return ""
+        val parts = fullName.split(" ")
+        return if (parts.size > 1) "${parts.first()} ${parts.last()}" else fullName
+    }
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.menu.findItem(R.id.nav_home).setIcon(R.drawable.ic_icon_home_fill)
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
@@ -108,20 +126,17 @@ class Main : AppCompatActivity() {
             }
             true
         }
+    }
 
+    private fun setupClickListeners() {
         binding.chatBot.setOnClickListener {
-            val intent = Intent(this, SplashAITruck::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SplashAITruck::class.java))
         }
-
         binding.notification.setOnClickListener {
-            val intent = Intent(this, Notifications::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Notifications::class.java))
         }
-
         binding.profileImage.setOnClickListener {
-            val intent = Intent(this, Profile::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Profile::class.java))
         }
     }
 
@@ -132,32 +147,12 @@ class Main : AppCompatActivity() {
     }
 
     private fun tirarFill(int: Int) {
-        when (int) {
-            R.id.nav_home -> {
-                binding.bottomNavigation.menu.findItem(R.id.nav_home)
-                    .setIcon(R.drawable.ic_icon_home_fill)
-                binding.bottomNavigation.menu.findItem(R.id.nav_travel)
-                    .setIcon(R.drawable.ic_icon_travel)
-                binding.bottomNavigation.menu.findItem(R.id.nav_dash)
-                    .setIcon(R.drawable.ic_icon_dash)
-            }
-            R.id.nav_travel -> {
-                binding.bottomNavigation.menu.findItem(R.id.nav_home)
-                    .setIcon(R.drawable.ic_icon_home)
-                binding.bottomNavigation.menu.findItem(R.id.nav_travel)
-                    .setIcon(R.drawable.ic_icon_travel_fill)
-                binding.bottomNavigation.menu.findItem(R.id.nav_dash)
-                    .setIcon(R.drawable.ic_icon_dash)
-            }
-            else -> {
-                binding.bottomNavigation.menu.findItem(R.id.nav_home)
-                    .setIcon(R.drawable.ic_icon_home)
-                binding.bottomNavigation.menu.findItem(R.id.nav_travel)
-                    .setIcon(R.drawable.ic_icon_travel)
-                binding.bottomNavigation.menu.findItem(R.id.nav_dash)
-                    .setIcon(R.drawable.ic_icon_dash_fill)
-            }
-        }
+        binding.bottomNavigation.menu.findItem(R.id.nav_home)
+            .setIcon(if (int == R.id.nav_home) R.drawable.ic_icon_home_fill else R.drawable.ic_icon_home)
+        binding.bottomNavigation.menu.findItem(R.id.nav_travel)
+            .setIcon(if (int == R.id.nav_travel) R.drawable.ic_icon_travel_fill else R.drawable.ic_icon_travel)
+        binding.bottomNavigation.menu.findItem(R.id.nav_dash)
+            .setIcon(if (int == R.id.nav_dash) R.drawable.ic_icon_dash_fill else R.drawable.ic_icon_dash)
     }
 
     override fun onResume() {
@@ -174,10 +169,11 @@ class Main : AppCompatActivity() {
                 .into(binding.profileImage)
         }
 
+        val fullName = prefes.getString("user_name", "")
+        binding.userName.text = getDisplayName(fullName)
+
         val userId = prefes.getInt("user_id", -1)
-        if (userId != -1) {
-            viewModel.getUser(userId)
-        }
+        if (userId != -1) viewModel.getUser(userId)
     }
 
     fun showLoading(show: Boolean) {

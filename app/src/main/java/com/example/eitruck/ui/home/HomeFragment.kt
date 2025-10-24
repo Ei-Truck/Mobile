@@ -214,4 +214,9 @@ class HomeFragment : Fragment() {
             recyclerView.requestLayout()
         }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//    }
+
 }

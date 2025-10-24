@@ -103,23 +103,21 @@ class Profile : AppCompatActivity() {
         viewModel.getUser(login.getPrefes().getInt("user_id", -1))
 
         viewModel.user.observe(this) { user ->
-            val prefsEditor = login.getPrefes().edit()
-            if (user != null) {
-                if (user.nomeCompleto != name) {
-                    binding.userName.text = user.nomeCompleto
-                    prefsEditor.putString("user_name", user.nomeCompleto)
-                }
-                if (user.email != email) {
-                    binding.userEmail.text = user.email
-                    prefsEditor.putString("user_email", user.email)
-                }
-                if (user.telefone != phone) {
-                    binding.userPhone.text = user.telefone
-                    prefsEditor.putString("user_phone", user.telefone)
-                }
+            user?.let {
+                binding.userName.text = it.nomeCompleto
+                binding.userEmail.text = it.email
+                binding.userPhone.text = it.telefone
+
+                val prefsEditor = login.getPrefes().edit()
+                prefsEditor.putString("user_name", it.nomeCompleto)
+                prefsEditor.putString("user_email", it.email)
+                prefsEditor.putString("user_phone", it.telefone)
                 prefsEditor.apply()
             }
+
+            Toast.makeText(this, login.getPrefes().getString("user_name", ""), Toast.LENGTH_SHORT).show()
         }
+
 
 
         binding.backProfileToMain.setOnClickListener {
