@@ -100,18 +100,18 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="8dp"
-                        android:layout_weight="1"
+                        android:layout_marginEnd="16sp"
+                        android:gravity="start|center_vertical"
                         android:orientation="vertical"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp">
 
+                        <!-- Datas -->
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -125,7 +125,7 @@
                                 android:id="@+id/start_dt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginStart="8dp"
                                 android:text="14/10"
                                 android:textColor="@color/textColorPrimary" />
 
@@ -133,8 +133,7 @@
                                 android:id="@+id/textView34"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:gravity="center"
+                                android:layout_marginStart="8dp"
                                 android:text="-"
                                 android:textColor="@color/textColorPrimary" />
 
@@ -142,15 +141,16 @@
                                 android:id="@+id/end_dt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginStart="8dp"
                                 android:text="15/10"
                                 android:textColor="@color/textColorPrimary" />
                         </LinearLayout>
 
+                        <!-- KM -->
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -164,15 +164,16 @@
                                 android:id="@+id/km"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginStart="8dp"
                                 android:text="700 Km"
                                 android:textColor="@color/textColorPrimary" />
                         </LinearLayout>
 
+                        <!-- Segmento -->
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal">
 
                             <ImageView
@@ -186,12 +187,10 @@
                                 android:id="@+id/segment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginStart="8dp"
                                 android:text="Bovinos"
                                 android:textColor="@color/textColorPrimary" />
                         </LinearLayout>
-
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -376,6 +375,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8sp"
                         android:text="Infrações por Gravidade"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="20sp" />

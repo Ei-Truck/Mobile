@@ -1,5 +1,6 @@
 package com.example.eitruck.data.remote.network.service.postgres
 
+import com.example.eitruck.model.DriverMonthlyReport
 import com.example.eitruck.model.DashOcorrenciaGravidade
 import com.example.eitruck.model.LegendaItem
 import com.example.eitruck.model.LoginRequest
@@ -71,4 +72,10 @@ interface RegionService {
 
     @GET("/localidades")
     suspend fun getRegions() : List<Region>
+}
+
+interface DriverService {
+
+    @GET("/motoristas/pontuacao-mensal")
+    suspend fun getDriverMonthlyReport(): List<DriverMonthlyReport>
 }
