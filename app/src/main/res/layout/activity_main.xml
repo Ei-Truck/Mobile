@@ -133,10 +133,10 @@
         android:background="@drawable/layout_botao_redondo"
         android:backgroundTint="@color/colorSecondary"
         android:padding="0dp"
-        android:src="@drawable/ic_icon_faq"
-        android:tint="@android:color/white"
+        android:src="@drawable/ic_icon_chat"
         app:layout_constraintEnd_toEndOf="@+id/header"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

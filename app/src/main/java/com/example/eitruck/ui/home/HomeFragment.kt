@@ -76,6 +76,19 @@ class HomeFragment : Fragment() {
             atualizarPagina()
         }
 
+        val botaoFiltro = view.findViewById<Button>(R.id.buttonFilterHome)
+
+        var segmentosDisponiveis: List<String> = listOf("Todos")
+        var unidadesDisponiveis: List<String> = listOf("Todos")
+        var regioesDisponiveis: List<String> = listOf("Todos")
+
+
+        if (viewModel.segments.value.isNullOrEmpty()) {
+            viewModel.getSegments()
+        }
+
+        if (viewModel.units.value.isNullOrEmpty()) {
+            viewModel.getUnits()
         viewModel.infractions.observe(viewLifecycleOwner) { infraction ->
             HomeGraph(combinedChart, infraction, requireContext())
         }
