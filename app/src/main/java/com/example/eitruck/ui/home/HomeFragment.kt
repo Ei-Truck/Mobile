@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        val botaoFiltro = view.findViewById<Button>(R.id.filtro_botao)
+        val botaoFiltro = view.findViewById<Button>(R.id.buttonFilterHome)
 
         var segmentosDisponiveis: List<String> = listOf("Todos")
         var unidadesDisponiveis: List<String> = listOf("Todos")

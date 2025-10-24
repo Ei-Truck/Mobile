@@ -76,6 +76,23 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="24sp" />
 
+            <Button
+                android:id="@+id/buttonFilterHome"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/layout_botao1"
+                android:drawableLeft="@drawable/ic_filter"
+                android:drawableRight="@drawable/ic_arrow_next"
+                android:fontFamily="@font/titulo_poppins_regular"
+                android:text="Filtro"
+                android:textAlignment="viewStart"
+                android:textColor="#FFFFFF"
+                android:textSize="14dp" />
+
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
@@ -191,18 +208,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                    <Button
-                        android:id="@+id/filtro_botao"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="16dp"
-                        android:backgroundTint="@color/white"
-                        android:stateListAnimator="@null"
-                        app:icon="@drawable/icon_filtro"
-                        app:iconTint="@color/colorSecondary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
