@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
     private val numPaginas = 5
     private var pagina = 1
 
-    // listas para armazenar filtros carregados
     private var segmentosDisponiveis: List<String> = emptyList()
     private var unidadesDisponiveis: List<String> = emptyList()
     private var regioesDisponiveis: List<String> = emptyList()

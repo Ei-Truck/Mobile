@@ -19,7 +19,7 @@ class HomeAdapter (
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val motorista = motoristas[position]
-        holder.nomeMotorista.text = motorista.unidade
+        holder.nomeMotorista.text = motorista.motorista
         holder.pontuacao.text = motorista.pontuacao_ultimo_mes.toString()
         holder.posicao.text = motorista.ranking_pontuacao.toString()
         holder.seguemento.text = motorista.segmento
