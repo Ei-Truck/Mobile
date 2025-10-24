@@ -1,30 +1,31 @@
 package com.example.eitruck.ui.travel_info
 
 import android.content.res.ColorStateList
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
-import android.widget.VideoView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eitruck.R
 import com.example.eitruck.databinding.FragmentTravelInfoBinding
-import com.example.eitruck.model.Driver
-import com.example.eitruck.model.Infractions
+import com.example.eitruck.model.DriverTravelInfo
+import com.example.eitruck.model.InfractionsTravelInfo
 import com.example.eitruck.model.Midia
 import com.example.eitruck.model.TravelInfo
+import com.example.eitruck.ui.main.ProfileViewModel
 
 class TravelInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentTravelInfoBinding
     private var motoristaAtual: Int = 0
     private var player: ExoPlayer? = null
+
+    private val viewModel: TravelInfoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,15 +39,15 @@ class TravelInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val infracoes = listOf(
-            Infractions(1,1,"Leve"),
-            Infractions(2,2,"Média"),
-            Infractions(3,3,"Grave"),
-            Infractions(4,4,"Muito Grave")
+            InfractionsTravelInfo(1,1,"Leve"),
+            InfractionsTravelInfo(2,2,"Média"),
+            InfractionsTravelInfo(3,3,"Grave"),
+            InfractionsTravelInfo(4,4,"Muito Grave")
         )
 
         val driver = listOf(
-            Driver(1, "Paulo Munhoz", "Moderado", "15:32h", "17:50h"),
-            Driver(2, "Matheus Bastos", "Leve", "18:00h", "12:00h")
+            DriverTravelInfo(1, "Paulo Munhoz", "Moderado", "15:32h", "17:50h"),
+            DriverTravelInfo(2, "Matheus Bastos", "Leve", "18:00h", "12:00h")
         )
 
         val midia = listOf(
@@ -54,15 +55,15 @@ class TravelInfoFragment : Fragment() {
             Midia(2, "https://eitruck.s3.sa-east-1.amazonaws.com/infracoes/mexirica.mp4")
         )
 
-        val travel = TravelInfo(1, "ABC1D34","14/08","15/08", 100, "Bovinos", driver, infracoes, midia)
+        val travel = TravelInfo(1, "ABC1D34","14/08","15/08", 100, "Bovinos", "Amparo", driver, "", "infracoes", "midia", "GFDS", infracoes)
 
-        val maximo = travel.motorista.size
+        val maximo = travel.nomeMotorista.size
 
-        binding.carPlate.text = travel.placa
-        binding.startDt.text = travel.starDate
-        binding.endDt.text = travel.endDate
-        binding.km.text = "${travel.km} Km"
-        binding.segment.text = travel.segment
+        binding.carPlate.text = travel.placaCaminhao
+        binding.startDt.text = travel.dataInicioViagem
+        binding.endDt.text = travel.dataFimViagem
+        binding.km.text = "${travel.kmViagem} Km"
+        binding.segment.text = travel.segmento
         binding.totalInfractions.text = travel.infracoes.size.toString()
 
         val adapter = TravelInfoAdapter(infracoes)
@@ -96,9 +97,9 @@ class TravelInfoFragment : Fragment() {
     }
 
     private fun loadInformacoes(travel: TravelInfo){
-        binding.driverName.text = travel.motorista[motoristaAtual].nome
-        binding.driverHour.text = "${travel.motorista[motoristaAtual].horarioComeco} - ${travel.motorista[motoristaAtual].horarioFim}"
-        binding.driverRisk.text = "Risco: ${travel.motorista[motoristaAtual].risco}"
+        binding.driverName.text = travel.nomeMotorista[motoristaAtual].nome
+        binding.driverHour.text = "${travel.nomeMotorista[motoristaAtual].horarioComeco} - ${travel.nomeMotorista[motoristaAtual].horarioFim}"
+        binding.driverRisk.text = "Risco: ${travel.nomeMotorista[motoristaAtual].risco}"
     }
 
     private fun loadMidia(travel: TravelInfo){
@@ -107,7 +108,7 @@ class TravelInfoFragment : Fragment() {
             binding.playerView.player = player
         }
 
-        val mediaItem = MediaItem.fromUri(travel.midia[motoristaAtual].midia)
+        val mediaItem = MediaItem.fromUri(travel.urlMidiaConcatenada[motoristaAtual].toString())
         player?.apply {
             setMediaItem(mediaItem)
             prepare()
@@ -151,7 +152,4 @@ class TravelInfoFragment : Fragment() {
             )
         }
     }
-
-
-
 }

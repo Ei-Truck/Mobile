@@ -2,7 +2,7 @@ package com.example.eitruck.model
 
 import com.google.gson.annotations.SerializedName
 
-class Travel (
+data class Travel (
     val id_viagem: Int,
     val placa_caminhao: String,
     val data_inicio_viagem: String,

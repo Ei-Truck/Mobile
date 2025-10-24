@@ -1,14 +1,13 @@
 package com.example.eitruck.ui.travel_info
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
-import com.example.eitruck.model.Infractions
+import com.example.eitruck.model.InfractionsTravelInfo
 
 class TravelInfoAdapter(
-    private var infracoes: List<Infractions>
+    private var infracoes: List<InfractionsTravelInfo>
 
 ): RecyclerView.Adapter<TravelInfoViewHolder>() {
 

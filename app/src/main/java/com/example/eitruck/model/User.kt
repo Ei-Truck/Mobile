@@ -1,6 +1,6 @@
 package com.example.eitruck.model
 
-class User (
+data class User (
     val nomeCompleto:String,
     val email:String,
     val urlFoto:String,

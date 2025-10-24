@@ -1,8 +1,11 @@
 package com.example.eitruck.data.remote.network.service.postgres
 
+import com.example.eitruck.model.DashOcorrenciaGravidade
+import com.example.eitruck.model.LegendaItem
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
 import com.example.eitruck.model.Travel
+import com.example.eitruck.model.TravelInfo
 import com.example.eitruck.model.User
 import com.example.eitruck.model.WeeklyReport
 import okhttp3.MultipartBody
@@ -31,11 +34,20 @@ interface UserService {
 interface TravelService {
     @GET("/viagens/relatorio-simples")
     suspend fun getTravels(): List<Travel>
+
+    @GET("/viagens/visao-basica")
+    suspend fun getTravelsInfo(): List<TravelInfo>
 }
 
 interface InfractionService {
-
     @GET("/infracoes/relatorio")
     suspend fun getInfractions(): List<WeeklyReport>
+}
 
+interface DashService {
+    @GET("/tipo-infracao/ocorrencia-tipo")
+    suspend fun getInfractionsByType(): List<LegendaItem>
+
+    @GET("/tipo-infracao/ocorrencia-gravidade")
+    suspend fun getInfractionsByGravity(): List<DashOcorrenciaGravidade>
 }

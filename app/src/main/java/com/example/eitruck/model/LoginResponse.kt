@@ -1,6 +1,6 @@
 package com.example.eitruck.model
 
-class LoginResponse (
+data class LoginResponse (
     val id: Int,
     val token: String,
     val email: String,
@@ -9,7 +9,7 @@ class LoginResponse (
     val cargo: String
 )
 
-class LoginRequest (
+data class LoginRequest (
     val email: String,
     val senha: String
 )

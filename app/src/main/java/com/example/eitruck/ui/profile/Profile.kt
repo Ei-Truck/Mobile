@@ -42,7 +42,6 @@ class Profile : AppCompatActivity() {
 
     private val viewModel: ProfileViewModel by viewModels()
 
-
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
