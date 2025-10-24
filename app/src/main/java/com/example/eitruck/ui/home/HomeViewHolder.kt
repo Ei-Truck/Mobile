@@ -9,5 +9,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val nomeMotorista: TextView = itemView.findViewById(R.id.nome_motorista)
     val pontuacao: TextView = itemView.findViewById(R.id.pontuacao)
     val posicao: TextView = itemView.findViewById(R.id.posicao)
+    val seguemento: TextView = itemView.findViewById(R.id.segemento_motorista)
+
 
 }
