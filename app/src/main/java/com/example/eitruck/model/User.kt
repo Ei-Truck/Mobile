@@ -6,3 +6,7 @@ class User (
     val urlFoto:String,
     val telefone:String
 )
+
+class UserPassword (
+    val senha:String,
+)

@@ -8,11 +8,13 @@ import com.example.eitruck.model.Segments
 import com.example.eitruck.model.Travel
 import com.example.eitruck.model.Units
 import com.example.eitruck.model.User
+import com.example.eitruck.model.UserPassword
 import com.example.eitruck.model.WeeklyReport
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
@@ -26,6 +28,12 @@ interface AuthService {
 interface UserService {
     @GET("/usuarios/{id}")
     suspend fun getUser(@Path("id") id: Int): User
+
+    @GET("/usuarios/telefone/{telefone}")
+    suspend fun getUserByPhone(@Path("telefone") telefone: String): User
+
+    @PATCH("/usuarios/{id}")
+    suspend fun updateUser(@Path("id") id: Int, @Body user: UserPassword): User
 
     @Multipart
     @POST("/usuarios/{id}/foto")
