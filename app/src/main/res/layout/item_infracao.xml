@@ -1,51 +1,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingVertical="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginEnd="16sp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/infra_number"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="1"
+            android:fontFamily="@font/titulo_poppins_regular"
+            android:gravity="start"
+            android:text="204"
             android:textColor="@color/textColorPrimary"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/infra_descrip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:text="Leve"
+            android:layout_marginStart="8dp"
+            android:layout_weight="2"
+            android:fontFamily="@font/titulo_poppins_regular"
+            android:gravity="start"
+            android:text="Leves"
             android:textColor="@color/textColorSecondary"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="5" />
 
         <ImageView
-            android:id="@+id/ingra_lvl"
-            android:layout_width="0dp"
+            android:id="@+id/infra_lvl"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
             android:src="@drawable/ic_eclipse_leve" />
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/view"
+    <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:background="#615F5F" />
+        android:layout_marginBottom="8dp"
+        app:dividerColor="@color/textColorSecondary" />
 
 </LinearLayout>
