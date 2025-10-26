@@ -32,7 +32,7 @@ interface UserService {
     @GET("/usuarios/telefone/{telefone}")
     suspend fun getUserByPhone(@Path("telefone") telefone: String): User
 
-    @PATCH("/usuarios/{id}")
+    @PATCH("/usuarios/senha/{id}")
     suspend fun updateUser(@Path("id") id: Int, @Body user: UserPassword): User
 
     @Multipart
