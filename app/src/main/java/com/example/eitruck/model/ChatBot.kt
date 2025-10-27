@@ -10,9 +10,9 @@ class AskChatBot (
 
 class AnswerChatBot (
     val content: ContentChatBot,
-    val timestamp: Timestamp
+    val timestamp: String
 )
 
 class ContentChatBot (
-    val aswer: String
+    val answer: String
 )

@@ -124,9 +124,9 @@ class HomeFragment : Fragment() {
                 else -> LocalManager()
             }
 
-            binding.filtroBotao.isEnabled = false
+            binding.buttonFilterHome.isEnabled = false
 
-            binding.filtroBotao.setOnClickListener {
+            binding.buttonFilterHome.setOnClickListener {
                 val filtros = FiltrosDisponiveis(
                     segmentos = segmentosDisponiveis,
                     regioes = regioesDisponiveis,
@@ -173,7 +173,7 @@ class HomeFragment : Fragment() {
         val pronto = segmentosDisponiveis.isNotEmpty() &&
                 unidadesDisponiveis.isNotEmpty() &&
                 regioesDisponiveis.isNotEmpty()
-        binding.filtroBotao.isEnabled = pronto
+        binding.buttonFilterHome.isEnabled = pronto
     }
 
 

@@ -1,24 +1,26 @@
 package com.example.eitruck.ui.chat_bot
 
-import android.R.attr.content
-import android.R.id.content
+
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eitruck.R
-import com.example.eitruck.api.GeminiService
+import com.example.eitruck.data.local.LoginSave
+import com.example.eitruck.data.remote.repository.ChatRepository
 import com.example.eitruck.databinding.ActivityChatBotBinding
+import com.example.eitruck.model.AskChatBot
 import com.example.eitruck.model.Mensagem
-import com.google.ai.client.generativeai.type.content
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ChatBot : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBotBinding
+    private lateinit var chatBotRepository: ChatRepository
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,8 @@ class ChatBot : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
+        chatBotRepository = ChatRepository()
+        val user = LoginSave(this).getPrefes().getInt("user_id", 0)
 
 
         binding.sent.setOnClickListener {
@@ -55,20 +59,22 @@ class ChatBot : AppCompatActivity() {
                 recyclerView.scrollToPosition(loadingIndex)
 
                 lifecycleScope.launch {
+                    binding.sent.isEnabled = false
                     try {
-                        val response = withContext(Dispatchers.IO) {
-                            GeminiService.model.generateContent(
-                                content { text(texto) }
-                            )
-                        }
+                        val response = chatBotRepository.sendAsk(
+                            AskChatBot(user, 2, texto)
+                        )
 
-                        val reply = response.text ?: "..."
+                        val reply = response.content.answer ?: "Desculpe, não entendi."
+
                         messages[loadingIndex] = Mensagem(reply, false, false)
                         adapter.notifyItemChanged(loadingIndex)
 
                     } catch (e: Exception) {
                         messages[loadingIndex] = Mensagem("Erro: ${e.message}", false, false)
                         adapter.notifyItemChanged(loadingIndex)
+                    } finally {
+                        binding.sent.isEnabled = true
                     }
                 }
             }
