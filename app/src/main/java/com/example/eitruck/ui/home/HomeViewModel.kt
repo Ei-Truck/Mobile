@@ -154,7 +154,4 @@ class HomeViewModel : ViewModel() {
 
         _drivers.postValue(filtrados)
     }
-
-
-
 }

@@ -89,79 +89,82 @@ class HomeFragment : Fragment() {
 
         if (viewModel.units.value.isNullOrEmpty()) {
             viewModel.getUnits()
-        viewModel.infractions.observe(viewLifecycleOwner) { infraction ->
-            HomeGraph(combinedChart, infraction, requireContext())
-        }
-
-        viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
-            (requireActivity() as Main).showLoading(carregando)
-        }
-
-        viewModel.segments.observe(viewLifecycleOwner) { segments ->
-            segmentosDisponiveis = if (segments.isEmpty()) listOf() else listOf("Todos") + segments
-            atualizarEstadoBotaoFiltro()
-        }
-
-        viewModel.units.observe(viewLifecycleOwner) { units ->
-            unidadesDisponiveis = if (units.isEmpty()) listOf() else listOf("Todos") + units
-            atualizarEstadoBotaoFiltro()
-        }
-
-        viewModel.regions.observe(viewLifecycleOwner) { regions ->
-            regioesDisponiveis = if (regions.isEmpty()) listOf() else listOf("Todos") + regions
-            atualizarEstadoBotaoFiltro()
-        }
-
-        val cargo = LoginSave(requireContext()).getPrefes().getString("user_cargo", "gerente_local")
-
-        val strategy: FilterStrategy = when (cargo) {
-            "Gerente de Análise" -> AnalyticsManager()
-            "Analista Regional" -> RegionsManager()
-            "Analista Segmento" -> SegmentsManager()
-            "Analista Local" -> LocalManager()
-            else -> LocalManager()
-        }
-
-        binding.filtroBotao.isEnabled = false
-
-        binding.filtroBotao.setOnClickListener {
-            val filtros = FiltrosDisponiveis(
-                segmentos = segmentosDisponiveis,
-                regioes = regioesDisponiveis,
-                unidades = unidadesDisponiveis
-            )
-
-            FilterHomeDialog(
-                context = requireContext(),
-                filtrosDisponiveis = filtros,
-                regiaoSelecionada = viewModel.regiao.ifEmpty { "Todos" },
-                segmentoSelecionado = viewModel.segmento.ifEmpty { "Todos" },
-                unidadeSelecionada = viewModel.unidade.ifEmpty { "Todos" },
-                showRegiao = strategy.showRegiao,
-                showSegmento = strategy.showSegmento,
-                showUnidade = strategy.showUnidade
-            ) { regiao, segmento, unidade ->
-                viewModel.regiao = regiao ?: "Todos"
-                viewModel.segmento = segmento ?: "Todos"
-                viewModel.unidade = unidade ?: "Todos"
-
-                pagina = 1
-                viewModel.filtrarDrivers()
-            }.show()
-        }
-
-        binding.backButton.setOnClickListener {
-            if (pagina > 1) {
-                pagina--
-                atualizarPagina()
+            viewModel.infractions.observe(viewLifecycleOwner) { infraction ->
+                HomeGraph(combinedChart, infraction, requireContext())
             }
-        }
 
-        binding.nextButton.setOnClickListener {
-            val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
-            if (pagina < totalPaginas) {
-                pagina++
-                atualizarPagina()
+            viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
+                (requireActivity() as Main).showLoading(carregando)
+            }
+
+            viewModel.segments.observe(viewLifecycleOwner) { segments ->
+                segmentosDisponiveis =
+                    if (segments.isEmpty()) listOf() else listOf("Todos") + segments
+                atualizarEstadoBotaoFiltro()
+            }
+
+            viewModel.units.observe(viewLifecycleOwner) { units ->
+                unidadesDisponiveis = if (units.isEmpty()) listOf() else listOf("Todos") + units
+                atualizarEstadoBotaoFiltro()
+            }
+
+            viewModel.regions.observe(viewLifecycleOwner) { regions ->
+                regioesDisponiveis = if (regions.isEmpty()) listOf() else listOf("Todos") + regions
+                atualizarEstadoBotaoFiltro()
+            }
+
+            val cargo =
+                LoginSave(requireContext()).getPrefes().getString("user_cargo", "gerente_local")
+
+            val strategy: FilterStrategy = when (cargo) {
+                "Gerente de Análise" -> AnalyticsManager()
+                "Analista Regional" -> RegionsManager()
+                "Analista Segmento" -> SegmentsManager()
+                "Analista Local" -> LocalManager()
+                else -> LocalManager()
+            }
+
+            binding.buttonFilterHome.isEnabled = false
+
+            binding.buttonFilterHome.setOnClickListener {
+                val filtros = FiltrosDisponiveis(
+                    segmentos = segmentosDisponiveis,
+                    regioes = regioesDisponiveis,
+                    unidades = unidadesDisponiveis
+                )
+
+                FilterHomeDialog(
+                    context = requireContext(),
+                    filtrosDisponiveis = filtros,
+                    regiaoSelecionada = viewModel.regiao.ifEmpty { "Todos" },
+                    segmentoSelecionado = viewModel.segmento.ifEmpty { "Todos" },
+                    unidadeSelecionada = viewModel.unidade.ifEmpty { "Todos" },
+                    showRegiao = strategy.showRegiao,
+                    showSegmento = strategy.showSegmento,
+                    showUnidade = strategy.showUnidade
+                ) { regiao, segmento, unidade ->
+                    viewModel.regiao = regiao ?: "Todos"
+                    viewModel.segmento = segmento ?: "Todos"
+                    viewModel.unidade = unidade ?: "Todos"
+
+                    pagina = 1
+                    viewModel.filtrarDrivers()
+                }.show()
+            }
+
+            binding.backButton.setOnClickListener {
+                if (pagina > 1) {
+                    pagina--
+                    atualizarPagina()
+                }
+            }
+
+            binding.nextButton.setOnClickListener {
+                val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
+                if (pagina < totalPaginas) {
+                    pagina++
+                    atualizarPagina()
+                }
             }
         }
     }
@@ -170,7 +173,7 @@ class HomeFragment : Fragment() {
         val pronto = segmentosDisponiveis.isNotEmpty() &&
                 unidadesDisponiveis.isNotEmpty() &&
                 regioesDisponiveis.isNotEmpty()
-        binding.filtroBotao.isEnabled = pronto
+        binding.buttonFilterHome.isEnabled = pronto
     }
 
 
