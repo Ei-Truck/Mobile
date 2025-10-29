@@ -112,7 +112,7 @@ class HomeViewModel : ViewModel() {
             try {
                 regionRepository?.let {
                     val response = it.getRegions()
-                    val lista = response.map { it.nome }
+                    val lista = response.map { it.ufEstado }
                     _regions.value = lista
                 }
             } catch (e: Exception) {
@@ -147,14 +147,11 @@ class HomeViewModel : ViewModel() {
         val uni = if (unidade == "Todos" || unidade.isBlank()) "" else unidade
 
         val filtrados = allDrivers.filter { motorista ->
-            (reg.isEmpty() || motorista.localidade.contains(reg, ignoreCase = true)) &&
-                    (seg.isEmpty() || motorista.segmento.contains(seg, ignoreCase = true)) &&
-                    (uni.isEmpty() || motorista.unidade.contains(uni, ignoreCase = true))
+            (reg.isEmpty() || motorista.localidade_estado.orEmpty().contains(reg, ignoreCase = true)) &&
+                    (seg.isEmpty() || motorista.segmento.orEmpty().contains(seg, ignoreCase = true)) &&
+                    (uni.isEmpty() || motorista.unidade.orEmpty().contains(uni, ignoreCase = true))
         }
 
         _drivers.postValue(filtrados)
     }
-
-
-
 }
