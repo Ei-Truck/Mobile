@@ -10,7 +10,7 @@ data class DriverMonthlyReport(
     val id_segmento: Int,
     val segmento: String,
     val id_localidade: String,
-    val localidade: String,
+    val localidade_estado: String,
     val pontuacao_ultimo_mes: Int
 )
  {
