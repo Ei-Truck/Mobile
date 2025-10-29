@@ -1,22 +1,24 @@
-package com.example.eitruck.ui.login
+    package com.example.eitruck.ui.login
 
-import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import android.content.Intent
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
-import com.example.eitruck.R
-import com.example.eitruck.databinding.ActivityLoginBinding
-import com.example.eitruck.model.LoginRequest
-import com.example.eitruck.data.remote.repository.postgres.LoginRepository
-import com.example.eitruck.ui.main.Main
-import com.example.eitruck.ui.forgot_password.ForgotpassInput
-import com.example.eitruck.data.local.LoginSave
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
+    import android.os.Bundle
+    import androidx.activity.enableEdgeToEdge
+    import androidx.appcompat.app.AppCompatActivity
+    import androidx.core.view.ViewCompat
+    import androidx.core.view.WindowInsetsCompat
+    import android.content.Intent
+    import android.view.View
+    import android.widget.Toast
+    import androidx.lifecycle.lifecycleScope
+    import com.example.eitruck.NoConnection
+    import com.example.eitruck.R
+    import com.example.eitruck.databinding.ActivityLoginBinding
+    import com.example.eitruck.model.LoginRequest
+    import com.example.eitruck.data.remote.repository.postgres.LoginRepository
+    import com.example.eitruck.ui.main.Main
+    import com.example.eitruck.ui.forgot_password.ForgotpassInput
+    import com.example.eitruck.data.local.LoginSave
+    import kotlinx.coroutines.launch
+    import retrofit2.HttpException
 
 class Login : AppCompatActivity() {
 
@@ -53,14 +55,14 @@ class Login : AppCompatActivity() {
         email.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 email.setBackgroundResource(R.drawable.layout_input)
-                binding.erro.visibility = android.view.View.GONE
+                binding.erro.visibility = View.GONE
             }
         }
 
         password.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 password.setBackgroundResource(R.drawable.layout_input)
-                binding.erro.visibility = android.view.View.GONE
+                binding.erro.visibility = View.GONE
             }
         }
 
@@ -71,7 +73,7 @@ class Login : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                load.visibility = android.view.View.VISIBLE
+                load.visibility = View.VISIBLE
 
                 val response = loginRepository.login(LoginRequest(email, password))
 
@@ -87,10 +89,13 @@ class Login : AppCompatActivity() {
                 } else {
                     Toast.makeText(this@Login, "Erro de rede (${e.code()})", Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: java.io.IOException) {
+                val intent = Intent(this@Login, NoConnection::class.java)
+                startActivity(intent)
             } catch (e: Exception) {
                 Toast.makeText(this@Login, "Erro inesperado: ${e.message}", Toast.LENGTH_SHORT).show()
             } finally {
-                load.visibility = android.view.View.GONE
+                load.visibility = View.GONE
             }
         }
     }
@@ -100,11 +105,14 @@ class Login : AppCompatActivity() {
         val email = binding.email
         val password = binding.password
 
-        error.visibility = android.view.View.VISIBLE
+        error.visibility = View.VISIBLE
         error.text = text
 
         email.text.clear()
         password.text.clear()
+
+        email.clearFocus()
+        password.clearFocus()
 
         email.setBackgroundResource(R.drawable.layout_input_erro)
         password.setBackgroundResource(R.drawable.layout_input_erro)
