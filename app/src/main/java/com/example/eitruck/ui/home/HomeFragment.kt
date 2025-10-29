@@ -141,6 +141,16 @@ class HomeFragment : Fragment() {
             }
         }
 
+        viewModel.filtrarDrivers()
+        viewModel.drivers.observe(viewLifecycleOwner) { filtrados ->
+            val motoristasOrdenados = filtrados.sortedByDescending { it.pontuacao_ultimo_mes }
+            motoristasOrdenados.forEachIndexed { index, driver ->
+                driver.ranking_pontuacao = index + 1
+            }
+            motoristas = motoristasOrdenados
+            atualizarPagina()
+        }
+
         viewModel.getDriverWeeklyReport()
         viewModel.getWeeklyReport()
         viewModel.getSegments()
