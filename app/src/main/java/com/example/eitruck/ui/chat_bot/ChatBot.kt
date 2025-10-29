@@ -14,6 +14,9 @@ import com.example.eitruck.databinding.ActivityChatBotBinding
 import com.example.eitruck.model.AskChatBot
 import com.example.eitruck.model.Mensagem
 import kotlinx.coroutines.launch
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 class ChatBot : AppCompatActivity() {
 
@@ -71,7 +74,14 @@ class ChatBot : AppCompatActivity() {
                         adapter.notifyItemChanged(loadingIndex)
 
                     } catch (e: Exception) {
-                        messages[loadingIndex] = Mensagem("Erro: ${e.message}", false, false)
+                        val menssagem = when (e) {
+                            is ConnectException,
+                            is SocketTimeoutException,
+                            is UnknownHostException -> "O servidor do suporte está temporariamente fora do ar. \nTente novamente mais tarde ou entre em contato com: \nbruno.ferraz@germinare.org.br."
+                            else -> "Ocorreu um erro inesperado. Por favor, tente novamente."
+                        }
+
+                        messages[loadingIndex] = Mensagem("Erro: ${menssagem}", false, false)
                         adapter.notifyItemChanged(loadingIndex)
                     } finally {
                         binding.sent.isEnabled = true
