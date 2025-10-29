@@ -29,7 +29,6 @@ class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,7 +50,6 @@ class Main : AppCompatActivity() {
 
         val loginSave = LoginSave(this)
         val prefes = loginSave.getPrefes()
-
         viewModel.setToken(loginSave.getToken().toString())
 
         binding.userName.text = prefes.getString("user_name", "")
@@ -65,25 +63,23 @@ class Main : AppCompatActivity() {
         viewModel.getUser(prefes.getInt("user_id", -1))
 
         viewModel.user.observe(this) { user ->
-            val nameParts = user.nomeCompleto.split(" ")
-            val displayName = if (nameParts.size > 1) {
-                "${nameParts.first()} ${nameParts.last()}"
-            } else {
-                nameParts[0]
-            }
+            if (user != null) {
+                val parts = user.nomeCompleto.split(" ")
+                val displayName = if (parts.size > 1) "${parts.first()} ${parts.last()}" else parts[0]
 
-            binding.userName.text = displayName
+                binding.userName.text = displayName
 
-            Glide.with(this)
-                .load(user.urlFoto)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(binding.profileImage)
+                Glide.with(this)
+                    .load(user.urlFoto)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(binding.profileImage)
 
-            prefes.edit().apply {
-                putString("url_photo", user.urlFoto)
-                putString("user_name", displayName)
-                apply()
+                prefes.edit().apply {
+                    putString("user_name", user.nomeCompleto)
+                    putString("url_photo", user.urlFoto)
+                    apply()
+                }
             }
         }
 
@@ -110,25 +106,20 @@ class Main : AppCompatActivity() {
         }
 
         binding.chatBot.setOnClickListener {
-            val intent = Intent(this, SplashAITruck::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SplashAITruck::class.java))
         }
 
         binding.notification.setOnClickListener {
-            val intent = Intent(this, Notifications::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Notifications::class.java))
         }
 
         binding.profileImage.setOnClickListener {
-            val intent = Intent(this, Profile::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Profile::class.java))
         }
     }
 
     private fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, fragment)
-            .commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
     }
 
     private fun tirarFill(int: Int) {
@@ -162,10 +153,15 @@ class Main : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val loginSave = LoginSave(this)
-        val prefes = loginSave.getPrefes()
-
+        val prefes = LoginSave(this).getPrefes()
         val urlFoto = prefes.getString("url_photo", null)
+        val nome = prefes.getString("user_name", null)
+
+        nome?.let {
+            val parts = it.split(" ")
+            binding.userName.text = if (parts.size > 1) "${parts.first()} ${parts.last()}" else parts[0]
+        }
+
         urlFoto?.let {
             Glide.with(this)
                 .load(it)
@@ -175,15 +171,11 @@ class Main : AppCompatActivity() {
         }
 
         val userId = prefes.getInt("user_id", -1)
-        if (userId != -1) {
-            viewModel.getUser(userId)
-        }
+        if (userId != -1) viewModel.getUser(userId)
     }
 
     fun showLoading(show: Boolean) {
-        val overlay = binding.loadingView
-        val progress = binding.progressBar
-        overlay.visibility = if (show) View.VISIBLE else View.GONE
-        progress.visibility = if (show) View.VISIBLE else View.GONE
+        binding.loadingView.visibility = if (show) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 }
