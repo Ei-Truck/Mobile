@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.Manifest
+import android.view.View
 import com.example.eitruck.R
+import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.ActivitySettingsBinding
 import com.example.eitruck.ui.login.Login
 import com.example.eitruck.ui.profile.Profile
@@ -40,6 +42,11 @@ class Settings : AppCompatActivity() {
             insets
         }
 
+        val user_cargo = LoginSave(this).getPrefes().getString("user_cargo", "")
+
+        binding.buttonArea.visibility = if (user_cargo=="Administrador") View.VISIBLE else View.GONE
+
+
         binding.backSettingsToProfile.setOnClickListener {
             val intent = Intent(this, Profile::class.java)
             startActivity(intent)
@@ -50,12 +57,10 @@ class Settings : AppCompatActivity() {
     }
 
     private fun setupSwitchListeners() {
-        // Som → apenas SharedPreferences
         binding.som.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("sound_enabled", isChecked).apply()
         }
 
-        // Notificações
         binding.notificacoes.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -71,12 +76,10 @@ class Settings : AppCompatActivity() {
                     }
                 }
             } else {
-                // não dá pra revogar via código → só salva estado
                 prefs.edit().putBoolean("notifications_enabled", false).apply()
             }
         }
 
-        // Câmera
         binding.camera.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 if (ContextCompat.checkSelfPermission(
@@ -96,10 +99,8 @@ class Settings : AppCompatActivity() {
     }
 
     private fun syncPermissions() {
-        // Som → recupera do SharedPreferences
         binding.som.isChecked = prefs.getBoolean("sound_enabled", true)
 
-        // Notificações
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val granted = ContextCompat.checkSelfPermission(
                 this,
@@ -111,7 +112,6 @@ class Settings : AppCompatActivity() {
             binding.notificacoes.isChecked = true
         }
 
-        // Câmera
         val cameraGranted = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.CAMERA
@@ -120,7 +120,6 @@ class Settings : AppCompatActivity() {
         prefs.edit().putBoolean("camera_enabled", cameraGranted).apply()
     }
 
-    // Resultado das permissões
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
