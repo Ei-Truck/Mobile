@@ -1,11 +1,17 @@
 package com.example.eitruck.data.remote.network.service.postgres
 
+import com.example.eitruck.model.DashLegendaItem
+import com.example.eitruck.model.DashOcorrenciaGravidade
+import com.example.eitruck.model.DashOcorrenciaTotal
+import com.example.eitruck.model.DashVariacaoInfracoes
+import com.example.eitruck.model.DriverInfractions
 import com.example.eitruck.model.DriverMonthlyReport
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
 import com.example.eitruck.model.Region
 import com.example.eitruck.model.Segments
 import com.example.eitruck.model.Travel
+import com.example.eitruck.model.TravelInfo
 import com.example.eitruck.model.Units
 import com.example.eitruck.model.User
 import com.example.eitruck.model.WeeklyReport
@@ -35,13 +41,28 @@ interface UserService {
 interface TravelService {
     @GET("/viagens/relatorio-simples")
     suspend fun getTravels(): List<Travel>
+
+    @GET("/viagens/visao-basica")
+    suspend fun getTravelsInfo(): List<TravelInfo>
 }
 
 interface InfractionService {
-
     @GET("/infracoes/relatorio")
     suspend fun getInfractions(): List<WeeklyReport>
 
+    @GET("/infracoes/variacao")
+    suspend fun getInfractionsVariation(): List<DashVariacaoInfracoes>
+
+    @GET("/infracoes/total-ocorrencias")
+    suspend fun getInfractionsTotal(): List<DashOcorrenciaTotal>
+}
+
+interface DashService {
+    @GET("/tipo-infracao/ocorrencia-tipo")
+    suspend fun getInfractionsByType(): List<DashLegendaItem>
+
+    @GET("/tipo-infracao/ocorrencia-gravidade")
+    suspend fun getInfractionsByGravity(): List<DashOcorrenciaGravidade>
 }
 
 interface SegmentsService {
@@ -66,4 +87,7 @@ interface DriverService {
 
     @GET("/motoristas/pontuacao-mensal")
     suspend fun getDriverMonthlyReport(): List<DriverMonthlyReport>
+
+    @GET("/motoristas/quantidade-infracoes")
+    suspend fun getDriverInfractions(): List<DriverInfractions>
 }

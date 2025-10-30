@@ -1,6 +1,7 @@
 package com.example.eitruck.data.remote.repository.postgres
 
 import com.example.eitruck.data.remote.network.client.postgres.PostgresClient
+import com.example.eitruck.model.DriverInfractions
 import com.example.eitruck.model.DriverMonthlyReport
 
 class DriverRepository(token: String?) {
@@ -11,4 +12,7 @@ class DriverRepository(token: String?) {
         return api.getDriverMonthlyReport()
     }
 
+    suspend fun getDriversInfractions(): List<DriverInfractions> {
+        return api.getDriverInfractions()
+    }
 }
