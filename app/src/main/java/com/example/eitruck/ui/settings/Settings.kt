@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import android.Manifest
 import android.view.View
 import com.example.eitruck.R
+import com.example.eitruck.RestrictArea
 import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.ActivitySettingsBinding
 import com.example.eitruck.ui.login.Login
@@ -46,10 +47,13 @@ class Settings : AppCompatActivity() {
 
         binding.buttonArea.visibility = if (user_cargo=="Administrador") View.VISIBLE else View.GONE
 
+        binding.buttonArea.setOnClickListener {
+            val intent = Intent(this, RestrictArea::class.java)
+            startActivity(intent)
+        }
 
         binding.backSettingsToProfile.setOnClickListener {
-            val intent = Intent(this, Profile::class.java)
-            startActivity(intent)
+            finish()
         }
 
         setupSwitchListeners()
