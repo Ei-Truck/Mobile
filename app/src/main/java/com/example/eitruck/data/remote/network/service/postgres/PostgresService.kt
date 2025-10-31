@@ -79,7 +79,7 @@ interface UnitsService {
 
 interface RegionService {
 
-    @GET("/localidades")
+    @GET("/localidades/diff")
     suspend fun getRegions() : List<Region>
 }
 

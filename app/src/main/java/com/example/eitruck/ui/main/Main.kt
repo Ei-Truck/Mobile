@@ -20,6 +20,7 @@ import com.example.eitruck.ui.notification.Notifications
 import com.example.eitruck.ui.profile.Profile
 import com.example.eitruck.ui.travel.TravelFragment
 import com.example.eitruck.data.local.LoginSave
+import com.example.eitruck.ui.login.Login
 
 class Main : AppCompatActivity() {
 
@@ -172,6 +173,13 @@ class Main : AppCompatActivity() {
 
         val userId = prefes.getInt("user_id", -1)
         if (userId != -1) viewModel.getUser(userId)
+
+         if(!LoginSave(this).isTokenValid()){
+             LoginSave(this).clearToken()
+             val intent = Intent(this, Login::class.java)
+             startActivity(intent)
+             finish()
+         }
     }
 
     fun showLoading(show: Boolean) {

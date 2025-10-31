@@ -37,7 +37,6 @@ class AnalyzedTravels : Fragment() {
             requireActivity().finish()
         }
 
-
         viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
             if (carregando) {
                 binding.progressBar.visibility = View.VISIBLE
