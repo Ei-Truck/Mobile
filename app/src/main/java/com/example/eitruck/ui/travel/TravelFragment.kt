@@ -1,6 +1,7 @@
 package com.example.eitruck.ui.travel
 
 import TabsAdapter
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.eitruck.R
+import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.FragmentTravelBinding
+import com.example.eitruck.ui.login.Login
 import com.google.android.material.tabs.TabLayoutMediator
 
 class TravelFragment : Fragment() {
@@ -50,6 +53,13 @@ class TravelFragment : Fragment() {
             }
             tab.customView = tabView
         }.attach()
+
+        if(!LoginSave(requireContext()).isTokenValid()){
+            LoginSave(requireContext()).clearToken()
+            val intent = Intent(requireContext(), Login::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
 
 
     }

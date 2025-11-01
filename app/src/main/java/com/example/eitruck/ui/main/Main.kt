@@ -1,10 +1,16 @@
 package com.example.eitruck.ui.main
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -20,11 +26,13 @@ import com.example.eitruck.ui.notification.Notifications
 import com.example.eitruck.ui.profile.Profile
 import com.example.eitruck.ui.travel.TravelFragment
 import com.example.eitruck.data.local.LoginSave
+import com.example.eitruck.ui.login.Login
 
 class Main : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
+    private val REQUEST_NOTIFICATIONS = 200
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +45,19 @@ class Main : AppCompatActivity() {
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, sysBars.bottom)
             v.setBackgroundColor(getColor(R.color.colorPrimaryDark))
             insets
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    REQUEST_NOTIFICATIONS
+                )
+            }
         }
 
         window.navigationBarColor = getColor(R.color.colorPrimaryDark)
@@ -172,6 +193,13 @@ class Main : AppCompatActivity() {
 
         val userId = prefes.getInt("user_id", -1)
         if (userId != -1) viewModel.getUser(userId)
+
+         if(!LoginSave(this).isTokenValid()){
+             LoginSave(this).clearToken()
+             val intent = Intent(this, Login::class.java)
+             startActivity(intent)
+             finish()
+         }
     }
 
     fun showLoading(show: Boolean) {
