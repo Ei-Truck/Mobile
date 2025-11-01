@@ -188,7 +188,7 @@ class DashViewModel: ViewModel() {
                 segmentoRepository?.let{
                     val response = it.getSegments()
                     _segmentosDisponiveis.value = response
-                    } ?: throw IllegalStateException("Token não definido!")
+                } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
             }finally {
@@ -204,7 +204,7 @@ class DashViewModel: ViewModel() {
                 unidadeRepository?.let{
                     val response = it.getUnit()
                     _unidadesDisponiveis.value = response
-                    } ?: throw IllegalStateException("Token não definido!")
+                } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
             }
@@ -222,10 +222,8 @@ class DashViewModel: ViewModel() {
         val mesFiltro = mes.toIntOrNull()
         val anoFiltro = ano.toIntOrNull()
 
-         Log.d("FILTRAR_DEBUG", "reg=$regFilter seg=$segFilter uni=$uniFilter mes=$mesFiltro ano=$anoFiltro")
-
         _dashOcorrenciaTipo.value = allDashOcorrenciaTipo.filter { item ->
-            val regOk = regFilter == null || item.ufEstado.equals(regFilter, ignoreCase = true)
+            val regOk = regFilter == null || item.ufEstado?.trim().equals(regFilter?.trim(), ignoreCase = true)
             val segOk = segFilter == null || item.idSegmento == segFilter
             val uniOk = uniFilter == null || item.idUnidade == uniFilter
             val mesOk = mesFiltro == null || item.mes == mesFiltro
@@ -235,7 +233,7 @@ class DashViewModel: ViewModel() {
         }
 
         _dashOcorrenciaGravidade.value = allDashOcorrenciaGravidade.filter { item ->
-            val regOk = regFilter == null || item.ufEstado.equals(regFilter, ignoreCase = true)
+            val regOk = regFilter == null || item.estado?.trim().equals(regFilter?.trim(), ignoreCase = true)
             val segOk = segFilter == null || item.idSegmento == segFilter
             val uniOk = uniFilter == null || item.idUnidade == uniFilter
             val mesOk = mesFiltro == null || item.mes == mesFiltro
@@ -245,7 +243,7 @@ class DashViewModel: ViewModel() {
         }
 
         _dashVariacao.value = allDashVariacao.filter { item ->
-            val regOk = regFilter == null || item.ufEstado.equals(regFilter, ignoreCase = true)
+            val regOk = regFilter == null || item.ufEstado?.trim().equals(regFilter?.trim(), ignoreCase = true)
             val segOk = segFilter == null || item.idSegmento == segFilter
             val uniOk = uniFilter == null || item.idUnidade == uniFilter
             val mesOk = mesFiltro == null || item.mes == mesFiltro
@@ -255,7 +253,7 @@ class DashViewModel: ViewModel() {
         }
 
         _dashTotalOcorrencias.value = allDashTotalOcorrencias.filter { item ->
-            val regOk = regFilter == null || item.ufEstado.equals(regFilter, ignoreCase = true)
+            val regOk = regFilter == null || item.ufEstado?.trim().equals(regFilter?.trim(), ignoreCase = true)
             val segOk = segFilter == null || item.idSegmento == segFilter
             val uniOk = uniFilter == null || item.idUnidade == uniFilter
             val mesOk = mesFiltro == null || item.mes == mesFiltro
@@ -265,7 +263,7 @@ class DashViewModel: ViewModel() {
         }
 
         _dashMotoristaInfra.value = allDashMotoristaInfra.filter { item ->
-            val regOk = regFilter == null || item.ufEstado.equals(regFilter, ignoreCase = true)
+            val regOk = regFilter == null || item.utfEstado?.trim().equals(regFilter?.trim(), ignoreCase = true)
             val segOk = segFilter == null || item.idSegmento == segFilter
             val uniOk = uniFilter == null || item.idUnidade == uniFilter
             val mesOk = mesFiltro == null || item.mes == mesFiltro
@@ -274,6 +272,4 @@ class DashViewModel: ViewModel() {
             regOk && segOk && uniOk && mesOk && anoOk
         }
     }
-
-
 }

@@ -31,5 +31,5 @@ data class DriverInfractions(
     val idUnidade: Int,
     val idSegmento: Int,
     val idLocalidade: Int,
-    val ufEstado: String
+    val utfEstado: String
 )

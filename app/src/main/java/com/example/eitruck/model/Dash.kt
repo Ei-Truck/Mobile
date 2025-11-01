@@ -8,7 +8,7 @@ data class DashOcorrenciaGravidade (
     val idUnidade: Int,
     val idSegmento: Int,
     val idLocalidade: Int,
-    val ufEstado: String
+    val estado: String
 )
 
 data class DashVariacaoInfracoes (

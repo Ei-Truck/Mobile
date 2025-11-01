@@ -176,12 +176,11 @@ class DashFragment : Fragment() {
         }
 
         viewModel.dashOcorrenciaGravidade.observe(viewLifecycleOwner) { lista ->
-            val agora = LocalDate.now()
-            val mesAtual = agora.monthValue
-            val anoAtual = agora.year
+            // CORREÇÃO: Removemos a filtragem de mes/ano, pois a lista 'lista'
+            // já vem filtrada por REGIAO, SEGMENTO, UNIDADE, MES e ANO pelo ViewModel.
+            val listaParaSoma = lista.orEmpty()
 
-            val listaAtual = lista?.filter { it.mes == mesAtual && it.ano == anoAtual }.orEmpty()
-            val agrupado = listaAtual.groupBy { it.gravidade }.mapValues { entry ->
+            val agrupado = listaParaSoma.groupBy { it.gravidade }.mapValues { entry ->
                 entry.value.sumOf { it.total_ocorrencias }
             }
 
@@ -189,6 +188,8 @@ class DashFragment : Fragment() {
             binding.numTotalMedia.text = (agrupado["Média"] ?: agrupado["Media"] ?: 0).toString()
             binding.numTotalGraves.text = (agrupado["Grave"] ?: 0).toString()
             binding.numTotalGravissima.text = (agrupado["Gravíssima"] ?: 0).toString()
+
+            Log.d("Filtrado gravidade", agrupado.toString())
         }
 
         viewModel.dashVariacao.observe(viewLifecycleOwner) { lista ->
@@ -222,17 +223,13 @@ class DashFragment : Fragment() {
         }
 
         viewModel.dashMotoristaInfra.observe(viewLifecycleOwner) { lista ->
-            val agora = LocalDate.now()
-            val mesAtual = agora.monthValue
-            val anoAtual = agora.year
+            val infracoesFiltradas = lista.orEmpty()
 
-            val infracoesMesAtual = lista?.filter { it.mes == mesAtual && it.ano == anoAtual }.orEmpty()
+            if (infracoesFiltradas.isNotEmpty()) {
+                val totalInfracoesFiltradas = infracoesFiltradas.sumOf { it.quantidade_infracoes }
+                binding.motMaisInfraQuant.text = "com $totalInfracoesFiltradas infrações"
 
-            if (infracoesMesAtual.isNotEmpty()) {
-                val totalInfracoesMes = infracoesMesAtual.sumOf { it.quantidade_infracoes }
-                binding.motMaisInfraQuant.text = "com $totalInfracoesMes infrações"
-
-                val motoristaMaisInfra = infracoesMesAtual
+                val motoristaMaisInfra = infracoesFiltradas
                     .groupBy { it.motorista }
                     .mapValues { it.value.sumOf { it.quantidade_infracoes } }
                     .maxByOrNull { it.value }?.key ?: "-"
