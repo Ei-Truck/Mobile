@@ -25,6 +25,7 @@ import com.example.eitruck.ui.filter.FilterHomeDialog
 import com.example.eitruck.ui.filter.FiltrosDashDisponiveis
 import com.example.eitruck.ui.filter.FiltrosDisponiveis
 import com.example.eitruck.ui.filter.SpinnerItem
+import com.example.eitruck.ui.main.Main
 import java.time.LocalDate
 import kotlin.Boolean
 import kotlin.text.ifEmpty
@@ -148,9 +149,7 @@ class DashFragment : Fragment() {
                 viewModel.filtrarDash()
             }.show()
 
-            Log.d("FILTRO", viewModel.regiao)
-            Log.d("FILTRO", viewModel.segmento.toString())
-            Log.d("FILTRO", viewModel.unidade.toString())
+
         }
     }
 
@@ -162,8 +161,7 @@ class DashFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
-            binding.progressBar2.visibility = if (carregando) View.VISIBLE else View.GONE
-            binding.loadingView.visibility = if (carregando) View.VISIBLE else View.GONE
+            (requireActivity() as Main).showLoading(carregando)
         }
 
         viewModel.dashOcorrenciaTipo.observe(viewLifecycleOwner) { lista ->

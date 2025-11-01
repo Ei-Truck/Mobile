@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EiTruck">
         <activity
-            android:name=".RestrictArea"
+            android:name=".ui.restrict.RestrictArea"
             android:exported="false" />
         <activity
             android:name=".ui.notification.Notifications"
