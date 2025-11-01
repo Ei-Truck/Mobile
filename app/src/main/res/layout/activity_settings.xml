@@ -174,37 +174,22 @@
                         android:textColor="@color/textColorPrimary" />
                 </LinearLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/sair"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="16dp"-->
-<!--                    android:orientation="horizontal">-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/imageView14"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        app:srcCompat="@drawable/ic_icon_sair" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/textView37"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:fontFamily="@font/titulo_bold_poppins_semibold"-->
-<!--                        android:text="Sair"-->
-<!--                        android:textColor="@color/textColorPrimary" />-->
-
-<!--                </LinearLayout>-->
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
+        <Button
+            android:id="@+id/buttonArea"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/layout_botao1"
+            android:fontFamily="@font/titulo_poppins_regular"
+            android:text="Área Restrita"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
