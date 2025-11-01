@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import android.Manifest
 import android.view.View
 import com.example.eitruck.R
-import com.example.eitruck.RestrictArea
+import com.example.eitruck.ui.restrict.RestrictArea
 import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.ActivitySettingsBinding
 import com.example.eitruck.ui.login.Login

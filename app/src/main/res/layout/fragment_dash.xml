@@ -489,13 +489,4 @@
     </LinearLayout>
     </ScrollView>
 
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="114dp"
-        android:layout_height="114dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/colorTertiary"
-        android:progressBackgroundTint="@color/colorTertiary"
-        android:visibility="visible" />
 </FrameLayout>

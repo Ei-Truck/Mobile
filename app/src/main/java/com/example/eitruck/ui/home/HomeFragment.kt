@@ -79,7 +79,8 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.segments.observe(viewLifecycleOwner) { segments ->
-            segmentosDisponiveis = if (segments.isEmpty()) listOf("Todos") else listOf("Todos") + segments
+            segmentosDisponiveis =
+                if (segments.isEmpty()) listOf("Todos") else listOf("Todos") + segments
         }
 
         viewModel.units.observe(viewLifecycleOwner) { units ->
@@ -87,7 +88,8 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
-            regioesDisponiveis = if (regions.isEmpty()) listOf("Todos") else listOf("Todos") + regions
+            regioesDisponiveis =
+                if (regions.isEmpty()) listOf("Todos") else listOf("Todos") + regions
         }
 
         val cargo = LoginSave(requireContext()).getPrefes().getString("user_cargo", "gerente_local")
@@ -197,7 +199,8 @@ class HomeFragment : Fragment() {
         recyclerView.post {
             val adapter = recyclerView.adapter ?: return@post
             var totalHeight = 0
-            val widthSpec = View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY)
+            val widthSpec =
+                View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY)
             val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
 
             for (i in 0 until adapter.itemCount) {

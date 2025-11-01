@@ -1,9 +1,11 @@
 package com.example.eitruck.ui.dash
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,13 +18,17 @@ import com.example.eitruck.domain.FilterStrategy
 import com.example.eitruck.domain.LocalManager
 import com.example.eitruck.domain.RegionsManager
 import com.example.eitruck.domain.SegmentsManager
+import com.example.eitruck.model.Units
 import com.example.eitruck.model.generateColors
 import com.example.eitruck.ui.filter.FilterDashDialog
 import com.example.eitruck.ui.filter.FilterHomeDialog
 import com.example.eitruck.ui.filter.FiltrosDashDisponiveis
 import com.example.eitruck.ui.filter.FiltrosDisponiveis
-import com.github.mikephil.charting.data.BarEntry
+import com.example.eitruck.ui.filter.SpinnerItem
+import com.example.eitruck.ui.main.Main
 import java.time.LocalDate
+import kotlin.Boolean
+import kotlin.text.ifEmpty
 
 class DashFragment : Fragment() {
 
@@ -52,12 +58,99 @@ class DashFragment : Fragment() {
         val login = LoginSave(requireContext())
         val token = login.getToken().toString()
         viewModel.setToken(token)
-        viewModel.setTokenInfra(token)
-        viewModel.setTokenDriver(token)
+
+        segmentosDisponiveis = listOf("Todos")
+        unidadesDisponiveis = listOf("Todos")
+        regioesDisponiveis = listOf("Todos")
 
         setupLegendaRecycler()
         setupObservers()
         fetchData()
+
+        viewModel.segments.observe(viewLifecycleOwner) { segments ->
+            segmentosDisponiveis = if (segments.isEmpty()) {
+                listOf("Todos")
+            } else {
+                listOf("Todos") + segments.map { it.nome }
+            }
+        }
+
+        viewModel.units.observe(viewLifecycleOwner) { units ->
+            unidadesDisponiveis = if (units.isEmpty()) {
+                listOf("Todos")
+            } else {
+                listOf("Todos") + units.map { it.nome }
+            }
+        }
+
+        viewModel.regions.observe(viewLifecycleOwner) { regions ->
+            regioesDisponiveis = if (regions.isEmpty()) listOf("Todos") else listOf("Todos") + regions
+        }
+
+
+        val cargo = LoginSave(requireContext()).getPrefes().getString("user_cargo", "gerente_local")
+        val strategy: FilterStrategy = when (cargo) {
+            "Administrador" -> AnalyticsManager()
+            "Gerente de Análise" -> AnalyticsManager()
+            "Analista Regional" -> RegionsManager()
+            "Analista Segmento" -> SegmentsManager()
+            "Analista Local" -> LocalManager()
+            else -> LocalManager()
+        }
+
+        binding.buttonFilterDash.setOnClickListener {
+            val filtros = FiltrosDashDisponiveis(
+                regioes = listOf("Todos") + (viewModel.regions.value ?: emptyList()),
+                segmentos = listOf(SpinnerItem("", "Todos")) + (viewModel.segments.value?.map {
+                    SpinnerItem(it.id.toString(), it.nome)
+                } ?: emptyList()),
+                unidades = listOf(SpinnerItem("", "Todos")) + (viewModel.units.value?.map {
+                    SpinnerItem(it.id.toString(), it.nome)
+                } ?: emptyList()),
+                meses = listOf(
+                    SpinnerItem("", "Todos"),
+                    SpinnerItem("1", "Janeiro"),
+                    SpinnerItem("2", "Fevereiro"),
+                    SpinnerItem("3", "Março"),
+                    SpinnerItem("4", "Abril"),
+                    SpinnerItem("5", "Maio"),
+                    SpinnerItem("6", "Junho"),
+                    SpinnerItem("7", "Julho"),
+                    SpinnerItem("8", "Agosto"),
+                    SpinnerItem("9", "Setembro"),
+                    SpinnerItem("10", "Outubro"),
+                    SpinnerItem("11", "Novembro"),
+                    SpinnerItem("12", "Dezembro")
+                ),
+                anos = listOf(SpinnerItem("", "Todos")) + (2021..2025).map { SpinnerItem(it.toString(), it.toString()) }
+            )
+
+            FilterDashDialog(
+                context = requireContext(),
+                filtrosDisponiveis = filtros,
+                regiaoSelecionada = viewModel.regiao.ifEmpty { "Todos" },
+                segmentoSelecionado = viewModel.segmento.toString().ifEmpty { "Todos" },
+                unidadeSelecionada = viewModel.unidade.toString().ifEmpty { "Todos" },
+                mesSelecionado = viewModel.mes.ifEmpty { "Todos" },
+                anoSelecionado = viewModel.ano.ifEmpty { "Todos" },
+                showRegiao = strategy.showRegiao,
+                showSegmento = strategy.showSegmento,
+                showUnidade = strategy.showUnidade,
+                showMes = true,
+                showAno = true
+            ) { regiao, segmento, unidade, mes, ano ->
+                viewModel.regiao = regiao ?: ""
+                viewModel.segmento = segmento?.toIntOrNull() ?: 0
+                viewModel.unidade = unidade?.toIntOrNull() ?: 0
+                viewModel.mes = mes ?: ""
+                viewModel.ano = ano ?: ""
+
+                pagina = 1
+                viewModel.filtrarDash()
+            }.show()
+
+
+        }
     }
 
     private fun setupLegendaRecycler() {
@@ -67,12 +160,10 @@ class DashFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        // Loading
         viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
-            binding.progressBar2.visibility = if (carregando) View.VISIBLE else View.GONE
+            (requireActivity() as Main).showLoading(carregando)
         }
 
-        // Infrações por tipo
         viewModel.dashOcorrenciaTipo.observe(viewLifecycleOwner) { lista ->
             if (!lista.isNullOrEmpty()) {
                 val listaColorida = generateColors(lista)
@@ -83,14 +174,10 @@ class DashFragment : Fragment() {
             }
         }
 
-        // Infrações por gravidade
         viewModel.dashOcorrenciaGravidade.observe(viewLifecycleOwner) { lista ->
-            val agora = LocalDate.now()
-            val mesAtual = agora.monthValue
-            val anoAtual = agora.year
+            val listaParaSoma = lista.orEmpty()
 
-            val listaAtual = lista?.filter { it.mes == mesAtual && it.ano == anoAtual }.orEmpty()
-            val agrupado = listaAtual.groupBy { it.gravidade }.mapValues { entry ->
+            val agrupado = listaParaSoma.groupBy { it.gravidade }.mapValues { entry ->
                 entry.value.sumOf { it.total_ocorrencias }
             }
 
@@ -98,9 +185,10 @@ class DashFragment : Fragment() {
             binding.numTotalMedia.text = (agrupado["Média"] ?: agrupado["Media"] ?: 0).toString()
             binding.numTotalGraves.text = (agrupado["Grave"] ?: 0).toString()
             binding.numTotalGravissima.text = (agrupado["Gravíssima"] ?: 0).toString()
+
+            Log.d("Filtrado gravidade", agrupado.toString())
         }
 
-        // Variação mensal
         viewModel.dashVariacao.observe(viewLifecycleOwner) { lista ->
             val agora = LocalDate.now()
             val mesAtual = agora.monthValue
@@ -121,7 +209,6 @@ class DashFragment : Fragment() {
             }
         }
 
-        // Total de ocorrências
         viewModel.dashTotalOcorrencias.observe(viewLifecycleOwner) { lista ->
             val agora = LocalDate.now()
             val mesAtual = agora.monthValue
@@ -132,19 +219,14 @@ class DashFragment : Fragment() {
             binding.numTotalInfra.text = totalOcorrencias.toString()
         }
 
-        // Motorista com mais infrações
         viewModel.dashMotoristaInfra.observe(viewLifecycleOwner) { lista ->
-            val agora = LocalDate.now()
-            val mesAtual = agora.monthValue
-            val anoAtual = agora.year
+            val infracoesFiltradas = lista.orEmpty()
 
-            val infracoesMesAtual = lista?.filter { it.mes == mesAtual && it.ano == anoAtual }.orEmpty()
+            if (infracoesFiltradas.isNotEmpty()) {
+                val totalInfracoesFiltradas = infracoesFiltradas.sumOf { it.quantidade_infracoes }
+                binding.motMaisInfraQuant.text = "com $totalInfracoesFiltradas infrações"
 
-            if (infracoesMesAtual.isNotEmpty()) {
-                val totalInfracoesMes = infracoesMesAtual.sumOf { it.quantidade_infracoes }
-                binding.motMaisInfraQuant.text = "com $totalInfracoesMes infrações"
-
-                val motoristaMaisInfra = infracoesMesAtual
+                val motoristaMaisInfra = infracoesFiltradas
                     .groupBy { it.motorista }
                     .mapValues { it.value.sumOf { it.quantidade_infracoes } }
                     .maxByOrNull { it.value }?.key ?: "-"
@@ -163,5 +245,8 @@ class DashFragment : Fragment() {
         viewModel.getVariation()
         viewModel.getTotal()
         viewModel.getMotoristaInfra()
+        viewModel.getSegments()
+        viewModel.getUnits()
+        viewModel.getRegions()
     }
 }

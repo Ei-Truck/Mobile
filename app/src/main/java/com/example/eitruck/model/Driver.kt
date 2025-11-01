@@ -28,4 +28,8 @@ data class DriverInfractions(
     val quantidade_infracoes: Int,
     val mes: Int,
     val ano: Int,
+    val idUnidade: Int,
+    val idSegmento: Int,
+    val idLocalidade: Int,
+    val utfEstado: String
 )
