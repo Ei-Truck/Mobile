@@ -1,4 +1,4 @@
-package com.example.eitruck
+package com.example.eitruck.ui.restrict
 
 import android.os.Bundle
 import android.webkit.WebViewClient
@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.eitruck.R
 import com.example.eitruck.databinding.ActivityRestrictAreaBinding
 
 class RestrictArea : AppCompatActivity() {
@@ -35,6 +36,6 @@ class RestrictArea : AppCompatActivity() {
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
 
-        webView.loadUrl("https://app.powerbi.com/view?r=eyJrIjoiYjM4MWU2YmQtYjU4MS00Y2MxLWIwMGItMDI4NzY2MWJkOTQ1IiwidCI6ImIxNDhmMTRjLTIzOTctNDAyYy1hYjZhLTFiNDcxMTE3N2FjMCJ9")
+        webView.loadUrl("https://app.powerbi.com/view?r=eyJrIjoiYTAwY2Y4YTAtNzM4NS00NTQ4LTkxYzctMzJlOWVlN2E4M2E0IiwidCI6ImIxNDhmMTRjLTIzOTctNDAyYy1hYjZhLTFiNDcxMTE3N2FjMCJ9")
     }
 }
