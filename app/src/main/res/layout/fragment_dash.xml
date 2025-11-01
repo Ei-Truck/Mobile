@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.dash.DashFragment">
 
+    <View
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#32000000"
+        android:clickable="true"
+        android:elevation="98dp"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Scroll principal -->
     <ScrollView
         android:layout_width="match_parent"

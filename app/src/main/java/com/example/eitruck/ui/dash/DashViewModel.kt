@@ -82,7 +82,6 @@ class DashViewModel: ViewModel() {
 
     fun getInfractionsByType() {
         viewModelScope.launch {
-            carregando.value = true
             try {
                 dashRepository?.let{
                     val response = it.getInfractionsByType()
@@ -91,8 +90,6 @@ class DashViewModel: ViewModel() {
                 } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
-            }finally {
-                carregando.value = false
             }
         }
     }
@@ -116,7 +113,6 @@ class DashViewModel: ViewModel() {
 
     fun getVariation() {
         viewModelScope.launch {
-            carregando.value = true
             try {
                 infractionsRepository?.let{
                     val response = it.getVariation()
@@ -125,15 +121,12 @@ class DashViewModel: ViewModel() {
                 } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
-            }finally {
-                carregando.value = false
             }
         }
     }
 
     fun getTotal() {
         viewModelScope.launch {
-            carregando.value = true
             try {
                 infractionsRepository?.let{
                     val response = it.getTotal()
@@ -142,15 +135,12 @@ class DashViewModel: ViewModel() {
                 } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
-            }finally {
-                carregando.value = false
             }
         }
     }
 
     fun getMotoristaInfra() {
         viewModelScope.launch {
-            carregando.value = true
             try {
                 driverRepository?.let{
                     val response = it.getDriversInfractions()
@@ -159,15 +149,12 @@ class DashViewModel: ViewModel() {
                 } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
-            }finally {
-                carregando.value = false
             }
         }
     }
 
     fun getRegions() {
         viewModelScope.launch {
-            carregando.value = true
             try {
                 regiaoRepository?.let{
                     val response = it.getRegions().map { it.ufEstado }
@@ -175,15 +162,12 @@ class DashViewModel: ViewModel() {
                 } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
-            }finally {
-                carregando.value = false
             }
         }
     }
 
     fun getSegments() {
         viewModelScope.launch {
-            carregando.value = true
             try {
                 segmentoRepository?.let{
                     val response = it.getSegments()
@@ -191,8 +175,6 @@ class DashViewModel: ViewModel() {
                 } ?: throw IllegalStateException("Token não definido!")
             } catch (e: Exception){
                 e.printStackTrace()
-            }finally {
-                carregando.value = false
             }
         }
     }

@@ -163,6 +163,7 @@ class DashFragment : Fragment() {
     private fun setupObservers() {
         viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
             binding.progressBar2.visibility = if (carregando) View.VISIBLE else View.GONE
+            binding.loadingView.visibility = if (carregando) View.VISIBLE else View.GONE
         }
 
         viewModel.dashOcorrenciaTipo.observe(viewLifecycleOwner) { lista ->
@@ -176,8 +177,6 @@ class DashFragment : Fragment() {
         }
 
         viewModel.dashOcorrenciaGravidade.observe(viewLifecycleOwner) { lista ->
-            // CORREÇÃO: Removemos a filtragem de mes/ano, pois a lista 'lista'
-            // já vem filtrada por REGIAO, SEGMENTO, UNIDADE, MES e ANO pelo ViewModel.
             val listaParaSoma = lista.orEmpty()
 
             val agrupado = listaParaSoma.groupBy { it.gravidade }.mapValues { entry ->
