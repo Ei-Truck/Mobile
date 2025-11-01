@@ -28,6 +28,9 @@
             android:name=".NoConnection"
             android:exported="false" />
         <activity
+            android:name=".RestrictArea"
+            android:exported="false" />
+        <activity
             android:name=".ui.notification.Notifications"
             android:exported="false" />
         <activity
@@ -40,7 +43,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.Main"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".ui.forgot_password.ForgotpassChange"
             android:exported="false" />
@@ -53,15 +56,13 @@
         <activity
             android:name=".ui.profile.Profile"
             android:exported="false" />
-        <activity
-            android:name=".ui.settings.Settings"
+        <activity android:name=".ui.settings.Settings"
             android:exported="false" />
         <activity
             android:name=".ui.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

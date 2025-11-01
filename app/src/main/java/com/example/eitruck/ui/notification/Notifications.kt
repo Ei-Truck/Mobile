@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.eitruck.R
+import com.example.eitruck.data.local.LoginSave
 import com.example.eitruck.databinding.ActivityNotificationsBinding
 import kotlinx.coroutines.launch
 
@@ -48,9 +49,11 @@ class Notifications : AppCompatActivity() {
             binding.notificationsRecycler.adapter = adapter
         }
 
+        val user_id = LoginSave(this).getPrefes().getInt("user_id", -1)
+
         if (viewMode.notifications.value.isNullOrEmpty()) {
             lifecycleScope.launch {
-                viewMode.getNotifications("1")
+                viewMode.getNotifications(user_id.toString())
             }
         }
 
