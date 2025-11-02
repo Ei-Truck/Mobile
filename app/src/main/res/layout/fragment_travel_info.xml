@@ -33,7 +33,7 @@
                 android:textSize="24sp" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/btnConcluirAnalise"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -126,7 +126,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="14/10"
+                                android:text="00/00"
                                 android:textColor="@color/textColorPrimary" />
 
                             <TextView
@@ -142,7 +142,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="15/10"
+                                android:text="00/00"
                                 android:textColor="@color/textColorPrimary" />
                         </LinearLayout>
 
@@ -165,7 +165,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="700 Km"
+                                android:text="000 Km"
                                 android:textColor="@color/textColorPrimary" />
                         </LinearLayout>
 
@@ -188,7 +188,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="Bovinos"
+                                android:text="Segmento"
                                 android:textColor="@color/textColorPrimary" />
                         </LinearLayout>
                     </LinearLayout>
@@ -254,10 +254,11 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/foto_perfil"
+                        android:src="@drawable/ic_icon_profile"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/CircularShape" />
+                        app:shapeAppearanceOverlay="@style/CircularShape"
+                        app:tint="@color/colorBackground" />
 
                     <TextView
                         android:id="@+id/driver_name"
@@ -266,7 +267,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:text="Paulo Munhoz"
+                        android:text="--"
                         android:textColor="@color/colorBackground"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -275,24 +276,12 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/driver_hour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        android:text="15:32h - 15:23h"
-                        android:textColor="@color/colorBackground"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                    <TextView
                         android:id="@+id/driver_risk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="36dp"
                         android:layout_marginEnd="8dp"
-                        android:text="Risco: Moderado"
+                        android:text="Risco: --"
                         android:textColor="@color/colorBackground"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -338,7 +327,7 @@
                             android:id="@+id/total_infractions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3"
+                            android:text="0"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="16sp" />
 
@@ -359,58 +348,255 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="6dp">
 
                 <LinearLayout
+                    android:id="@+id/cardContainer2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/textView27"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8sp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/titulo_bold_poppins_semibold"
                         android:text="Infrações por Gravidade"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/infracoes"
+                    <!-- Leves -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/item_infracao" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/numTotalLeve"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="0"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="Leves"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="5" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_eclipse_leve" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:dividerColor="@color/textColorSecondary" />
+
+                    <!-- Médias -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/numTotalMedia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="0"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="Médias"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="5" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_eclipse_media" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:dividerColor="@color/textColorSecondary" />
+
+                    <!-- Graves -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/numTotalGraves"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="0"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="Graves"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="5" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_eclipse_grave" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:dividerColor="@color/textColorSecondary" />
+
+                    <!-- Gravíssimas -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/numTotalGravissima"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="0"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="2"
+                            android:fontFamily="@font/titulo_poppins_regular"
+                            android:gravity="start"
+                            android:text="Gravíssimas"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="5" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_eclipse_gravissima" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <Button
-                android:id="@+id/button"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTratativa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:text="Escrever Tratativa"
-                app:icon="@drawable/ic_icon_tratativa" />
+                android:drawableTint="@color/white"
+                android:text="Adicionar Tratativa"
+                app:icon="@drawable/ic_icon_tratativa"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
 
-            <Button
-                android:id="@+id/button4"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGerarRelatorio"
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="52dp"
                 android:backgroundTint="@color/colorTertiary"
+                android:drawableTint="@color/white"
                 android:text="Gerar Relatório"
-                app:icon="@drawable/ic_icon_relatorio" />
+                app:icon="@drawable/ic_icon_relatorio"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="114dp"
+        android:layout_height="114dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorTertiary"
+        android:visibility="visible" />
 
 </FrameLayout>

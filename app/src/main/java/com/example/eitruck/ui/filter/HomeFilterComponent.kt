@@ -32,7 +32,7 @@ class FilterHomeDialog(
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.window?.setGravity(Gravity.CENTER)
 
-        val layoutRegiao   = dialog.findViewById<View>(R.id.Região)
+        val layoutRegiao   = dialog.findViewById<View>(R.id.Regiao)
         val layoutUnidade  = dialog.findViewById<View>(R.id.Unidade)
         val layoutSegmento = dialog.findViewById<View>(R.id.Segmento)
 

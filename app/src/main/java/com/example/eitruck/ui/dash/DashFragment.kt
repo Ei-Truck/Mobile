@@ -1,5 +1,6 @@
 package com.example.eitruck.ui.dash
 
+import PdfReportDashGenerator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,10 @@ class DashFragment : Fragment() {
         legendaAdapter = LegendaAdapter(emptyList())
         binding.recyclerLegenda.adapter = legendaAdapter
 
+        binding.buttonGerarDash.setOnClickListener {
+            PdfReportDashGenerator.gerarRelatorioDash(requireContext(),"Relatório", binding.pdfContentContainer,)
+        }
+
 //        grafico - infrações por tipo
         viewModel.dashOcorrenciaTipo.observe(viewLifecycleOwner) { lista ->
             if (!lista.isNullOrEmpty()) {
@@ -65,18 +70,15 @@ class DashFragment : Fragment() {
 
                 val listaAtual = lista.filter { it.mes == mesAtual && it.ano == anoAtual }
 
-                // Agrupa por gravidade e soma o total
                 val agrupado = listaAtual.groupBy { it.gravidade }.mapValues { entry ->
                     entry.value.sumOf { it.total_ocorrencias }
                 }
 
-                // Atualiza a UI com segurança
                 binding.numTotalLeve.text = (agrupado["Leve"] ?: 0).toString()
                 binding.numTotalMedia.text = (agrupado["Média"] ?: agrupado["Media"] ?: 0).toString()
                 binding.numTotalGraves.text = (agrupado["Grave"] ?: 0).toString()
                 binding.numTotalGravissima.text = (agrupado["Gravíssima"] ?: 0).toString()
             } else {
-                // Nenhum registro no mês atual
                 binding.numTotalLeve.text = "0"
                 binding.numTotalMedia.text = "0"
                 binding.numTotalGraves.text = "0"

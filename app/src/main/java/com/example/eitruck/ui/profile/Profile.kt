@@ -39,16 +39,12 @@ class Profile : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
     private var photoUri: Uri? = null
-
     private val viewModel: ProfileViewModel by viewModels()
 
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        uri?.let {
-
-            enviarFotoParaApi(it)
-        }
+        uri?.let { enviarFotoParaApi(it) }
     }
 
     private val takePhotoLauncher = registerForActivityResult(
@@ -62,11 +58,8 @@ class Profile : AppCompatActivity() {
     private val requestCameraPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
-            openCameraInternal()
-        } else {
-            Toast.makeText(this, "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
-        }
+        if (isGranted) openCameraInternal()
+        else Toast.makeText(this, "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,8 +74,10 @@ class Profile : AppCompatActivity() {
         }
 
         val login = LoginSave(this)
-        val savedUrl = login.getPrefes().getString("url_photo", null)
-        savedUrl?.let {
+        val prefs = login.getPrefes()
+
+        // Carrega dados locais
+        prefs.getString("url_photo", null)?.let {
             Glide.with(this)
                 .load(it)
                 .skipMemoryCache(true)
@@ -90,73 +85,60 @@ class Profile : AppCompatActivity() {
                 .into(binding.imgProfile)
         }
 
-        val name = login.getPrefes().getString("user_name", "")
-        val email = login.getPrefes().getString("user_email", "")
-        val phone = login.getPrefes().getString("user_phone", "")
-
-        binding.userName.text = name
-        binding.userEmail.text = email
-        binding.userPhone.text = phone
+        binding.userName.text = prefs.getString("user_name", "")
+        binding.userEmail.text = prefs.getString("user_email", "")
+        binding.userPhone.text = prefs.getString("user_phone", "")
 
         viewModel.setToken(login.getToken().toString())
-        viewModel.getUser(login.getPrefes().getInt("user_id", -1))
+        viewModel.getUser(prefs.getInt("user_id", -1))
 
         viewModel.user.observe(this) { user ->
-            val prefsEditor = login.getPrefes().edit()
             if (user != null) {
-                if (user.nomeCompleto != name) {
-                    binding.userName.text = user.nomeCompleto
-                    prefsEditor.putString("user_name", user.nomeCompleto)
+                binding.userName.text = user.nomeCompleto
+                binding.userEmail.text = user.email
+                binding.userPhone.text = user.telefone
+
+                prefs.edit().apply {
+                    putString("user_name", user.nomeCompleto)
+                    putString("user_email", user.email)
+                    putString("user_phone", user.telefone)
+                    putString("url_photo", user.urlFoto)
+                    apply()
                 }
-                if (user.email != email) {
-                    binding.userEmail.text = user.email
-                    prefsEditor.putString("user_email", user.email)
-                }
-                if (user.telefone != phone) {
-                    binding.userPhone.text = user.telefone
-                    prefsEditor.putString("user_phone", user.telefone)
-                }
-                prefsEditor.apply()
+
+                Glide.with(this)
+                    .load(user.urlFoto)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(binding.imgProfile)
             }
         }
 
-
-        binding.backProfileToMain.setOnClickListener {
-            finish()
-        }
+        binding.backProfileToMain.setOnClickListener { finish() }
 
         binding.buttonSettings.setOnClickListener {
-            val intent = Intent(this, Settings::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Settings::class.java))
         }
 
-        binding.btnChangePhoto.setOnClickListener {
-            showImageOptions()
-        }
+        binding.btnChangePhoto.setOnClickListener { showImageOptions() }
 
         binding.buttonPoliticaPrivacidade.setOnClickListener {
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.modal_politica_privacidade)
-
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.setCancelable(true)
-            dialog.setCanceledOnTouchOutside(true)
-
             dialog.show()
         }
 
         binding.btnLogout.setOnClickListener {
-            val dialog: Dialog = Dialog(this)
+            val dialog = Dialog(this)
             dialog.setContentView(R.layout.modal_logout)
-
-            dialog.window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog.window?.setGravity(Gravity.CENTER)
+            dialog.window?.apply {
+                setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                setBackgroundDrawableResource(android.R.color.transparent)
+                setGravity(Gravity.CENTER)
+            }
             dialog.setCancelable(true)
-            dialog.setCanceledOnTouchOutside(true)
             dialog.show()
 
             dialog.findViewById<Button>(R.id.btn_exit).setOnClickListener {
@@ -170,8 +152,6 @@ class Profile : AppCompatActivity() {
             dialog.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
                 dialog.dismiss()
             }
-
-
         }
     }
 
@@ -199,11 +179,7 @@ class Profile : AppCompatActivity() {
 
     private fun openCameraInternal() {
         val photoFile = File.createTempFile("profile_", ".jpg", cacheDir)
-        photoUri = FileProvider.getUriForFile(
-            this,
-            "${packageName}.provider",
-            photoFile
-        )
+        photoUri = FileProvider.getUriForFile(this, "${packageName}.provider", photoFile)
         takePhotoLauncher.launch(photoUri)
     }
 
@@ -217,10 +193,8 @@ class Profile : AppCompatActivity() {
             binding.progressBar.visibility = android.view.View.VISIBLE
             try {
                 val tempFile = createTempFileFromUri(uri)
-
                 val requestBody = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
                 val multipart = MultipartBody.Part.createFormData("file", "profile_$userId.jpg", requestBody)
-
                 val response = userRepo.uploadPhoto(userId, multipart)
 
                 response.urlFoto?.let { url ->
@@ -230,18 +204,13 @@ class Profile : AppCompatActivity() {
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(binding.imgProfile)
 
-                    val prefsEditor = login.getPrefes().edit()
-                    prefsEditor.putString("url_photo", url)
-                    prefsEditor.apply()
+                    login.getPrefes().edit().apply {
+                        putString("url_photo", url)
+                        apply()
+                    }
                 }
 
                 Toast.makeText(this@Profile, "Foto atualizada com sucesso!", Toast.LENGTH_SHORT).show()
-                tempFile.delete()
-
-            } catch (e: retrofit2.HttpException) {
-                Toast.makeText(this@Profile, "Erro HTTP ao enviar foto: ${e.code()}", Toast.LENGTH_SHORT).show()
-            } catch (e: IOException) {
-                Toast.makeText(this@Profile, "Erro ao processar imagem", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Toast.makeText(this@Profile, "Erro ao enviar foto: ${e.message}", Toast.LENGTH_SHORT).show()
             } finally {
@@ -255,11 +224,7 @@ class Profile : AppCompatActivity() {
         val inputStream = contentResolver.openInputStream(uri)
             ?: throw IOException("Não foi possível abrir o URI: $uri")
         val tempFile = File.createTempFile("profile_", ".jpg", cacheDir)
-        inputStream.use { input ->
-            tempFile.outputStream().use { output ->
-                input.copyTo(output)
-            }
-        }
+        inputStream.use { input -> tempFile.outputStream().use { output -> input.copyTo(output) } }
         return tempFile
     }
 }

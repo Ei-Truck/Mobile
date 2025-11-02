@@ -7,8 +7,15 @@ import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
 import com.example.eitruck.model.Region
 import com.example.eitruck.model.Segments
+import com.example.eitruck.model.TratativaRequest
+import com.example.eitruck.model.TratativaResponse
 import com.example.eitruck.model.Travel
-import com.example.eitruck.model.TravelInfo
+import com.example.eitruck.model.TravelAnalysisStatus
+import com.example.eitruck.model.TravelAnalyzeRequest
+import com.example.eitruck.model.TravelBasicVision
+import com.example.eitruck.model.TravelDriverBasicVision
+import com.example.eitruck.model.TravelDriverInfractions
+import com.example.eitruck.model.TravelInfractionInfo
 import com.example.eitruck.model.Units
 import com.example.eitruck.model.User
 import com.example.eitruck.model.WeeklyReport
@@ -16,7 +23,9 @@ import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 
@@ -39,8 +48,23 @@ interface TravelService {
     @GET("/viagens/relatorio-simples")
     suspend fun getTravels(): List<Travel>
 
-    @GET("/viagens/visao-basica")
-    suspend fun getTravelsInfo(): List<TravelInfo>
+    @GET("/viagens/visao-basica/{id}")
+    suspend fun getTravelsInfo(@Path("id") id: Int): TravelBasicVision
+
+    @GET("/viagens/motorista-visao-basica/{id}")
+    suspend fun getDriversInfo(@Path("id") id: Int): List<TravelDriverBasicVision>
+
+    @GET("/viagens/motorista-infracoes/{id}")
+    suspend fun getDriversInfractions(@Path("id") id: Int): List<TravelDriverInfractions>
+
+    @GET("/viagens/quantidade-infracao-tipo-gravidade/{id}")
+    suspend fun getInfractionsByGravity(@Path("id") id: Int): List<TravelInfractionInfo>
+
+    @PATCH("/viagens/check-viagem/{id}")
+    suspend fun updateTravelStatus(@Path("id") id: Int, @Body request: TravelAnalyzeRequest): List<TravelInfractionInfo>
+
+    @GET("/viagens/{id}")
+    suspend fun getTravelAnalysisStatus(@Path("id") id: Int): TravelAnalysisStatus
 }
 
 interface InfractionService {
@@ -72,6 +96,34 @@ interface RegionService {
 
     @GET("/localidades")
     suspend fun getRegions() : List<Region>
+}
+
+interface RecordService {
+    @POST("/registros")
+    suspend fun createTratativa(
+        @Body request: TratativaRequest
+    ): TratativaResponse
+
+    @GET("/registros")
+    suspend fun getAllTratativas(): List<TratativaResponse>
+
+    @GET("/registros/{id}")
+    suspend fun getTratativaById(
+        @Path("id") id: Int
+    ): TratativaResponse
+
+    @PUT("/registros/{id}")
+    suspend fun updateTratativa(
+        @Path("id") id: Int,
+        @Body request: TratativaRequest
+    ): TratativaResponse
+
+    @PATCH("/registros/viagem/{idViagem}/motorista/{idMotorista}")
+    suspend fun updateTratativaByDriver(
+        @Path("idViagem") idViagem: Int,
+        @Path("idMotorista") idMotorista: Int,
+        @Body request: Map<String, String> // ou body simples {"tratativa": "..."}
+    ): TratativaResponse
 }
 
 interface DriverService {

@@ -58,20 +58,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Título -->
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Título"/>
+                android:hint="Título"
+                android:textColorHint="@color/textColorSecondary"
+                app:boxStrokeColor="@color/colorPrimary">
 
-            <!-- Corpo da anotação -->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:outlineAmbientShadowColor="@color/colorPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Adicione uma tratativa">
+                android:hint="Adicione uma tratativa"
+                android:textColorHint="@color/textColorSecondary"
+                app:boxStrokeColor="@color/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editBody"
@@ -80,10 +91,9 @@
                     android:gravity="top"
                     android:inputType="textMultiLine|textCapSentences"
                     android:minLines="10"
+                    android:outlineAmbientShadowColor="@color/colorPrimary"
                     android:scrollbars="vertical" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
-
-<!--     Barra inferior de ações -->
 </LinearLayout>

@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,121 +58,105 @@ class HomeFragment : Fragment() {
             requireActivity().finish()
         }
 
-        if (viewModel.drivers.value.isNullOrEmpty() || viewModel.infractions.value.isNullOrEmpty()) {
-            viewModel.getDriverWeeklyReport()
-            viewModel.getWeeklyReport()
-            viewModel.getSegments()
-            viewModel.getUnits()
-            viewModel.getRegions()
-        }
-
         val recyclerView = binding.ranking
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        segmentosDisponiveis = listOf("Todos")
+        unidadesDisponiveis = listOf("Todos")
+        regioesDisponiveis = listOf("Todos")
 
         viewModel.drivers.observe(viewLifecycleOwner) {
             motoristas = it
             atualizarPagina()
         }
 
-
-        var segmentosDisponiveis: List<String> = listOf("Todos")
-        var unidadesDisponiveis: List<String> = listOf("Todos")
-        var regioesDisponiveis: List<String> = listOf("Todos")
-
-
-        if (viewModel.segments.value.isNullOrEmpty()) {
-            viewModel.getSegments()
+        viewModel.infractions.observe(viewLifecycleOwner) { infractions ->
+            HomeGraph(combinedChart, infractions, requireContext())
         }
 
-        if (viewModel.units.value.isNullOrEmpty()) {
-            viewModel.getUnits()
-            viewModel.infractions.observe(viewLifecycleOwner) { infraction ->
-                HomeGraph(combinedChart, infraction, requireContext())
-            }
+        viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
+            (requireActivity() as Main).showLoading(carregando)
+        }
 
-            viewModel.carregandoLiveData.observe(viewLifecycleOwner) { carregando ->
-                (requireActivity() as Main).showLoading(carregando)
-            }
+        viewModel.segments.observe(viewLifecycleOwner) { segments ->
+            segmentosDisponiveis = if (segments.isEmpty()) listOf("Todos") else listOf("Todos") + segments
+        }
 
-            viewModel.segments.observe(viewLifecycleOwner) { segments ->
-                segmentosDisponiveis =
-                    if (segments.isEmpty()) listOf() else listOf("Todos") + segments
-                atualizarEstadoBotaoFiltro()
-            }
+        viewModel.units.observe(viewLifecycleOwner) { units ->
+            unidadesDisponiveis = if (units.isEmpty()) listOf("Todos") else listOf("Todos") + units
+        }
 
-            viewModel.units.observe(viewLifecycleOwner) { units ->
-                unidadesDisponiveis = if (units.isEmpty()) listOf() else listOf("Todos") + units
-                atualizarEstadoBotaoFiltro()
-            }
+        viewModel.regions.observe(viewLifecycleOwner) { regions ->
+            regioesDisponiveis = if (regions.isEmpty()) listOf("Todos") else listOf("Todos") + regions
+        }
 
-            viewModel.regions.observe(viewLifecycleOwner) { regions ->
-                regioesDisponiveis = if (regions.isEmpty()) listOf() else listOf("Todos") + regions
-                atualizarEstadoBotaoFiltro()
-            }
+        val cargo = LoginSave(requireContext()).getPrefes().getString("user_cargo", "gerente_local")
+        val strategy: FilterStrategy = when (cargo) {
+            "Administrador" -> AnalyticsManager()
+            "Gerente de Análise" -> AnalyticsManager()
+            "Analista Regional" -> RegionsManager()
+            "Analista Segmento" -> SegmentsManager()
+            "Analista Local" -> LocalManager()
+            else -> LocalManager()
+        }
 
-            val cargo =
-                LoginSave(requireContext()).getPrefes().getString("user_cargo", "gerente_local")
+        binding.buttonFilterHome.setOnClickListener {
+            val filtros = FiltrosDisponiveis(
+                segmentos = segmentosDisponiveis,
+                regioes = regioesDisponiveis,
+                unidades = unidadesDisponiveis
+            )
 
-            val strategy: FilterStrategy = when (cargo) {
-                "Gerente de Análise" -> AnalyticsManager()
-                "Analista Regional" -> RegionsManager()
-                "Analista Segmento" -> SegmentsManager()
-                "Analista Local" -> LocalManager()
-                else -> LocalManager()
-            }
+            FilterHomeDialog(
+                context = requireContext(),
+                filtrosDisponiveis = filtros,
+                regiaoSelecionada = viewModel.regiao.ifEmpty { "Todos" },
+                segmentoSelecionado = viewModel.segmento.ifEmpty { "Todos" },
+                unidadeSelecionada = viewModel.unidade.ifEmpty { "Todos" },
+                showRegiao = strategy.showRegiao,
+                showSegmento = strategy.showSegmento,
+                showUnidade = strategy.showUnidade
+            ) { regiao, segmento, unidade ->
+                viewModel.regiao = regiao ?: "Todos"
+                viewModel.segmento = segmento ?: "Todos"
+                viewModel.unidade = unidade ?: "Todos"
 
-            binding.buttonFilterHome.isEnabled = true
+                pagina = 1
+                viewModel.filtrarDrivers()
+            }.show()
+        }
 
-            binding.buttonFilterHome.setOnClickListener {
-                val filtros = FiltrosDisponiveis(
-                    segmentos = segmentosDisponiveis,
-                    regioes = regioesDisponiveis,
-                    unidades = unidadesDisponiveis
-                )
-
-                FilterHomeDialog(
-                    context = requireContext(),
-                    filtrosDisponiveis = filtros,
-                    regiaoSelecionada = viewModel.regiao.ifEmpty { "Todos" },
-                    segmentoSelecionado = viewModel.segmento.ifEmpty { "Todos" },
-                    unidadeSelecionada = viewModel.unidade.ifEmpty { "Todos" },
-                    showRegiao = strategy.showRegiao,
-                    showSegmento = strategy.showSegmento,
-                    showUnidade = strategy.showUnidade
-                ) { regiao, segmento, unidade ->
-                    viewModel.regiao = regiao ?: "Todos"
-                    viewModel.segmento = segmento ?: "Todos"
-                    viewModel.unidade = unidade ?: "Todos"
-
-                    pagina = 1
-                    viewModel.filtrarDrivers()
-                }.show()
-            }
-
-            binding.backButton.setOnClickListener {
-                if (pagina > 1) {
-                    pagina--
-                    atualizarPagina()
-                }
-            }
-
-            binding.nextButton.setOnClickListener {
-                val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
-                if (pagina < totalPaginas) {
-                    pagina++
-                    atualizarPagina()
-                }
+        binding.backButton.setOnClickListener {
+            if (pagina > 1) {
+                pagina--
+                atualizarPagina()
             }
         }
-    }
 
-    private fun atualizarEstadoBotaoFiltro() {
-        val pronto = segmentosDisponiveis.isNotEmpty() &&
-                unidadesDisponiveis.isNotEmpty() &&
-                regioesDisponiveis.isNotEmpty()
-        binding.buttonFilterHome.isEnabled = pronto
-    }
+        binding.nextButton.setOnClickListener {
+            val totalPaginas = (motoristas.size + numPaginas - 1) / numPaginas
+            if (pagina < totalPaginas) {
+                pagina++
+                atualizarPagina()
+            }
+        }
 
+        viewModel.filtrarDrivers()
+        viewModel.drivers.observe(viewLifecycleOwner) { filtrados ->
+            val motoristasOrdenados = filtrados.sortedByDescending { it.pontuacao_ultimo_mes }
+            motoristasOrdenados.forEachIndexed { index, driver ->
+                driver.ranking_pontuacao = index + 1
+            }
+            motoristas = motoristasOrdenados
+            atualizarPagina()
+        }
+
+        viewModel.getDriverWeeklyReport()
+        viewModel.getWeeklyReport()
+        viewModel.getSegments()
+        viewModel.getUnits()
+        viewModel.getRegions()
+    }
 
     private fun atualizarPagina() {
         val recyclerView = binding.ranking
