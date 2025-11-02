@@ -155,7 +155,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/titulo_poppins_regular"
                         android:gravity="start"
-                        android:text="204"
+                        android:text="0"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="18sp" />
 
@@ -372,7 +372,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="Jose B. Chavez"
+                        android:text="--"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="16sp" />
 
@@ -383,7 +383,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/titulo_poppins_regular"
-                        android:text="com 27 infrações"
+                        android:text="com 0 infrações"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="12sp" />
 
