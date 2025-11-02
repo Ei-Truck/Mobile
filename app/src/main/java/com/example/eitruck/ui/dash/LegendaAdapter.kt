@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eitruck.R
-import com.example.eitruck.model.LegendaItem
+import com.example.eitruck.model.DashLegendaItem
 
-class LegendaAdapter(private var lista: List<LegendaItem>) :
+class LegendaAdapter(private var lista: List<DashLegendaItem>) :
     RecyclerView.Adapter<LegendaAdapter.LegendaViewHolder>() {
 
     class LegendaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -34,7 +34,7 @@ class LegendaAdapter(private var lista: List<LegendaItem>) :
 
     override fun getItemCount() = lista.size
 
-    fun updateData(novaLista: List<LegendaItem>) {
+    fun updateData(novaLista: List<DashLegendaItem>) {
         lista = novaLista
         notifyDataSetChanged()
     }

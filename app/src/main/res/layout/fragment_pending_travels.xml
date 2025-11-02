@@ -16,8 +16,8 @@
     <ProgressBar
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
+        android:layout_width="114dp"
+        android:layout_height="114dp"
         android:layout_gravity="center"
         android:indeterminateTint="@color/colorTertiary"
         android:progressBackgroundTint="@color/colorTertiary"

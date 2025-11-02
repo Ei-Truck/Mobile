@@ -22,3 +22,14 @@ data class DriverMonthlyReport(
             else -> R.color.colorPrimaryDark
         }
 }
+
+data class DriverInfractions(
+    val motorista: String,
+    val quantidade_infracoes: Int,
+    val mes: Int,
+    val ano: Int,
+    val idUnidade: Int,
+    val idSegmento: Int,
+    val idLocalidade: Int,
+    val utfEstado: String
+)

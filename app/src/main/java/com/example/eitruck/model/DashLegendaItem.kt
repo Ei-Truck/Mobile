@@ -2,14 +2,20 @@ package com.example.eitruck.model
 
 import android.graphics.Color
 
-data class LegendaItem(
+data class DashLegendaItem(
     var cor: Int = 0,
     val tipo_infracao: String,
     val total_ocorrencias: Int,
-    val porcentagem_do_total: String
+    val porcentagem_do_total: String,
+    val mes: Int,
+    val ano: Int,
+    val idUnidade: Int,
+    val idSegmento: Int,
+    val idLocalidade: Int,
+    val ufEstado: String
 )
 
-fun generateColors(lista: List<LegendaItem>): List<LegendaItem> {
+fun generateColors(lista: List<DashLegendaItem>): List<DashLegendaItem> {
     if (lista.isEmpty()) return emptyList()
 
     val total = lista.size

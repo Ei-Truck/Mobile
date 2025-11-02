@@ -1,8 +1,11 @@
 package com.example.eitruck.data.remote.network.service.postgres
 
-import com.example.eitruck.model.DriverMonthlyReport
+import com.example.eitruck.model.DashLegendaItem
 import com.example.eitruck.model.DashOcorrenciaGravidade
-import com.example.eitruck.model.LegendaItem
+import com.example.eitruck.model.DashOcorrenciaTotal
+import com.example.eitruck.model.DashVariacaoInfracoes
+import com.example.eitruck.model.DriverInfractions
+import com.example.eitruck.model.DriverMonthlyReport
 import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
 import com.example.eitruck.model.Region
@@ -10,13 +13,13 @@ import com.example.eitruck.model.Segments
 import com.example.eitruck.model.TratativaRequest
 import com.example.eitruck.model.TratativaResponse
 import com.example.eitruck.model.Travel
+import com.example.eitruck.model.Units
 import com.example.eitruck.model.TravelAnalysisStatus
 import com.example.eitruck.model.TravelAnalyzeRequest
 import com.example.eitruck.model.TravelBasicVision
 import com.example.eitruck.model.TravelDriverBasicVision
 import com.example.eitruck.model.TravelDriverInfractions
 import com.example.eitruck.model.TravelInfractionInfo
-import com.example.eitruck.model.Units
 import com.example.eitruck.model.User
 import com.example.eitruck.model.WeeklyReport
 import okhttp3.MultipartBody
@@ -70,11 +73,17 @@ interface TravelService {
 interface InfractionService {
     @GET("/infracoes/relatorio")
     suspend fun getInfractions(): List<WeeklyReport>
+
+    @GET("/infracoes/variacao")
+    suspend fun getInfractionsVariation(): List<DashVariacaoInfracoes>
+
+    @GET("/infracoes/total-ocorrencias")
+    suspend fun getInfractionsTotal(): List<DashOcorrenciaTotal>
 }
 
 interface DashService {
     @GET("/tipo-infracao/ocorrencia-tipo")
-    suspend fun getInfractionsByType(): List<LegendaItem>
+    suspend fun getInfractionsByType(): List<DashLegendaItem>
 
     @GET("/tipo-infracao/ocorrencia-gravidade")
     suspend fun getInfractionsByGravity(): List<DashOcorrenciaGravidade>
@@ -94,7 +103,7 @@ interface UnitsService {
 
 interface RegionService {
 
-    @GET("/localidades")
+    @GET("/localidades/diff")
     suspend fun getRegions() : List<Region>
 }
 
@@ -130,4 +139,7 @@ interface DriverService {
 
     @GET("/motoristas/pontuacao-mensal")
     suspend fun getDriverMonthlyReport(): List<DriverMonthlyReport>
+
+    @GET("/motoristas/quantidade-infracoes")
+    suspend fun getDriverInfractions(): List<DriverInfractions>
 }
