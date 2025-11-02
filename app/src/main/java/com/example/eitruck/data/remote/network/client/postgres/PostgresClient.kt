@@ -6,7 +6,6 @@ import com.example.eitruck.data.remote.network.service.postgres.DriverService
 import com.example.eitruck.data.remote.network.service.postgres.TravelService
 import com.example.eitruck.data.remote.network.service.postgres.UserService
 import com.example.eitruck.data.remote.network.service.postgres.InfractionService
-import com.example.eitruck.data.remote.network.service.postgres.RecordService
 import com.example.eitruck.data.remote.network.service.postgres.RegionService
 import com.example.eitruck.data.remote.network.service.postgres.SegmentsService
 import com.example.eitruck.data.remote.network.service.postgres.UnitsService
@@ -20,6 +19,9 @@ class PostgresClient(private val token: String?) {
     private val baseUrl = "https://api-sql-qa.onrender.com"
 
     private val client = OkHttpClient.Builder()
+        .connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+        .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+        .writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
         .addInterceptor { chain ->
             val requestBuilder: Request.Builder = chain.request().newBuilder()
             if (!token.isNullOrEmpty()) {
@@ -28,6 +30,7 @@ class PostgresClient(private val token: String?) {
             chain.proceed(requestBuilder.build())
         }
         .build()
+
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
@@ -45,6 +48,5 @@ class PostgresClient(private val token: String?) {
     val segmentsService : SegmentsService by lazy { retrofit.create(SegmentsService::class.java) }
     val unitsService : UnitsService by lazy { retrofit.create(UnitsService::class.java) }
     val regionService : RegionService by lazy { retrofit.create(RegionService::class.java) }
-    val recordService : RecordService by lazy { retrofit.create(RecordService::class.java) }
     val driverService : DriverService by lazy { retrofit.create(DriverService::class.java) }
 }

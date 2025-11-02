@@ -10,8 +10,6 @@ import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
 import com.example.eitruck.model.Region
 import com.example.eitruck.model.Segments
-import com.example.eitruck.model.TratativaRequest
-import com.example.eitruck.model.TratativaResponse
 import com.example.eitruck.model.Travel
 import com.example.eitruck.model.Units
 import com.example.eitruck.model.TravelAnalysisStatus
@@ -21,6 +19,8 @@ import com.example.eitruck.model.TravelDriverBasicVision
 import com.example.eitruck.model.TravelDriverInfractions
 import com.example.eitruck.model.TravelInfractionInfo
 import com.example.eitruck.model.User
+import com.example.eitruck.model.UserPassword
+import com.example.eitruck.model.UserVerify
 import com.example.eitruck.model.WeeklyReport
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -41,6 +41,12 @@ interface AuthService {
 interface UserService {
     @GET("/usuarios/{id}")
     suspend fun getUser(@Path("id") id: Int): User
+
+    @GET("/usuarios/email/{email}")
+    suspend fun getUserByEmail(@Path("email") email: String): UserVerify
+
+    @PATCH("/usuarios/senha/{id}")
+    suspend fun updateUser(@Path("id") id: Int, @Body user: UserPassword): User
 
     @Multipart
     @POST("/usuarios/{id}/foto")
@@ -105,34 +111,6 @@ interface RegionService {
 
     @GET("/localidades/diff")
     suspend fun getRegions() : List<Region>
-}
-
-interface RecordService {
-    @POST("/registros")
-    suspend fun createTratativa(
-        @Body request: TratativaRequest
-    ): TratativaResponse
-
-    @GET("/registros")
-    suspend fun getAllTratativas(): List<TratativaResponse>
-
-    @GET("/registros/{id}")
-    suspend fun getTratativaById(
-        @Path("id") id: Int
-    ): TratativaResponse
-
-    @PUT("/registros/{id}")
-    suspend fun updateTratativa(
-        @Path("id") id: Int,
-        @Body request: TratativaRequest
-    ): TratativaResponse
-
-    @PATCH("/registros/viagem/{idViagem}/motorista/{idMotorista}")
-    suspend fun updateTratativaByDriver(
-        @Path("idViagem") idViagem: Int,
-        @Path("idMotorista") idMotorista: Int,
-        @Body request: Map<String, String> // ou body simples {"tratativa": "..."}
-    ): TratativaResponse
 }
 
 interface DriverService {
