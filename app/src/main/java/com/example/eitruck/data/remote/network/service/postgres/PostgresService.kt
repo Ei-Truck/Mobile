@@ -10,8 +10,6 @@ import com.example.eitruck.model.LoginRequest
 import com.example.eitruck.model.LoginResponse
 import com.example.eitruck.model.Region
 import com.example.eitruck.model.Segments
-import com.example.eitruck.model.TratativaRequest
-import com.example.eitruck.model.TratativaResponse
 import com.example.eitruck.model.Travel
 import com.example.eitruck.model.Units
 import com.example.eitruck.model.TravelAnalysisStatus
@@ -105,34 +103,6 @@ interface RegionService {
 
     @GET("/localidades/diff")
     suspend fun getRegions() : List<Region>
-}
-
-interface RecordService {
-    @POST("/registros")
-    suspend fun createTratativa(
-        @Body request: TratativaRequest
-    ): TratativaResponse
-
-    @GET("/registros")
-    suspend fun getAllTratativas(): List<TratativaResponse>
-
-    @GET("/registros/{id}")
-    suspend fun getTratativaById(
-        @Path("id") id: Int
-    ): TratativaResponse
-
-    @PUT("/registros/{id}")
-    suspend fun updateTratativa(
-        @Path("id") id: Int,
-        @Body request: TratativaRequest
-    ): TratativaResponse
-
-    @PATCH("/registros/viagem/{idViagem}/motorista/{idMotorista}")
-    suspend fun updateTratativaByDriver(
-        @Path("idViagem") idViagem: Int,
-        @Path("idMotorista") idMotorista: Int,
-        @Body request: Map<String, String> // ou body simples {"tratativa": "..."}
-    ): TratativaResponse
 }
 
 interface DriverService {

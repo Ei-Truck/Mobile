@@ -23,8 +23,6 @@ data class TravelInfractionInfo(
 data class TravelDriverBasicVision(
     val idViagem: Int,
     val idMotorista: Int,
-    val idSegmento: Int,
-    val segmento: String,
     val idUnidade: Int,
     val unidade: String,
     val idLocalidade: Int,
