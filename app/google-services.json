@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "427348298665",
-    "project_id": "ei-truck-c6a4c",
-    "storage_bucket": "ei-truck-c6a4c.firebasestorage.app"
+    "project_number": "517438570181",
+    "project_id": "ei-truck-76320",
+    "storage_bucket": "ei-truck-76320.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:427348298665:android:24e91948236b17ba7452b8",
+        "mobilesdk_app_id": "1:517438570181:android:7a11aa0857fe06cb2bbaac",
         "android_client_info": {
           "package_name": "com.example.eitruck"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAVRzbMPVqFvYufqhum5_kYHs7ifZZ19Sw"
+          "current_key": "AIzaSyACFXcQR-CtI58hNV-fgD_lOvH-P0tzalk"
         }
       ],
       "services": {

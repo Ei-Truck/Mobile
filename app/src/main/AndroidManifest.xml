@@ -59,6 +59,8 @@
         <activity
             android:name=".ui.settings.Settings"
             android:exported="false" />
+        <activity android:name=".ui.tratativa.TratativaNote"
+            android:exported="false" />
         <activity
             android:name=".ui.SplashScreen"
             android:exported="true">
@@ -79,7 +81,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 

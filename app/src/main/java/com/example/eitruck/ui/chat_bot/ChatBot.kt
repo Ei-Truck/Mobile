@@ -2,7 +2,6 @@ package com.example.eitruck.ui.chat_bot
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope

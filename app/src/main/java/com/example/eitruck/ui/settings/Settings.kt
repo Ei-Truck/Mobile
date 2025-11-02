@@ -43,6 +43,9 @@ class Settings : AppCompatActivity() {
             insets
         }
 
+        binding.backSettingsToProfile.setOnClickListener {
+            finish()
+        }
         val user_cargo = LoginSave(this).getPrefes().getString("user_cargo", "")
 
         binding.buttonArea.visibility = if (user_cargo=="Administrador") View.VISIBLE else View.GONE

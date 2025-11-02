@@ -164,6 +164,10 @@ class DashFragment : Fragment() {
             (requireActivity() as Main).showLoading(carregando)
         }
 
+        binding.buttonGerarDash.setOnClickListener {
+            PdfReportDashGenerator.gerarRelatorioDash(requireContext(),"Relatório", binding.pdfContentContainer,)
+        }
+
         viewModel.dashOcorrenciaTipo.observe(viewLifecycleOwner) { lista ->
             if (!lista.isNullOrEmpty()) {
                 val listaColorida = generateColors(lista)
