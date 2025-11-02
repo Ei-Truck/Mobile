@@ -7,6 +7,37 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.Login">
 
+  <View
+      android:id="@+id/loadingView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#32000000"
+      android:clickable="true"
+      android:elevation="98dp"
+      android:focusable="true"
+      android:visibility="gone"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <ProgressBar
+      android:id="@+id/progressBar"
+      style="@style/Widget.AppCompat.ProgressBar"
+      android:layout_width="114dp"
+      android:layout_height="114dp"
+      android:layout_gravity="center"
+      android:elevation="99dp"
+      android:foregroundGravity="center"
+      android:indeterminateTint="@color/colorTertiary"
+      android:progressBackgroundTint="@color/colorTertiary"
+      android:visibility="gone"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:visibility="visible" />
+
   <ScrollView
       android:id="@+id/scrollView2"
       android:layout_width="match_parent"
@@ -122,19 +153,4 @@
 
     </LinearLayout>
   </ScrollView>
-
-  <ProgressBar
-      android:id="@+id/progressBar"
-      style="@style/Widget.AppCompat.ProgressBar"
-      android:layout_width="200dp"
-      android:layout_height="300dp"
-      android:layout_gravity="center"
-      android:indeterminateTint="@color/colorTertiary"
-      android:progressBackgroundTint="@color/colorTertiary"
-      android:visibility="gone"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

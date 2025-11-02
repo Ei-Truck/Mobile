@@ -19,6 +19,9 @@ class PostgresClient(private val token: String?) {
     private val baseUrl = "https://api-sql-qa.onrender.com"
 
     private val client = OkHttpClient.Builder()
+        .connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+        .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+        .writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
         .addInterceptor { chain ->
             val requestBuilder: Request.Builder = chain.request().newBuilder()
             if (!token.isNullOrEmpty()) {
@@ -27,6 +30,7 @@ class PostgresClient(private val token: String?) {
             chain.proceed(requestBuilder.build())
         }
         .build()
+
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
