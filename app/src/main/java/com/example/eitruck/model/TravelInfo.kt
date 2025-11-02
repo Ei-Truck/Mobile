@@ -1,32 +1,50 @@
 package com.example.eitruck.model
 
-class TravelInfo (
-    val id: Int,
-    val placa: String,
-    val starDate: String,
-    val endDate: String,
-    val km: Int,
-    val segment: String,
-    val motorista: List<Driver>,
-    val infracoes: List<Infractions>,
-    val midia: List<Midia>
+data class TravelBasicVision(
+    val idViagem: Int,
+    val placaCaminhao: String,
+    val dataInicioViagem: String,
+    val dataFimViagem: String,
+    val kmViagem: String,
+    val segmento: String
 )
 
-data class Infractions(
-    val id: Int,
-    val quantidade: Int,
-    val tipoInfracao: String
+data class TravelInfractionInfo(
+    val idViagem: Int,
+    val idMotorista: Int,
+    val idUnidade: Int,
+    val idLocalidade: Int,
+    val tipoLeve: Int,
+    val tipoMedia: Int,
+    val tipoGrave: Int,
+    val tipoGravissima: Int
 )
 
-data class Driver(
-    val id: Int,
-    val nome: String,
-    val risco: String,
-    val horarioComeco: String,
-    val horarioFim: String
+data class TravelDriverBasicVision(
+    val idViagem: Int,
+    val idMotorista: Int,
+    val idSegmento: Int,
+    val segmento: String,
+    val idUnidade: Int,
+    val unidade: String,
+    val idLocalidade: Int,
+    val nomeMotorista: String,
+    val riscoMotorista: String,
+    val urlMidiaConcatenada: String,
+    val urlFotoMotorista: String,
 )
 
-data class Midia(
+data class TravelDriverInfractions(
+    val idMotorista: Int,
+    val idViagem: Int,
+    val quantidadeInfracoes: Int
+)
+
+data class TravelAnalyzeRequest(
+    val wasAnalyzed: Boolean
+)
+
+data class TravelAnalysisStatus(
     val id: Int,
-    val midia: String
+    val wasAnalyzed: Boolean
 )

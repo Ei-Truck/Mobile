@@ -6,6 +6,7 @@ import com.example.eitruck.data.remote.network.service.postgres.DriverService
 import com.example.eitruck.data.remote.network.service.postgres.TravelService
 import com.example.eitruck.data.remote.network.service.postgres.UserService
 import com.example.eitruck.data.remote.network.service.postgres.InfractionService
+import com.example.eitruck.data.remote.network.service.postgres.RecordService
 import com.example.eitruck.data.remote.network.service.postgres.RegionService
 import com.example.eitruck.data.remote.network.service.postgres.SegmentsService
 import com.example.eitruck.data.remote.network.service.postgres.UnitsService
@@ -40,10 +41,10 @@ class PostgresClient(private val token: String?) {
     val userService: UserService by lazy { retrofit.create(UserService::class.java) }
     val travelService: TravelService by lazy { retrofit.create(TravelService::class.java) }
     val infractionsService: InfractionService by lazy { retrofit.create(InfractionService::class.java) }
+    val dashService: DashService by lazy { retrofit.create(DashService::class.java) }
     val segmentsService : SegmentsService by lazy { retrofit.create(SegmentsService::class.java) }
     val unitsService : UnitsService by lazy { retrofit.create(UnitsService::class.java) }
     val regionService : RegionService by lazy { retrofit.create(RegionService::class.java) }
+    val recordService : RecordService by lazy { retrofit.create(RecordService::class.java) }
     val driverService : DriverService by lazy { retrofit.create(DriverService::class.java) }
-    val dashService : DashService by lazy { retrofit.create(DashService::class.java) }
-
 }
