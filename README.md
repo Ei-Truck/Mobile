@@ -2,10 +2,7 @@
 
 > Gerencie sua frota, viagens, tratativas e desempenho de motoristas de forma inteligente e integrada.
 
-![Banner Ei Truck](https://i.imgur.com/1b9r3nX.png)
-*(Adicione aqui uma imagem ou banner do app — ex: tela inicial ou dashboard)*
-
----
+<img width="1334" height="402" alt="image" src="https://github.com/user-attachments/assets/d8220b5e-f439-4e3c-9520-27c9c8e2257e" />
 
 ## 📱 **Visão Geral**
 
@@ -153,10 +150,9 @@ cd eitruck-mobile
 | **Marcelo Paschoareli** | DEV | [@marcelopaschoarelii ](https://github.com/marcelopaschoarelii) |
 ---
 
-## 📷 **Prévia das Telas**
+## 📷 **Prévia das Telas (Reduzidas)**
 
-| Login | Dashboard | Tratativas | ChatBot |
-|:------:|:-----------:|:------------:|:----------:|
-| ![Login](https://i.imgur.com/4T6P0aH.png) | ![Dashboard](https://i.imgur.com/h9vJixb.png) | ![Viagens](https://i.imgur.com/4a5VuHT.png) | ![ChatBot](https://i.imgur.com/w2Z9dVt.png) |
+| Login | Dashboard | Tratativas | ChatBot | Home |
+|:------:|:-----------:|:------------:|:----------:|:----:|
+| <img src="https://github.com/user-attachments/assets/ef3f7196-f80a-4252-ae91-c2b20a5ecf79" width="200" /> | <img src="https://github.com/user-attachments/assets/6a6e3b4c-fc3a-4cca-ba5d-6083c632d435" width="200" /> | <img src="https://github.com/user-attachments/assets/3ad5e780-f602-459d-b4e0-c5e8d6836e48" width="200" /> | <img src="https://github.com/user-attachments/assets/e0d9c36c-21f3-44db-b111-b39b45eb2e04" width="200" /> | <img src="https://github.com/user-attachments/assets/76c3baf3-9f7f-4afe-872e-ed91587f6ea4" width="200" /> |
 
----
