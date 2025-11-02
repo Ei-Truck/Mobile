@@ -155,8 +155,13 @@ cd eitruck-mobile
 
 ## 📷 **Prévia das Telas**
 
-| Login | Dashboard | Tratativas | ChatBot |
+| Login | Dashboard | Tratativas | ChatBot | Home |
 |:------:|:-----------:|:------------:|:----------:|
-| ![Login](https://i.imgur.com/4T6P0aH.png) | ![Dashboard](https://i.imgur.com/h9vJixb.png) | ![Viagens](https://i.imgur.com/4a5VuHT.png) | ![ChatBot](https://i.imgur.com/w2Z9dVt.png) |
+| <img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/ef3f7196-f80a-4252-ae91-c2b20a5ecf79" />
+ <img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/6a6e3b4c-fc3a-4cca-ba5d-6083c632d435" />
+ | <img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/3ad5e780-f602-459d-b4e0-c5e8d6836e48" />
+ | <img width="735" height="1600" alt="image" src="https://github.com/user-attachments/assets/e0d9c36c-21f3-44db-b111-b39b45eb2e04" />
+ | <img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/76c3baf3-9f7f-4afe-872e-ed91587f6ea4" />
+ |
 
 ---
