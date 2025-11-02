@@ -3,6 +3,7 @@ package com.example.eitruck.data.remote.repository.postgres
 import com.example.eitruck.model.User
 import com.example.eitruck.data.remote.network.client.postgres.PostgresClient
 import com.example.eitruck.model.UserPassword
+import com.example.eitruck.model.UserVerify
 import okhttp3.MultipartBody
 
 class UserRepository(token: String) {
@@ -13,8 +14,8 @@ class UserRepository(token: String) {
         return api.getUser(id)
     }
 
-    suspend fun getUserByPhone(telefone: String): User {
-        return api.getUserByPhone(telefone)
+    suspend fun getUserByEmail(email: String): UserVerify {
+        return api.getUserByEmail(email)
     }
 
     suspend fun updateUser(id: Int, user: UserPassword): User {

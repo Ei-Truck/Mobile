@@ -15,6 +15,7 @@ import com.example.eitruck.model.TravelInfo
 import com.example.eitruck.model.Units
 import com.example.eitruck.model.User
 import com.example.eitruck.model.UserPassword
+import com.example.eitruck.model.UserVerify
 import com.example.eitruck.model.WeeklyReport
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -35,8 +36,8 @@ interface UserService {
     @GET("/usuarios/{id}")
     suspend fun getUser(@Path("id") id: Int): User
 
-    @GET("/usuarios/telefone/{telefone}")
-    suspend fun getUserByPhone(@Path("telefone") telefone: String): User
+    @GET("/usuarios/email/{email}")
+    suspend fun getUserByEmail(@Path("email") email: String): UserVerify
 
     @PATCH("/usuarios/senha/{id}")
     suspend fun updateUser(@Path("id") id: Int, @Body user: UserPassword): User

@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,13 +24,17 @@ class ForgotpassCode : AppCompatActivity() {
         binding = ActivityForgotpassCodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Referências aos EditTexts (como você já tinha)
+        val email = intent.getStringExtra("email")
+        val codigo = intent.getStringExtra("codigo")
+        val id = intent.getIntExtra("id", 0)
+
+        binding.email.text = email
+
         val editTextCode1 = binding.editTextCode1
         val editTextCode2 = binding.editTextCode2
         val editTextCode3 = binding.editTextCode3
         val editTextCode4 = binding.editTextCode4
 
-        // Configurar os listeners
         setupOtpListeners(editTextCode1, null, editTextCode2)
         setupOtpListeners(editTextCode2, editTextCode1, editTextCode3)
         setupOtpListeners(editTextCode3, editTextCode2, editTextCode4)
@@ -47,8 +52,18 @@ class ForgotpassCode : AppCompatActivity() {
         }
 
         binding.bntConfirm.setOnClickListener {
-            val intent = Intent(this, ForgotpassChange::class.java)
-            startActivity(intent)
+            val codigoInput = editTextCode1.text.toString()+
+                    editTextCode2.text.toString()+
+                    editTextCode3.text.toString()+
+                    editTextCode4.text.toString()
+            if (codigoInput == codigo) {
+                val intent = Intent(this, ForgotpassChange::class.java)
+                intent.putExtra("id", id)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Código inválido", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

@@ -70,10 +70,12 @@ class Login : AppCompatActivity() {
 
     fun login(email: String, password: String, loginRepository: LoginRepository){
         val load = binding.progressBar
+        val view = binding.loadingView
 
         lifecycleScope.launch {
             try {
                 load.visibility = View.VISIBLE
+                view.visibility = View.VISIBLE
 
                 val response = loginRepository.login(LoginRequest(email, password))
 
@@ -96,6 +98,7 @@ class Login : AppCompatActivity() {
                 Toast.makeText(this@Login, "Erro inesperado: ${e.message}", Toast.LENGTH_SHORT).show()
             } finally {
                 load.visibility = View.GONE
+                view.visibility = View.GONE
             }
         }
     }
