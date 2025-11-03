@@ -112,7 +112,7 @@ class Login : AppCompatActivity() {
         error.text = text
 
         email.text.clear()
-        password.text.clear()
+        password.text?.clear()
 
         email.clearFocus()
         password.clearFocus()

@@ -28,6 +28,7 @@ import com.example.eitruck.ui.tratativa.TratativaNote
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDateTime
 
 
 class TravelInfoFragment : Fragment() {
@@ -67,11 +68,15 @@ class TravelInfoFragment : Fragment() {
                 binding.segment.text = viagem.segmento
 
                 val formatter = DateTimeFormatter.ofPattern("dd/MM")
+
                 binding.startDt.text = runCatching {
-                    OffsetDateTime.parse(viagem.dataInicioViagem, DateTimeFormatter.ISO_OFFSET_DATE_TIME).format(formatter)
+                    LocalDateTime.parse(viagem.dataInicioViagem, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))
+                        .format(formatter)
                 }.getOrDefault("--/--")
+
                 binding.endDt.text = runCatching {
-                    OffsetDateTime.parse(viagem.dataFimViagem, DateTimeFormatter.ISO_OFFSET_DATE_TIME).format(formatter)
+                    LocalDateTime.parse(viagem.dataFimViagem, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))
+                        .format(formatter)
                 }.getOrDefault("--/--")
 
             }

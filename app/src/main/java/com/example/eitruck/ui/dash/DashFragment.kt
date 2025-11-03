@@ -222,14 +222,14 @@ class DashFragment : Fragment() {
             val infracoesFiltradas = lista.orEmpty()
 
             if (infracoesFiltradas.isNotEmpty()) {
-                val totalInfracoesFiltradas = infracoesFiltradas.sumOf { it.quantidade_infracoes }
-                binding.motMaisInfraQuant.text = "com $totalInfracoesFiltradas infrações"
+                val porMotorista = infracoesFiltradas
+                    .groupBy { it.motorista ?: "-" }
+                    .mapValues { entry -> entry.value.sumOf { it.quantidade_infracoes } }
 
-                val motoristaMaisInfra = infracoesFiltradas
-                    .groupBy { it.motorista }
-                    .mapValues { it.value.sumOf { it.quantidade_infracoes } }
-                    .maxByOrNull { it.value }?.key ?: "-"
+                val (motoristaMaisInfra, quantidadeMotoristaMaisInfra) = porMotorista.maxByOrNull { it.value }
+                    ?.let { it.key to it.value } ?: ("-" to 0)
 
+                binding.motMaisInfraQuant.text = "com $quantidadeMotoristaMaisInfra infrações"
                 binding.motMaisInfra.text = motoristaMaisInfra
             } else {
                 binding.motMaisInfraQuant.text = "0 infrações"

@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class PostgresClient(private val token: String?) {
 
-    private val baseUrl = "https://api-sql-qa.onrender.com"
+    private val baseUrl = "https://api-sql-47zm.onrender.com"
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
