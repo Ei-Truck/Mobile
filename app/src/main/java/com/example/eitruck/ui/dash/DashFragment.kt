@@ -190,7 +190,12 @@ class DashFragment : Fragment() {
             binding.numTotalGraves.text = (agrupado["Grave"] ?: 0).toString()
             binding.numTotalGravissima.text = (agrupado["Gravíssima"] ?: 0).toString()
 
-            Log.d("Filtrado gravidade", agrupado.toString())
+            binding.numTotalInfra.text = (
+                    (agrupado["Leve"] ?: 0) +
+                            (agrupado["Média"] ?: agrupado["Media"] ?: 0) +
+                            (agrupado["Grave"] ?: 0) +
+                            (agrupado["Gravíssima"] ?: 0)
+                    ).toString()
         }
 
         viewModel.dashVariacao.observe(viewLifecycleOwner) { lista ->
@@ -211,16 +216,6 @@ class DashFragment : Fragment() {
                     )
                 )
             }
-        }
-
-        viewModel.dashTotalOcorrencias.observe(viewLifecycleOwner) { lista ->
-            val agora = LocalDate.now()
-            val mesAtual = agora.monthValue
-            val anoAtual = agora.year
-
-            val ocorrenciasMesAtual = lista?.filter { it.mes == mesAtual && it.ano == anoAtual }.orEmpty()
-            val totalOcorrencias = ocorrenciasMesAtual.sumOf { it.total_ocorrencias }
-            binding.numTotalInfra.text = totalOcorrencias.toString()
         }
 
         viewModel.dashMotoristaInfra.observe(viewLifecycleOwner) { lista ->
