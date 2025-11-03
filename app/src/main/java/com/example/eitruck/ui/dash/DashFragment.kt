@@ -218,16 +218,6 @@ class DashFragment : Fragment() {
             }
         }
 
-//        viewModel.dashTotalOcorrencias.observe(viewLifecycleOwner) { lista ->
-//            val agora = LocalDate.now()
-//            val mesAtual = agora.monthValue
-//            val anoAtual = agora.year
-//
-//            val ocorrenciasMesAtual = lista?.filter { it.mes == mesAtual && it.ano == anoAtual }.orEmpty()
-//            val totalOcorrencias = ocorrenciasMesAtual.sumOf { it.total_ocorrencias }
-//            binding.numTotalInfra.text = totalOcorrencias.toString()
-//        }
-
         viewModel.dashMotoristaInfra.observe(viewLifecycleOwner) { lista ->
             val infracoesFiltradas = lista.orEmpty()
 
